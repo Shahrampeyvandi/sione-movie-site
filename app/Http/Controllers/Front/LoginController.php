@@ -83,6 +83,11 @@ class LoginController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
+        //------ ارسال پیامک ثبت نام کاربر جدید
+        $patterncode="g0mj7wtqv3";
+        $data = array("name" => $request->fname, "username" => $request->mobile,"password"=>$request->password);
+        $this->sendSMS($patterncode,$request->mobile,$data);
+
         if ($user) {
             Auth::login($user);
 
