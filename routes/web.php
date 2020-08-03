@@ -27,6 +27,9 @@ Route::post('/ajax/getmoviedetail', 'Front\AjaxController@getMovieDetail')->name
 
 Route::get('/logout', 'Front\LoginController@logout')->name('logout-user');
 
+Route::get('/pay', 'Panel\PayController@pay')->name('Pay.Pay');
+Route::get('/pay/cb', 'Panel\PayController@callback')->name('Pay.CallBack');
+
 });
 
 
