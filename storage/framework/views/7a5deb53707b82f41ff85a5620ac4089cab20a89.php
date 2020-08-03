@@ -57,10 +57,12 @@
                 افزودن به لیست
             </a>
 
-            <a href="#" class="addMovie_list text-white">
+            <?php if($post->type == 'movies'): ?>
+            <a href="<?php echo e($post->play()); ?>" class="addMovie_list text-white">
                 <i class="fa fa-play"></i>
                 پخش فیلم
             </a>
+            <?php endif; ?>
             <!-- <i class="fas fa-thumbs-up"></i>
             <i class="fas fa-thumbs-down"></i> -->
         </div>

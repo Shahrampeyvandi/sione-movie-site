@@ -54,10 +54,12 @@
                 افزودن به لیست
             </a>
 
-            <a href="#" class="addMovie_list text-white">
+            @if ($post->type == 'movies')
+            <a href="{{$post->play()}}" class="addMovie_list text-white">
                 <i class="fa fa-play"></i>
                 پخش فیلم
             </a>
+            @endif
             <!-- <i class="fas fa-thumbs-up"></i>
             <i class="fas fa-thumbs-down"></i> -->
         </div>
