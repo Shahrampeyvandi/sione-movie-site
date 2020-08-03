@@ -7,11 +7,13 @@ use App\Category;
 use App\Director;
 use App\Http\Controllers\Controller;
 use App\Language;
+use App\Post;
 use App\Writer;
 use Goutte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Morilog\Jalali\Jalalian;
+use Image;
 
 class ImdbController extends Controller
 {
@@ -32,6 +34,16 @@ class ImdbController extends Controller
     public function testApi()
     {
 
+//         // open an image file
+// $img = Image::make;
+
+// // resize image instance
+// $img->resize(1920, 800);
+
+// // insert a watermark
+// $img->insert(public_path('poster/poster.png'));
+
+dd('sdf');
 //           $crawler = Goutte::request('GET', 'https://help.imdb.com/article/contribution/titles/genres/GZDRMS6R742JRGAG#');
 //         $crawler->filter('p:nth-of-type(1) a')->each(function ($node) {
             
@@ -83,8 +95,15 @@ class ImdbController extends Controller
     public function Get(Request $request)
     {
 
-        $array = [];
 
+        // check in db
+        if(Post::where('imdbID',$request->code)->count()){
+            return response()->json(['error'=>'این مورد از قبل ثبت شده است']
+          
+        );
+        }
+
+        $array = [];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://www.omdbapi.com/?i=' . $request->code . '&apikey=72a95dff');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -125,16 +144,11 @@ class ImdbController extends Controller
         $array['imdbID'] = $result->imdbID;
         $array['imdbVotes'] = $result->imdbVotes;
         $array['Awards'] = $result->Awards;
-        // $date = Jalalian::forge($result->Released)->format('%B %d، %Y');
+       
         $array['Released'] = $result->Released;
 
         $dd = \L5Imdb::title($request->code)->all();
-        // dd($dd);
-        // foreach ($dd['cast'] as $key => $cast) {
-        //     if (Actor::whereName($cast['name'])->count()) {
-        //         $array['casts'][] = $cast->name;
-        //     }
-        // }
+     
         $array['is_serial'] = $dd['is_serial'] ? 'series' : 'movies';
         if($dd['is_serial']) {
             $array['seasons'] = $dd['seasons'];
@@ -174,28 +188,6 @@ class ImdbController extends Controller
         
         return response()->json($array, 200);
 
-        // $title = $result['Title'];
-        // $Year = $result['Year']; // like 2007-2012
-        // $Rated = $result['Rated']; //TV-14
-        // $Released = $result['Released']; // like 29 Aug 2005
-        // $Runtime = $result['Runtime']; // like 44 min
-        // $Genre = $result['Genre']; //Action, Crime, Drama, Mystery, Thriller
-        // $Director = $result['Director'];
-        // $Writer = $result['Writer']; //Paul Scheuring
-        // $Actors = $result['Actors']; //Dominic Purcell, Wentworth Miller, Robert Knepper, Amaury Nolasco
-        // $Plot = $result['Plot']; //
-        // $Language = $result['Language']; //English, Arabic, Spanish
-        // $Country = $result['Country']; //UK, USA
-        // $Awards = $result['Awards']; //Nominated for 2 Golden Globes. Another 8 wins & 30 nominations.
-        // $Poster = $result['Poster']; //https://m.media-amazon.com/images/M/MV5BMTg3NTkwNzAxOF5BMl5BanBnXkFtZTcwMjM1NjI5MQ@@._V1_SX300.jpg
-        // $Ratings = $result['Ratings'][0]['Value']; //8.3/10
-        // $imdbRating = $result['imdbRating']; //8.3
-        // $imdbVotes = $result['imdbVotes']; //458,117
-        // $imdbID = $result['imdbID']; //imdbID
-        // $Type = $result['Type']; //series
-        // $totalSeasons = $result['totalSeasons']; //5
-        // $BoxOffice = $result['BoxOffice']; //$2,129,768
-        // $title = $result['Title'];
 
     }
 }

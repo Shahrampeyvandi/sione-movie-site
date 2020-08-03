@@ -64,8 +64,9 @@
                             <div class="form-group col-md-12">
                                 <label for="">عنوان اصلی: </label>
                                 <input type="text" class="form-control" name="name" id="original-title"
-                                    value="{{$post->name ?? ''}}">
-                            </div>
+                            value="{{$post->name ?? ''}}" onblur="checkName(event,'{{route('Panel.checkNameAjax')}}')">
+                            <span class="error-name text-danger"></span>
+                        </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -259,7 +260,14 @@
             url='{{route('Panel.GetImdb')}}';
             request = $.post(url, data);
             request.done(function(res){
-                
+                if(res.error){
+                    alert(res.error)
+                     parentHtml.html(`
+                        <a href="#" onclick="getCode(event)" class="btn btn-primary my-2">جست و جو &nbsp;<i
+                                                    class="fas fa-search"></i></a>
+                        `)
+                    return false;
+                }
                   if(res.is_serial == "series") {
                     alert('کد مورد نظر مربوط به سینمایی میباشد')
                      parentHtml.html(`

@@ -26,6 +26,6 @@ class PostCreator extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_actor');
+        Schema::dropIfExists('post_creator');
     }
 }

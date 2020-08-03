@@ -20,6 +20,7 @@ class CreateCommentsTable extends Migration
             $table->string('commentable_type');
             $table->unsignedBigInteger('user_id');
             $table->boolean('confirm')->default(false);
+            $table->integer('parent_id')->default(0);
             $table->timestamps();
         });
     }

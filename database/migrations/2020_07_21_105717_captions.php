@@ -18,6 +18,7 @@ class Captions extends Migration
             $table->string('lang');
             $table->string('url');
             $table->integer('video_id');
+            $table->integer('post_id');
             $table->timestamps();
         });
     }

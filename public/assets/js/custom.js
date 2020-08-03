@@ -44,6 +44,18 @@
         return false;
     });
 
+$.validator.addMethod('maxWidth', function(value, element, maxwidth) {
+  return ($(element).data('imageWidth') || 0) < maxwidth;
+})
+   
+     $.validator.addMethod(
+         "maxsize",
+         function (value, element, param) {
+             return this.optional(element) || element.files[0].size <= param;
+         },
+         "سایز تصویر نمی تواند بیشتر از 200 kb باشد"
+     );
+ 
     $.validator.addMethod(
         "filesize",
         function (value, element, param) {
@@ -166,6 +178,24 @@
 
 
 
+$("#add-slider").validate({
+    rules: {
+        poster: {
+            required:true,
+            maxsize:200000,
+            accept: "jpg|jpeg|png|JPG|JPEG|PNG",
+        },
+    },
+    messages: {
+        poster: {
+            required:"لطفا تصویر اسلایدشو را وارد نمایید",
+           
+            accept: "فرمت تصویر غیرمجاز میباشد",
+        }
+
+    },
+});
+
     $("#sendsms").validate({
         rules: {
             for: { required: true },
@@ -191,7 +221,9 @@
             number: "required",
             release: "required",
             poster: {
+                required: true,
                 filesize: 200 * 1024,
+                maxWidth: 400,
                 accept: "jpg|jpeg|png|JPG|JPEG|PNG",
             },
 
@@ -212,6 +244,12 @@
             number: "شماره قسمت را وارد نمایید",
             desc: "توضیحات برای فایل الزامی است",
             release: "تاریخ پخش را انتخاب کنید",
+            poster: {
+                required: "لطفا پوستر قسمت را وارد نمایید",
+               
+                maxWidth: "تصویر بزرگ تر از 400 پیکسل میباشد",
+                accept: "فایل دارای فرمت نامعتبر میباشد ",
+            },
 
             "file[1][1]": {
                 required: "آدرس ویدیو را وارد نمایید",
@@ -260,7 +298,7 @@
                 required: "لطفا عنوان فایل را وارد نمایید",
                 maxlength: "تعداد کاراکترها بیش از حد مجاز میباشد",
             },
-            title: {
+            name: {
                 required: "لطفا نام فایل را وارد نمایید",
                 maxlength: "تعداد کاراکترها بیش از حد مجاز میباشد",
             },
@@ -438,6 +476,8 @@ function addCategory(event, url) {
     })
 }
 
+
+
 function addBCategory(event) {
     let val = $(event.target).prev().val();
     if (val !== "") {
@@ -600,6 +640,7 @@ function addQuality(event) {
 }
 
 $("#poster").change(function () {
+   
     if (this.files && this.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -763,3 +804,23 @@ var dropifyOptions = {
 $(".dropify").dropify(dropifyOptions);
 
 
+
+
+function checkName(event,url) {
+    var val = $(event.target).val()
+    var token = $('meta[name="_token"]').attr("content");
+
+    if(val.length > 0) {
+   
+
+  var  request = $.post(url, { name: val, _token: token });
+    request.done(function (res) {
+    if(res.error){
+        $(".error-name").text(res.error)
+
+    }else{
+$(".error-name").text('');
+    }
+    })
+}
+}

@@ -18,7 +18,9 @@
                     <li><a href="<?php echo e(route('Panel.BlogList')); ?>">لیست</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="fas fa-star"></i> <span class="pr-4">اشتراک</span> </a>
+              <li><a href="<?php echo e(route('Panel.SliderList')); ?>"><i class="fas fa-sliders-h"></i> <span class="pr-4">اسلایدشو</span> </a>
+             <li><a href="<?php echo e(route('Panel.CatList')); ?>"><i class="fas fa-list-alt"></i> <span class="pr-4">دسته بندی ها</span> </a>
+                <li><a href="#"><i class="fas fa-star"></i> <span class="pr-4">اشتراک</span> </a>
                 <ul>
                     <li><a href="<?php echo e(route('Panel.AddPlan')); ?>">افزودن</a></li>
                     <li><a href="<?php echo e(route('Panel.PlanList')); ?>">لیست</a></li>

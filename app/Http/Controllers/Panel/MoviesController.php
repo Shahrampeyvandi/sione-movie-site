@@ -17,8 +17,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Image as ImageInvention;
 use App\Http\Controllers\Controller;
+use App\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
@@ -41,22 +42,7 @@ class MoviesController extends Controller
     {
 
 
-        // $p = [2,3,4,5,6,7,8,9];
-        // $crawler = \Goutte::request('GET', 'https://www.imdb.com/list/ls008774465/?sort=list_order,asc&mode=detail&page=10');
-        // $crawler->filter('.lister-item')->each(function ($node) {
 
-        //     $url = $node->filter('.lister-item-image img')->attr('src');
-        //     $img = public_path('/directors/') . basename($url);
-        //     file_put_contents($img, file_get_contents($url));
-
-        //     DB::table('directors')->insert([
-        //         'name' => $node->filter('.lister-item-header a')->text(),
-        //         'image' => "directors/" . basename($url),
-        //         'bio' => null,
-        //     ]);
-
-        // });
-        // dd('sd');
         $actors = Actor::all();
         $writers = Writer::all();
         $directors = Director::all();
@@ -70,9 +56,27 @@ class MoviesController extends Controller
     public function Save(Request $request)
     {
 
-        // dd($request->all());
+      
         $slug = Str::slug($request->name);
         $destinationPath = "files/movies/$slug";
+
+        if ($request->hasFile('poster')) {
+            $picextension = $request->file('poster')->getClientOriginalExtension();
+            $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
+            $request->file('poster')->move(public_path($destinationPath), $fileName);
+            $Poster = "$destinationPath/$fileName";
+            $img = ImageInvention::make(public_path($Poster))->resize(1900, 900)->save(public_path('1920-900/' . $fileName));
+        } else {
+            if (isset($request->imdbposter) && $request->imdbposter) {
+                $img = $destinationPath . '/poster_' . basename($request->imdbposter);
+                file_put_contents($img, file_get_contents($request->imdbposter));
+                $Poster = $img;
+            } else {
+                $Poster = Setting::first()->default_poster;
+            }
+        }
+
+
         if (!File::exists($destinationPath)) {
 
             File::makeDirectory($destinationPath, 0777, true);
@@ -81,6 +85,7 @@ class MoviesController extends Controller
         $post->post_author = Auth::guard('admin')->user()->id;
         $post->title = $request->title;
         $post->name = $request->name;
+        $post->slug = $slug;
         $post->type = 'movies';
         $post->description = $request->desc;
         $post->short_description = $request->short_desc;
@@ -93,6 +98,8 @@ class MoviesController extends Controller
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
             $request->file('poster')->move(public_path($destinationPath), $fileName);
             $Poster = "$destinationPath/$fileName";
+            $img = ImageInvention::make(public_path($Poster))->resize(320, 240)->insert('public/resizes/' . $Poster);
+            dd($img);
         } else {
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
@@ -103,7 +110,7 @@ class MoviesController extends Controller
             }
         }
         $post->released = Carbon::parse($request->released)->toDateTimeString();
-
+        $post->year = Carbon::parse($request->released)->format('Y');
         $post->poster = $Poster;
         $post->duration = $request->duration;
         $post->age_rate = $request->age_rate;
@@ -156,43 +163,49 @@ class MoviesController extends Controller
             foreach ($request->categories as $key => $category) {
                 if ($id = Category::check($category)) {
                     $post->categories()->attach($id);
-                } 
-            }
-
-
-            foreach ($request->actors as $key => $actor) {
-                if ($id = Actor::check($actor)) {
-                    $post->actors()->attach($id);
-                } else {
-
-                    $post->actors()->create(['name' => $actor]);
                 }
             }
 
-            foreach ($request->directors as $key => $director) {
-                if ($id = Director::check($director)) {
-                    $post->directors()->attach($id);
-                } else {
 
-                    $post->directors()->create(['name' => $director]);
+            if (isset($request->actors)) {
+                foreach ($request->actors as $key => $actor) {
+                    if ($id = Actor::check($actor)) {
+                        $post->actors()->attach($id);
+                    } else {
+
+                        $post->actors()->create(['name' => $actor]);
+                    }
                 }
             }
+            if (isset($request->directors)) {
+                foreach ($request->directors as $key => $director) {
+                    if ($id = Director::check($director)) {
+                        $post->directors()->attach($id);
+                    } else {
 
-            foreach ($request->writers as $key => $writer) {
-                if ($id = Writer::check($writer)) {
-                    $post->writers()->attach($id);
-                } else {
-
-                    $post->writers()->create(['name' => $writer]);
+                        $post->directors()->create(['name' => $director]);
+                    }
                 }
             }
+            if (isset($request->writers)) {
+                foreach ($request->writers as $key => $writer) {
+                    if ($id = Writer::check($writer)) {
+                        $post->writers()->attach($id);
+                    } else {
 
-            foreach ($request->languages as $key => $language) {
-                if ($id = Language::check($language)) {
-                    $post->languages()->attach($id);
-                } else {
+                        $post->writers()->create(['name' => $writer]);
+                    }
+                }
+            }
+            if (isset($request->languages)) {
 
-                    $post->languages()->create(['name' => $language]);
+                foreach ($request->languages as $key => $language) {
+                    if ($id = Language::check($language)) {
+                        $post->languages()->attach($id);
+                    } else {
+
+                        $post->languages()->create(['name' => $language]);
+                    }
                 }
             }
 
@@ -213,7 +226,7 @@ class MoviesController extends Controller
 
                 foreach ($file[3] as $key => $caption) {
                     if (array_key_exists(2, $caption)) {
-                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2]]);
+                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
                     }
                 }
             }
@@ -359,7 +372,7 @@ class MoviesController extends Controller
 
             if ($id = Category::check($category)) {
                 $post->categories()->attach($id);
-            }  
+            }
         }
 
 
@@ -438,7 +451,7 @@ class MoviesController extends Controller
 
                 foreach ($file[3] as $key => $caption) {
                     if (array_key_exists(2, $caption)) {
-                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2]]);
+                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
                     }
                 }
             }
@@ -511,5 +524,14 @@ class MoviesController extends Controller
         $cat->save();
 
         return 'true';
+    }
+
+
+    public function checkNameAjax(Request $request)
+    {
+        // check in db
+        if (Post::where('name', $request->name)->count()) {
+            return response()->json(['error' => 'این مورد از قبل ثبت شده است']);
+        }
     }
 }

@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('post_author');
             $table->string('title');
             $table->string('name');
+            $table->string('slug')->nullable();
             $table->enum('type',['series','movies']);
             $table->text('description')->nullable();
             $table->text('short_description')->nullable();
@@ -37,6 +38,7 @@ class CreatePostsTable extends Migration
             $table->string('comment_status')->nullable();
             $table->string('publish_status')->nullable();
             $table->unsignedBigInteger('views')->default(0);
+            $table->unsignedBigInteger('year')->nullable();
             $table->timestamps();
         });
     }

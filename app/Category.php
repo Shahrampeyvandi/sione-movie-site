@@ -19,4 +19,14 @@ class Category extends Model
            return null;
        }
    }
+
+   public function getImage()
+   {
+       return $this->image ? $this->image : "frontend/assets/images/category/cat13.jpg";
+   }
+
+   public function path()
+   {
+       return route('Category.Show',['name'=>$this->latin]);
+   }
 }

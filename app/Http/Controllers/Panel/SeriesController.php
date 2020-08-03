@@ -27,7 +27,6 @@ class SeriesController extends Controller
     {
 
         $series = Post::where('type', 'series')->latest()->get();
-
         return view('Panel.Series.List', compact(['series']));
     }
 
@@ -51,10 +50,12 @@ class SeriesController extends Controller
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0777, true);
         }
+
         $post = new Post;
         $post->post_author = Auth::guard('admin')->user()->id;
         $post->title = $request->title;
         $post->name = $request->name;
+        $post->slug = $slug;
         $post->type = 'series';
         $post->description = $request->desc;
         $post->short_description = $request->short_desc;
@@ -81,6 +82,11 @@ class SeriesController extends Controller
 
         $post->first_publish_date = Carbon::parse($request->first_release)->toDateTimeString();
         $post->last_publish_date = Carbon::parse($request->last_release)->toDateTimeString();
+        if ($request->last_release) {
+            $post->year = Carbon::parse($request->last_release)->format('Y');
+        } else {
+            $post->year = Carbon::parse($request->first_release)->format('Y');
+        }
         $post->poster = $Poster;
         $post->duration = $request->duration;
         $post->age_rate = $request->age_rate;
@@ -91,8 +97,6 @@ class SeriesController extends Controller
         if ($post->save()) {
 
             if ($request->has('checkImdb') && $request->checkImdb == "on") {
-
-
                 if ($request->has('images')) {
                     if (!File::exists($destinationPath . "/images")) {
                         File::makeDirectory($destinationPath . "/images", 0777, true);
@@ -106,7 +110,6 @@ class SeriesController extends Controller
                     }
                 }
             } else {
-
                 if ($request->has('images')) {
                     if (!File::exists($destinationPath . "/images")) {
                         File::makeDirectory($destinationPath . "/images", 0777, true);
@@ -135,7 +138,7 @@ class SeriesController extends Controller
             foreach ($request->categories as $key => $category) {
                 if ($id = Category::check($category)) {
                     $post->categories()->attach($id);
-                } 
+                }
             }
 
 
@@ -235,15 +238,13 @@ class SeriesController extends Controller
 
 
 
-        if($request->has('imdbImages')) {
+        if ($request->has('imdbImages')) {
             $array_images = $post->images()->pluck('url');
-            foreach($array_images as $image){
-                if(!in_array($image,$request->imdbImages)){
+            foreach ($array_images as $image) {
+                if (!in_array($image, $request->imdbImages)) {
                     File::delete(public_path($image));
-                    $image = Image::where('url',$image)->delete();
-                   
+                    $image = Image::where('url', $image)->delete();
                 }
-
             }
         }
 
@@ -286,7 +287,7 @@ class SeriesController extends Controller
 
             if ($id = Category::check($category)) {
                 $post->categories()->attach($id);
-            } 
+            }
         }
 
 
@@ -396,15 +397,15 @@ class SeriesController extends Controller
 
 
         $sections = Episode::OrderBy('name', 'ASC')->get();
-        
+
         return view('Panel.Series.section', compact(['sections', 'section']));
     }
 
     public function SaveEditSeason(Request $request, Season $season)
     {
-       
 
-        
+
+
         $serie = $season->serie;
         $slug = Str::slug($serie->name);
         $destinationPath = "files/series/$slug";
@@ -431,7 +432,7 @@ class SeriesController extends Controller
     }
     public function SaveEditSection(Request $request, Episode $section)
     {
-        
+
         $serie = $section->serie;
         // dd($section);
 
@@ -486,7 +487,7 @@ class SeriesController extends Controller
 
             foreach ($file[3] as $key => $caption) {
                 if (array_key_exists(2, $caption)) {
-                    $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2]]);
+                    $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $serie->id]);
                 }
             }
         }
@@ -525,14 +526,14 @@ class SeriesController extends Controller
             $episodes = [];
             $title = null;
         }
-    
+
 
         return view('Panel.Series.section', compact(['sections', 'season', 'title', 'episodes', 'id']));
     }
 
     public function InsertSection(Request $request)
     {
-       
+
         $post = Post::find($request->serie);
         $slug = Str::slug($post->name);
         $destinationPath = "files/series/$slug";
@@ -540,20 +541,20 @@ class SeriesController extends Controller
             File::makeDirectory($destinationPath, 0777, true);
         }
 
-        if ($request->has('posterImdb') && $request->posterImdb !== null) {
+
+        if ($request->hasFile('poster')) {
+            $picextension = $request->file('poster')->getClientOriginalExtension();
+            $fileName = 'section_' . $request->number . '_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
+            $request->file('poster')->move($destinationPath, $fileName);
+            $Poster = "$destinationPath/$fileName";
+        } elseif ($request->has('posterImdb') && $request->posterImdb !== null) {
             $img = $destinationPath . '/' . 'section_' . basename($request->posterImdb);
             file_put_contents($img, file_get_contents($request->posterImdb));
             $Poster = $img;
         } else {
-            if ($request->hasFile('poster')) {
-                $picextension = $request->file('poster')->getClientOriginalExtension();
-                $fileName = 'section_' . $request->number . '_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
-                $request->file('poster')->move($destinationPath, $fileName);
-                $Poster = "$destinationPath/$fileName";
-            } else {
-                $Poster = '';
-            }
+            $Poster = '';
         }
+
 
 
 
@@ -575,23 +576,23 @@ class SeriesController extends Controller
         ]);
 
         foreach ($request->file as $key => $file) {
-                if ($id = Quality::check($file[2])) {
-                    $quality_id = $id;
-                } else {
-                    $quality = Quality::create(['name' => $file[2]]);
-                    $quality_id = $quality->id;
-                }
-                $video = $post->videos()->create([
-                    'url' => $file[1],
-                    'quality_id' => $quality_id
-                ]);
+            if ($id = Quality::check($file[2])) {
+                $quality_id = $id;
+            } else {
+                $quality = Quality::create(['name' => $file[2]]);
+                $quality_id = $quality->id;
+            }
+            $video = $episode->videos()->create([
+                'url' => $file[1],
+                'quality_id' => $quality_id
+            ]);
 
-                foreach ($file[3] as $key => $caption) {
-                    if (array_key_exists(2, $caption)) {
-                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2]]);
-                    }
+            foreach ($file[3] as $key => $caption) {
+                if (array_key_exists(2, $caption)) {
+                    $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
                 }
             }
+        }
 
 
 

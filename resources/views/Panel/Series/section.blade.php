@@ -95,7 +95,7 @@
                                 @endisset
                                 <div class="form-row">
                                     <div class="col-md-3">
-                                        <label for=""> پوستر فصل: </label>
+                                        <label for=""> پوستر قسمت: </label>
                                     </div>
                                     <div class="col-md-9">
                                         <img alt="" id="preview" width="100%" style="max-height: 400px"

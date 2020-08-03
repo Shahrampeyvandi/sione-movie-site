@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('latin');
+            $table->string('image')->nullable();
             
         });
         DB::table('categories')->insert([

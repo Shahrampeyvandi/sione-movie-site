@@ -7,21 +7,48 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['categories','images','languages'];
+    protected $with = ['categories', 'images', 'languages', 'actors', 'directors'];
     protected $casts = [
         'awards' => 'array',
     ];
+
+
+    public function checkDubleFarsi()
+    {
+        $count = $this->whereHas('categories', function ($q) {
+            $q->where('name', 'دوبله فارسی');
+        })->count();
+        if ($count) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function relatedPosts()
+    {
+        $categories = $this->categories;
+        $pluck = $categories->pluck('id');
+        return  static::whereHas('categories', function ($q) use ($pluck) {
+            $q->whereIn('id', $pluck);
+        })->where('id', '!=', $this->id)->where('type', $this->type)->take(6)->get();
+    }
+
+
 
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'post_category', 'post_id', 'category_id');
     }
 
-     public function episodes()
+    public function episodes()
     {
         return $this->hasMany(Episode::class);
     }
-
+    public function captions()
+    {
+        return $this->hasMany(Caption::class);
+    }
     public function seasons()
     {
         return $this->hasMany(Season::class);
@@ -73,5 +100,28 @@ class Post extends Model
     public function trailer()
     {
         return $this->hasOne(Trailer::class);
+    }
+
+    public function path()
+    {
+        if ($this->type == 'movies') {
+            return route('ShowMovie', $this->slug);
+        }
+        if ($this->type == 'series') {
+            $season = $this->seasons->first();
+
+            if ($season) {
+                $id = $season->number;
+            } else {
+                $id = 1;
+            }
+            return route('ShowSerie', ['slug' => $this->slug, 'season' => $id]);
+        }
+    }
+    public static function withCategory($name)
+    {
+        $posts = Post::whereHas('categories', function ($q) use ($name) {
+            $q->where('latin', $name);
+        })->latest()->get();
     }
 }

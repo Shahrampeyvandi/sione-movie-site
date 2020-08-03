@@ -69,7 +69,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="">عنوان اصلی: </label>
-                                <input type="text" class="form-control" name="name" id="original-title"
+                                <input type="text" class="form-control" name="name" onblur="checkName(event,'{{route('Panel.checkNameAjax')}}')" id="original-title"
                                     value="{{$post->name ?? ''}}">
                             </div>
                         </div>
@@ -303,6 +303,15 @@
             request = $.post(url, data);
             request.done(function(res){
                 // console.log(res)
+                  if(res.error){
+                    alert(res.error)
+                     parentHtml.html(`
+                        <a href="#" onclick="getCode(event)" class="btn btn-primary my-2">جست و جو &nbsp;<i
+                                                    class="fas fa-search"></i></a>
+                        `)
+                    return false;
+                }
+
                 if(res.is_serial == "movies") {
                     alert('کد مورد نظر مربوط به سینمایی میباشد')
                      parentHtml.html(`

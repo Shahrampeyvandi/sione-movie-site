@@ -19,15 +19,7 @@ class LoginController extends Controller
     public function Verify(Request $request)
     {
        
-    //    Admin::create([
-    //         'first_name' => 'hadi',
-    //         'last_name' => 'khosravani',
-    //         'mobile' => '09124334358',
-    //         'password' => Hash::make('1OZR1xphJ9'),
-    //         'level' => 'admin'
-    //     ]);
-    //     dd('dsfsf');
-
+  
         $admin = Admin::where('mobile', $request->mobile)->first();
         if ($admin) {
             if (Hash::check($request->password, $admin->password)) {
