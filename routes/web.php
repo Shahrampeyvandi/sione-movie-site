@@ -7,6 +7,7 @@ Route::post('/login', 'Front\LoginController@Verify')->name('login');
 Route::post('/register', 'Front\LoginController@Register')->name('S.Register');
 Route::get('/sitesharing', 'Front\PlanController@All')->name('S.SiteSharing');
 Route::post('/buy', 'Front\PlanController@Buy')->name('S.BuyPlan');
+Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
 
 
 

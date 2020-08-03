@@ -118,6 +118,11 @@ class Post extends Model
             return route('ShowSerie', ['slug' => $this->slug, 'season' => $id]);
         }
     }
+    public function play()
+    {
+        return route('S.Play', ['slug' => $this->slug]);
+    }
+
     public static function withCategory($name)
     {
         $posts = Post::whereHas('categories', function ($q) use ($name) {

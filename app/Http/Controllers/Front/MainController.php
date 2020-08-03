@@ -30,4 +30,19 @@ class MainController extends Controller
         $data['title'] = 'صفحه اصلی';
         return view('Front.index',$data);
     }
+
+    public function Play($slug) 
+    {
+
+        $post = Post::where('slug',$slug)->first();
+        if(!$post) {
+            abort(404);
+        }
+        if($post->type == 'movies'){
+
+         $video = $post->videos;
+        }
+
+        return view('Front.play',compact('video'));
+    }
 }

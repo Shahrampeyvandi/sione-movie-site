@@ -16,7 +16,7 @@
                         <h5>
                             {!! $slider->post->description !!}
                         </h5>
-                        <a href="#" class="page-movie-play btn--ripple">
+                    <a href="{{$slider->post->play()}}" class="page-movie-play btn--ripple">
                             <i class="fa fa-play"></i>
                             پخش فیلم
                         </a>

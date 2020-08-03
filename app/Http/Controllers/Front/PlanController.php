@@ -29,11 +29,7 @@ class PlanController extends Controller
            $expire_date = Carbon::now()->addDays($plan->days);
         $user = auth()->user();
         $user->plans()->attach($plan->id,['expire_date'=>$expire_date]);
-
-
         // send sms 
-
-
         return redirect()->route('MainUrl');
        }else{
            return back();
