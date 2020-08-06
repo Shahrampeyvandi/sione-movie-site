@@ -571,7 +571,7 @@ body{
     cursor: default;
     line-height: 30px;
 }
-.page-movie-play,.more-detail-movie{
+.page-movie-play,.more-detail-movie , .page-movie-download{
     display: inline-block;
     font-size: 0.85rem;
     margin: 0.5rem;
@@ -579,14 +579,14 @@ body{
     border-radius: 0.5rem;
     border: 1px solid #ffffff;
 }
-.page-movie-play{
-    color: #1b1e21;
+.page-movie-play , .page-movie-download{
+    color: #1b1e21 !important;
     background-color: #ffffff;
 }
 .more-detail-movie{
     color: #ffffff;
 }
-.page-movie-play:hover,.more-detail-movie:hover{
+.page-movie-play:hover,.more-detail-movie:hover , .page-movie-play:hover{
     background-color: #1993ff;
     border-color: #1993ff;
     color: #ffffff;
@@ -2142,6 +2142,12 @@ footer{
     }
 }
 @media screen and (max-width: 768px){
+    a.buy-subscribe.inbox-icon {
+    font-size: 28px;
+    margin: 0 7px;
+    position: relative;
+    top: -12px;
+}
     .filter_all_delete {
    
     font-size: 12px;
@@ -2647,4 +2653,103 @@ footer{
 .inbox-icon{
     font-size: 35px;
     margin: -4px 5px;position: relative;
+}
+
+span.green-color {
+    color: #38ca38;
+}
+
+
+
+.close-modal{
+    position: absolute !important;
+    font-size: 60px !important;
+    left: -18px;
+    opacity: .8;
+    top: -25px;
+}
+
+span.vjs-resolution-button-staticlabel {
+    position: absolute;
+    right: 10px;
+}
+
+.vjs-default-skin .vjs-play-progress,
+.vjs-default-skin .vjs-volume-level {
+  background: #00A5FF;
+}
+
+.vjs-default-skin .vjs-big-play-button {
+  border-radius: 6px;
+  -o-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+
+  box-shadow: none;
+  -o-box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  
+  width: 100px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  margin: -30px -50px;
+  
+  border: none;
+  
+  background-color: rgba(0,0,0,.8);
+}
+
+.vjs-default-skin:hover .vjs-big-play-button,
+.vjs-default-skin .vjs-big-play-button:focus {
+  border-color: #fff;
+  background-color: rgba(0,0,0,.9);
+
+  box-shadow: none;
+  -o-box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+
+  transition: all 0s;
+  -o-transition: all 0s;
+  -moz-transition: all 0s;
+  -webkit-transition: all 0s;
+}
+
+.vjs-default-skin .vjs-big-play-button:before {
+  line-height: 60px;
+}
+
+.vjs-default-skin .vjs-slider-handle:before,
+.vjs-default-skin .vjs-big-play-button:before {
+  text-shadow: none;
+}
+
+.vjs-default-skin .vjs-volume-bar {
+  height: .5em;
+}
+
+.vjs-default-skin .vjs-control-bar {
+  background-color: rgba(0,0,0,.7);
+}
+
+
+.toast-success {
+    background-color: #9c9c9c !important;
+}
+
+
+.inbox-noty{
+    position: absolute;
+    top: 11px;
+    font-size: 15px;
+    color: #afafaf;
+    left: -10px;
+}
+
+.vjs-resolution-button-staticlabel{
+        top: 12px;
+    right: 8px;
+    position: absolute;
 }

@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     public function All()
     {
-        $categories = Category::all();
+        $categories = Category::has('posts')->get();
+       
         return view('Front.Categories', ['categories' => $categories]);
     }
 
@@ -23,7 +24,9 @@ class CategoryController extends Controller
             $sliders = Slider::withCategory($name);
             $data['sliders'] = $sliders;
             $data['title'] = $name ;
-            return view('Front.index', $data);
+           $data['posts'] = $category->posts;
+         
+            return view('Front.showCategory', $data);
         } else {
             abort(404);
         }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Plan;
-use App\Payment;
 use App\User;
+use App\Payment;
+use Carbon\Carbon;
 use App\Notification;
 use App\Mail\SendMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
@@ -15,16 +17,27 @@ class PayController extends Controller
 {
     public function pay(Request $request)
     {
+        $plan = Plan::whereId($request->plan_name)->first();
+        if (!$plan) return back();
+        $expire_date = Carbon::now()->addDays($plan->days);
+        $user = auth()->user();
+        $query = DB::table('user_plan')->where('user_id', '=', $user->id)->where('plan_id', '=', $plan->id)
+            ->where('expire_date', '>', Carbon::now())->first();
+        if ($query) {
+            toastr()->success('این اشتراک توسط شما خریداری شده است');
+            return back();
+        }
+
         //برای تست کردن مقدار دیباگ مد رو روی یک قررا بده وگرنه صفر
         $debugmode = 1;
         $user = auth()->user();
-        $plan = Plan::find($request->plan);
+
 
 
         $payment = new Payment;
         $payment->user_id = $user->id;
         $payment->plan_id = $plan->id;
-        $payment->amount = $plan->price;
+        $payment->amount = session()->get('amount' . $user->id);
         $payment->save();
 
         $data = array(
@@ -118,11 +131,17 @@ class PayController extends Controller
 
                 // به اعتبارش اضافه کن
                 // تراکنش موفق بود هر جا می خوای ریدایرکتش کن
-
+                $plan = Plan::find($payment->plan_id);
+                $expire_date = Carbon::now()->addDays($plan->days);
+                auth()->user()->plans()->attach($plan->id, ['expire_date' => $expire_date]);
+                // send sms 
+                $this->sendNoty(auth()->user(), $plan);
+                return redirect()->route('MainUrl');
             } else {
 
                 // تراکنش ناموفق بوده
 
+                return redirect()->route('S.SiteSharing');
             }
         }
     }

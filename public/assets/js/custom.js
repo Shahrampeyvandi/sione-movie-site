@@ -221,7 +221,7 @@ $("#add-slider").validate({
             number: "required",
             release: "required",
             poster: {
-                required: true,
+                
                 filesize: 200 * 1024,
                 maxWidth: 400,
                 accept: "jpg|jpeg|png|JPG|JPEG|PNG",
@@ -670,21 +670,25 @@ function addCaption(event) {
                             <a class="text-danger" style="position:absolute;left:0;" onclick="removeCaption(event)"><i class="fas fa-times" ></i></a>
                                 <label for="" class="col-md-2">زیرنویس</label>
                                 <div class="col-md-3 ">
-                                    <select name="file[1][3][][1]" id="" class="custom-select">
-                                      
-                                        <option value="زیرنویس فارسی">زیرنویس فارسی</option>
-                                        <option value="زیرنویس انگلیسی">زیرنویس انگلیسی</option>
-                                    </select>
+                                   <input type="text" class="form-control" name="captions[][1]">
                                 </div>
                                 <div class="col-md-3">
-                                    <input  type="file" name="file[1][3][][2]" id="" class="form-control" />
-
+                                   <input type="file" name="captions[][2]" id="" class="form-control" />
                                 </div>
                             </div>
        `);
 }
 
+function deleteCaption(event,id,url) {
+    event.preventDefault()
+    var token = $('meta[name="_token"]').attr("content");
+  var  request = $.post(url, { id: id, _token: token });
+    request.done(function (res) {
+    $(event.target).parents('.cap-wrapper').remove()
 
+    })
+
+}
 function addBlogLink(event) {
     event.preventDefault();
 
@@ -744,21 +748,7 @@ function cloneFile(event) {
                                 </select>
                             </div>
 
-                            <div class="col-md-12 row">
-                                <label for="" class="col-md-2">زیرنویس</label>
-                                <div class="col-md-3 ">
-                                    <select name="file[${id}][3][][1]" id="" class="custom-select">
-                                       
-                                        <option value="زیرنویس فارسی">زیرنویس فارسی</option>
-                                        <option value="زیرنویس انگلیسی">زیرنویس انگلیسی</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input required type="file" name="file[${id}][3][][2]" id="" class="form-control" />
-
-                                </div>
-                            </div>
-                            <a href="#" onclick="addCaption(event)">افزودن زیرنویس </a>
+                            
                         </div>          
      `);
 

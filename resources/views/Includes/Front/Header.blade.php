@@ -69,7 +69,7 @@
                 <div class="profile-dropdown-box">
                     <ul>
                         <li>
-                            <a href="profile.html">
+                            <a href="{{route('S.Account')}}">
                                 <i class="fa fa-user-circle"></i>
                                 <span>
                                     @isset($user)
@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('S.BuyPlan')}}">
+                            <a href="{{route('S.SiteSharing')}}">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span>
                                     خرید اشتراک
@@ -94,7 +94,7 @@
                                 </span>
                             </a>
                         </li>
-                        @if ($user->type() == 'moshtarak')
+                      
                         <li>
                             <a href="{{route('logout-user')}}">
                                 <i class="fa fa-power-off"></i>
@@ -103,22 +103,32 @@
                                 </span>
                             </a>
                         </li>
-                        @endif
+                       
                     </ul>
                 </div>
-                <a  class="buy-subscribe inbox-icon"  href="#" >
+              @if (auth()->check())
+                    <a  class="buy-subscribe inbox-icon"  href="#" >
                     <i class="fa fa-envelope"></i>
+                    @if ($user->newNoty())
+                             <span class="inbox-noty"><i class="fa fa-exclamation-circle"></i></span>
+
+                    @endif
                 </a>
                 <div class="inbox close">
-                    <ul>
-                        <li>
+                   @if (count($user->noty))
+                        <ul>
+                       @foreach ($user->noty as $item)
+                            <li>
                             <p>
-                               شما میتوانید با مراجعه به یکی از شعب اشتراک سه روزه با قیمت 30000 تومان برای شما فعال شد 
+                               {{$item->content}}
                             </p>
-                            <span >11/2/99</span>
+                            <span >sione support</span>
                         </li>
+                       @endforeach
                     </ul>
+                   @endif
                 </div>
+              @endif
                 <div id="search-box">
                     <i class="far fa-search"></i>
                 </div>

@@ -4,7 +4,8 @@
 
 
 <section class="movie-trailer">
-    <h1>
+  <?php if(count($post->images)): ?>
+        <h1>
         تریلر، تصاویر و جزییات
     </h1>
     <div class="container-fluid">
@@ -18,6 +19,7 @@
 
         </div>
     </div>
+  <?php endif; ?>
     <h2>
         <?php echo e($post->title); ?>
 
@@ -32,13 +34,15 @@
         <?php echo $post->description; ?>
 
     </div>
-    <h2>
+   <?php if(count($post->categories)): ?>
+        <h2>
         دسته بندی:
         <?php $__currentLoopData = $post->categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php echo e($category->name); ?>
 
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </h2>
+   <?php endif; ?>
 
     <?php if(count($post->captions)): ?>
     <h2>
@@ -93,7 +97,7 @@
         <div class="row">
             <?php $__currentLoopData = $relatedPosts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col-3 col-lg-2">
-                <?php $__env->startComponent('components.article',['serie'=>$item]); ?>
+                <?php $__env->startComponent('components.article',['model'=>$item]); ?>
                 <?php echo $__env->renderComponent(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -104,7 +108,6 @@
 </section>
 <?php endif; ?>
 
-<?php echo $__env->make('Includes.Front.Comments', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
 <?php $__env->stopSection(); ?>

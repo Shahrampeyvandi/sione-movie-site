@@ -14,14 +14,16 @@
                             {{$slider->post->title}}
                         </h4>
                         <h5>
-                            {!! $slider->post->description !!}
+                            {!! str_limit($slider->post->description,350) !!}
                         </h5>
-                    <a href="{{$slider->post->play()}}" class="page-movie-play btn--ripple">
+                   @if ($slider->post->type == 'movies')
+                        <a href="{{$slider->post->play()}}" class="page-movie-play btn--ripple">
                             <i class="fa fa-play"></i>
                             پخش فیلم
                         </a>
+                   @endif
                         
-                         <a href="#" class="more-detail-movie btn--ripple">
+                    <a href="{{route('S.SiteSharing')}}" class="more-detail-movie btn--ripple">
                             <i class="fa fa-star"></i>
                             خرید اشتراک
                         </a>

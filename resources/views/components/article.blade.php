@@ -1,5 +1,5 @@
 
-    <a href="#" data-id="1" onclick="showDetails(event,'{{$model->id}}','{{route('GetMovieDetail')}}')">
+    <a href="{{$model->path()}}" data-id="1" onclick="showDetails(event,'{{$model->id}}','{{route('GetMovieDetail')}}')">
         <div class="movie-sections-box">
             <div class="img-box-movies">
                 <img src="{{asset($model->poster)}}" alt="{{$model->name}}">

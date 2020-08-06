@@ -45,9 +45,9 @@ class Post extends Model
     {
         return $this->hasMany(Episode::class);
     }
-    public function captions()
+   public function captions()
     {
-        return $this->hasMany(Caption::class);
+        return $this->morphMany(Caption::class, 'captionable');
     }
     public function seasons()
     {
@@ -120,8 +120,25 @@ class Post extends Model
     }
     public function play()
     {
-        return route('S.Play', ['slug' => $this->slug]);
+
+        if ($this->type == 'movies') {
+            return route('S.Play', ['slug' => $this->slug]);
+        }
+
+       
     }
+
+      public function downloadpath()
+    {
+
+        if ($this->type == 'movies') {
+            return route('DownLoad', ['id' => $this->id]);
+        }
+
+       
+    }
+
+    
 
     public static function withCategory($name)
     {

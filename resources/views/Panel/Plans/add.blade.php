@@ -39,7 +39,15 @@
                                     <span>تومان</span>
                                 </div>
                             </div>
+                            <div class="form-group form-inline col-md-4">
+                                <label for="">تخفیف</label>
+                                <div>
 
+                                    <input type="number" class="form-control  mx-2" name="discount" id="discount"
+                                        placeholder="" value="">
+                                    <span>تومان</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
@@ -50,7 +58,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="desc">اطلاع رسانی به کاربران:  </label>
+                                <label for="desc">اطلاع رسانی به کاربران: </label>
                                 <select class="custom-select" name="sendsms" id="sendsms">
                                     <option value="">لازم نیست</option>
                                     <option value="sms">پیامک</option>

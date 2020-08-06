@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,29 @@ class User extends Authenticatable
     {
         return $this->role == 'مشترک' ? 'moshtarak' : '';
     }
+    public function planStatus()
+    {
+        $plans =  $this->plans;
+        $plan = $this->plans()->wherePivot('expire_date', '>', \Carbon\Carbon::now())
+            ->first();
+        if ($plan) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function noty()
+    {
+        return $this->hasMany(Notification::class,'reciver_id');
+    }
+
+     public function newNoty()
+    {
+      return $new = Notification::where('reciver_id',$this->id)->whereDate('created_at', '=' , \Carbon\Carbon::today())->count();
+    }
+
+
     public function plans()
     {
         return $this->belongsToMany(Plan::class, 'user_plan', 'user_id', 'plan_id')->withPivot('expire_date');

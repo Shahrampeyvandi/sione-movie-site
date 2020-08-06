@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use Goutte;
 use App\Post;
 use App\Actor;
+use App\Caption;
 use App\Image;
 use App\Video;
 use App\Writer;
@@ -56,25 +57,28 @@ class MoviesController extends Controller
     public function Save(Request $request)
     {
 
-      
+
         $slug = Str::slug($request->name);
         $destinationPath = "files/movies/$slug";
-
-        if ($request->hasFile('poster')) {
-            $picextension = $request->file('poster')->getClientOriginalExtension();
-            $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
-            $request->file('poster')->move(public_path($destinationPath), $fileName);
-            $Poster = "$destinationPath/$fileName";
-            $img = ImageInvention::make(public_path($Poster))->resize(1900, 900)->save(public_path('1920-900/' . $fileName));
-        } else {
-            if (isset($request->imdbposter) && $request->imdbposter) {
-                $img = $destinationPath . '/poster_' . basename($request->imdbposter);
-                file_put_contents($img, file_get_contents($request->imdbposter));
-                $Poster = $img;
-            } else {
-                $Poster = Setting::first()->default_poster;
-            }
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
         }
+        // if ($request->hasFile('poster')) {
+        //     $picextension = $request->file('poster')->getClientOriginalExtension();
+        //     $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
+        //     $request->file('poster')->move(public_path($destinationPath), $fileName);
+        //     $Poster = "$destinationPath/$fileName";
+        //     $img = ImageInvention::make(public_path($Poster))->resize(1900, 900)->save(public_path('1920-900/' . $fileName));
+        // } else {
+        //     if (isset($request->imdbposter) && $request->imdbposter) {
+        //         $img = $destinationPath . '/poster_' . basename($request->imdbposter);
+
+        //         file_put_contents($img, file_get_contents($request->imdbposter));
+        //         $Poster = $img;
+        //     } else {
+        //         $Poster = Setting::first()->default_poster;
+        //     }
+        // }
 
 
         if (!File::exists($destinationPath)) {
@@ -99,14 +103,20 @@ class MoviesController extends Controller
             $request->file('poster')->move(public_path($destinationPath), $fileName);
             $Poster = "$destinationPath/$fileName";
             $img = ImageInvention::make(public_path($Poster))->resize(320, 240)->insert('public/resizes/' . $Poster);
-            dd($img);
         } else {
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
                 file_put_contents($img, file_get_contents($request->imdbposter));
                 $Poster = $img;
             } else {
-                $Poster = '';
+                $setting = Setting::first();
+                if($setting) {
+
+                   $Poster = $setting->default_poster;
+                }else{
+                    $Poster = '';
+                }
+                
             }
         }
         $post->released = Carbon::parse($request->released)->toDateTimeString();
@@ -182,7 +192,6 @@ class MoviesController extends Controller
                     if ($id = Director::check($director)) {
                         $post->directors()->attach($id);
                     } else {
-
                         $post->directors()->create(['name' => $director]);
                     }
                 }
@@ -192,18 +201,15 @@ class MoviesController extends Controller
                     if ($id = Writer::check($writer)) {
                         $post->writers()->attach($id);
                     } else {
-
                         $post->writers()->create(['name' => $writer]);
                     }
                 }
             }
             if (isset($request->languages)) {
-
                 foreach ($request->languages as $key => $language) {
                     if ($id = Language::check($language)) {
                         $post->languages()->attach($id);
                     } else {
-
                         $post->languages()->create(['name' => $language]);
                     }
                 }
@@ -223,12 +229,10 @@ class MoviesController extends Controller
                     'url' => $file[1],
                     'quality_id' => $quality_id
                 ]);
+            }
 
-                foreach ($file[3] as $key => $caption) {
-                    if (array_key_exists(2, $caption)) {
-                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
-                    }
-                }
+            if (isset($request->captions)) {
+             $this->SaveCaption($request ,$post, $destinationPath);
             }
         } else {
             return back();
@@ -289,11 +293,11 @@ class MoviesController extends Controller
     {
 
 
-        // dd($request->all());
+       
+        $slug = Str::slug($post->name);
+        $destinationPath = "files/movies/$slug";
         if ($request->hasFile('poster')) {
             File::delete(public_path() . $post->poster);
-            $slug = Str::slug($post->name);
-            $destinationPath = "files/movies/$slug";
             if (!File::exists($destinationPath)) {
                 File::makeDirectory($destinationPath, 0777, true);
             }
@@ -449,13 +453,13 @@ class MoviesController extends Controller
                     'quality_id' => $quality_id
                 ]);
 
-                foreach ($file[3] as $key => $caption) {
-                    if (array_key_exists(2, $caption)) {
-                        $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
-                    }
-                }
+               
             }
         }
+
+         if (isset($request->captions)) {
+             $this->SaveCaption($request ,$post, $destinationPath);
+            }
 
         toastr()->success('پست با موفقیت ویرایش شد');
         return Redirect::route('Panel.MoviesList');
@@ -534,4 +538,13 @@ class MoviesController extends Controller
             return response()->json(['error' => 'این مورد از قبل ثبت شده است']);
         }
     }
+
+    public function DeleteCaption(Request $request)
+    {
+        $caption = Caption::find($request->id);
+        File::delete(public_path() . $caption->url);
+        $caption->delete();
+         return response()->json('success',200);
+    }
 }
+

@@ -60,9 +60,11 @@
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
        </div>
-        <a data-data="10" href="#" onclick="getComments(event,'<?php echo e(route('GetCommentAjax',$post)); ?>')"  class="more-comment">
+       <?php if(count($post->comments) > 10): ?>
+            <a data-data="10" href="#" onclick="getComments(event,'<?php echo e(route('GetCommentAjax',$post)); ?>')"  class="more-comment">
                 بیشتر
             </a>
+       <?php endif; ?>
 
     </div>
 </section>

@@ -37,7 +37,15 @@
                                     <span>تومان</span>
                                 </div>
                             </div>
+ <div class="form-group form-inline col-md-4">
+                                <label for="">تخفیف</label>
+                                <div>
 
+                                    <input type="number" class="form-control  mx-2" name="discount" id="discount"
+                                        placeholder="" value="">
+                                    <span>تومان</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">

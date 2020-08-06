@@ -107,7 +107,9 @@
             @isset($post)
                 {{$post->comment_status == "enable" ? "checked" : ""}}
             @endisset
-            class="custom-control-input">
+            class="custom-control-input" @if (!isset($post))
+                checked
+            @endif>
             <label class="custom-control-label" for="commentstatus">
                 ارسال نظر برای این پست </label>
         </div>

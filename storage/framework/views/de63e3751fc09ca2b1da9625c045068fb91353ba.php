@@ -7,57 +7,7 @@
 <?php echo $__env->make('Includes.Front.DesktopSlider', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('Includes.Front.MobileSlider', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-
-<section class="top-slider">
-    <div class="swiper-container TopSlider">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="<?php echo e(asset('frontend/assets/images/section-sliders/p1.jpg')); ?>" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
-</section>
+<?php echo $__env->make('Includes.Front.TopSlider', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <?php if(count($newseries)): ?>
 <section class="movie-sections">
@@ -70,54 +20,18 @@
     </h3>
     <div class="swiper-container IranNews">
         <div class="swiper-wrapper">
-            <?php $__currentLoopData = $newseries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $serie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = $newseries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="swiper-slide">
-            <?php $__env->startComponent('components.article',['model'=>$serie]); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <?php $__env->startComponent('components.article',['model'=>$post]); ?>
+                <?php echo $__env->renderComponent(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                <a href="" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    <?php $__env->startComponent('components.showDetail',['model'=>$post]); ?>
+    <?php echo $__env->renderComponent(); ?>
 </section>
 <?php endif; ?>
 
@@ -169,43 +83,9 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                    <a href="./moviePage.html" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    <?php $__env->startComponent('components.showDetail',['model'=>$post]); ?>
+
+    <?php echo $__env->renderComponent(); ?>
 </section>
 <?php endif; ?>
 
@@ -261,43 +141,8 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                    <a href="./moviePage.html" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    <?php $__env->startComponent('components.showDetail',['model'=>$post]); ?>
+    <?php echo $__env->renderComponent(); ?>
 </section>
 <?php endif; ?>
 

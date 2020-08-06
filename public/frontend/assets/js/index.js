@@ -1,18 +1,18 @@
 $(document).ready(function () {
 
-$('.inbox-icon').on('click',function(e){
-     e.preventDefault();
-     var el = $(e.target);
-     next = el.next(".inbox");
-    if($(this).next().hasClass('close')){
+    $('.inbox-icon').on('click', function (e) {
+        e.preventDefault();
+        var el = $(e.target);
+        next = el.next(".inbox");
+        if ($(this).next().hasClass('close')) {
 
-        $(this).next().addClass("open");
-         $(this).next().removeClass("close");
-    }else{
-         $(this).next().addClass("close");
-         $(this).next().removeClass("open");
-    }
-})
+            $(this).next().addClass("open");
+            $(this).next().removeClass("close");
+        } else {
+            $(this).next().addClass("close");
+            $(this).next().removeClass("open");
+        }
+    })
 
     //Ripple
     let $btnRipple = $('.btn--ripple'),
@@ -228,7 +228,8 @@ $('.inbox-icon').on('click',function(e){
     $('.choosePlane').on('click', function (e) {
         e.preventDefault()
         let plan_choose_day = $(this).parent().parent().find('.plan-length').text()
-        $('input[name="plan_name"]').val(plan_choose_day);
+          let id = $(this).data('id')
+        $('input[name="plan_name"]').val(id);
         let plan_choose_price = $(this).parent().parent().find('.plan-price').text()
         let plan_choose_off = $(this).parent().parent().find('.after-off').text()
         $('.buy-sharing-plan').css('display', 'block')
@@ -359,13 +360,13 @@ $(document).click(function (e) {
         $(".profile-dropdown-box").hide();
     }
 
-     if (
-         $(e.target).closest(".inbox-icon").length == 0 &&
-         $(e.target).closest(".inbox").length == 0
-     ) {
-         $(".inbox").removeClass('open');
-         $(".inbox").addClass("close");
-     }
+    if (
+        $(e.target).closest(".inbox-icon").length == 0 &&
+        $(e.target).closest(".inbox").length == 0
+    ) {
+        $(".inbox").removeClass('open');
+        $(".inbox").addClass("close");
+    }
 });
 
 var prev_id = 0;
@@ -396,12 +397,45 @@ function showDetails(event, id, url) {
 
         var request = $.post(url, { id: id, _token: token });
         request.done(function (res) {
+           
             $(".lds-ripple").fadeOut();
             detailbox
                 .css({ "background": "url(" + res.poster + ")", 'background-size': '50% 100%', 'background-repeat': 'no-repeat' });
             detailbox.find('h1').text(res.title)
             detailbox.find('.desc').html(res.desc)
-            detailbox.find(".more-detail-movie").attr('href', res.path)
+
+           
+            
+            if (res.type == "movies") {
+                detailbox.find(".links").html(`
+                 <a href="${res.play}" class="page-movie-play btn--ripple mr-0 mt-5">
+                        <i class="fa fa-play"></i>
+                        پخش فیلم
+                    </a>
+                     <a href="#" onclick="downLoad(event,'${res.download}')" class="page-movie-download btn--ripple mr-0 mt-5">  
+                        دانلود
+                    </a>
+
+                   
+                <a href="${res.path}" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-exclamation"></i>
+                        توضیحات بیشتر
+                    </a>
+                `);
+               
+
+            }else{
+                 detailbox.find(".links").html(`
+                
+
+                   
+                <a href="${res.path}" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-exclamation"></i>
+                        توضیحات بیشتر
+                    </a>
+                `);
+               
+            }
 
 
             detailbox.fadeIn(300);
@@ -436,6 +470,40 @@ function getComments(event, url) {
     request.done(function (res) {
         $('#comments').append(res.data)
         $(".lds-ripple").fadeOut();
-         $(".overlay").fadeOut();
+        $(".overlay").fadeOut();
     });
+}
+
+function checkTakhfif(event , url) {
+    event.preventDefault()
+   var code = $("#off_code").val();
+  var plan_id = $("#plan_name").val();
+     if(code.length)
+    {
+         var token = $('meta[name="_token"]').attr("content");
+         // data = ;
+         var request = $.post(url, { code: code,plan_id:plan_id, _token: token });
+         request.done(function(res) {
+             if(res !== ''){
+                 $("#submit-off_code").addClass("bg-success");
+             $('#pay_price').text(res)
+             }
+         });
+    }
+}
+
+function downLoad(event , url) {
+    event.preventDefault()
+       var token = $('meta[name="_token"]').attr("content");
+       // data = ;
+       var request = $.get(url, {
+           _token: token
+       });
+       request.done(function(res) {
+           if(res.data == 'error') {
+               window.location.href = res.redirect
+
+           }
+       });
+    
 }

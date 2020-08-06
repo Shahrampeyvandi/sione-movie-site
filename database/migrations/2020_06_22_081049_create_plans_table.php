@@ -17,8 +17,8 @@ class CreatePlansTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('price');
+             $table->integer('discount')->nullable();
             $table->integer('days')->default(0);
-            $table->string('expire_date');
             $table->text('description')->nullable();
             $table->boolean('active')->default(0);
             $table->timestamps();

@@ -108,7 +108,9 @@
                 <?php echo e($post->comment_status == "enable" ? "checked" : ""); ?>
 
             <?php endif; ?>
-            class="custom-control-input">
+            class="custom-control-input" <?php if(!isset($post)): ?>
+                checked
+            <?php endif; ?>>
             <label class="custom-control-label" for="commentstatus">
                 ارسال نظر برای این پست </label>
         </div>

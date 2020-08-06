@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Panel;
 
 use App\Post;
 use App\Actor;
+use App\Image;
 use App\Season;
 use App\Writer;
 use App\Episode;
 use App\Quality;
 use App\Section;
+use App\Setting;
 use App\Category;
 use App\Director;
 use App\Language;
@@ -16,7 +18,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
@@ -75,7 +76,13 @@ class SeriesController extends Controller
                 file_put_contents($img, file_get_contents($request->imdbposter));
                 $Poster = $img;
             } else {
-                $Poster = '';
+                $setting = Setting::first();
+                if ($setting) {
+
+                    $Poster = $setting->default_poster;
+                } else {
+                    $Poster = '';
+                }
             }
         }
 
@@ -135,46 +142,54 @@ class SeriesController extends Controller
                 ]);
             }
 
-            foreach ($request->categories as $key => $category) {
-                if ($id = Category::check($category)) {
-                    $post->categories()->attach($id);
+            if (isset($request->categories)) {
+                foreach ($request->categories as $key => $category) {
+                    if ($id = Category::check($category)) {
+                        $post->categories()->attach($id);
+                    }
                 }
             }
 
 
-            foreach ($request->actors as $key => $actor) {
-                if ($id = Actor::check($actor)) {
-                    $post->actors()->attach($id);
-                } else {
+            if (isset($request->actors)) {
+                foreach ($request->actors as $key => $actor) {
+                    if ($id = Actor::check($actor)) {
+                        $post->actors()->attach($id);
+                    } else {
 
-                    $post->actors()->create(['name' => $actor]);
+                        $post->actors()->create(['name' => $actor]);
+                    }
                 }
             }
+            if (isset($request->directors)) {
+                foreach ($request->directors as $key => $director) {
+                    if ($id = Director::check($director)) {
+                        $post->directors()->attach($id);
+                    } else {
 
-            foreach ($request->directors as $key => $director) {
-                if ($id = Director::check($director)) {
-                    $post->directors()->attach($id);
-                } else {
-
-                    $post->directors()->create(['name' => $director]);
+                        $post->directors()->create(['name' => $director]);
+                    }
                 }
             }
+            if (isset($request->writers)) {
+                foreach ($request->writers as $key => $writer) {
+                    if ($id = Writer::check($writer)) {
+                        $post->writers()->attach($id);
+                    } else {
 
-            foreach ($request->writers as $key => $writer) {
-                if ($id = Writer::check($writer)) {
-                    $post->writers()->attach($id);
-                } else {
-
-                    $post->writers()->create(['name' => $writer]);
+                        $post->writers()->create(['name' => $writer]);
+                    }
                 }
             }
+            if (isset($request->languages)) {
 
-            foreach ($request->languages as $key => $language) {
-                if ($id = Language::check($language)) {
-                    $post->languages()->attach($id);
-                } else {
+                foreach ($request->languages as $key => $language) {
+                    if ($id = Language::check($language)) {
+                        $post->languages()->attach($id);
+                    } else {
 
-                    $post->languages()->create(['name' => $language]);
+                        $post->languages()->create(['name' => $language]);
+                    }
                 }
             }
         } else {
@@ -435,7 +450,8 @@ class SeriesController extends Controller
 
         $serie = $section->serie;
         // dd($section);
-
+        $slug = Str::slug($serie->name);
+        $destinationPath = "files/series/$slug";
         if ($request->hasFile('poster')) {
             File::delete(public_path() . '/' . $section->poster);
             $slug = Str::slug($serie->name);
@@ -461,15 +477,11 @@ class SeriesController extends Controller
 
         ]);
 
-
-
         $videos = $section->videos();
         foreach ($videos as $key => $video) {
             $video->captions()->delete();
         }
         $videos->delete();
-
-
 
         foreach ($request->file as $key => $file) {
             if ($id = Quality::check($file[2])) {
@@ -479,17 +491,14 @@ class SeriesController extends Controller
                 $quality_id = $quality->id;
             }
 
-
             $video = $section->videos()->create([
                 'url' => $file[1],
                 'quality_id' => $quality_id
             ]);
+        }
 
-            foreach ($file[3] as $key => $caption) {
-                if (array_key_exists(2, $caption)) {
-                    $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $serie->id]);
-                }
-            }
+        if (isset($request->captions)) {
+            $this->SaveCaption($request, $section, $destinationPath);
         }
 
 
@@ -533,6 +542,8 @@ class SeriesController extends Controller
 
     public function InsertSection(Request $request)
     {
+
+
 
         $post = Post::find($request->serie);
         $slug = Str::slug($post->name);
@@ -586,12 +597,10 @@ class SeriesController extends Controller
                 'url' => $file[1],
                 'quality_id' => $quality_id
             ]);
+        }
 
-            foreach ($file[3] as $key => $caption) {
-                if (array_key_exists(2, $caption)) {
-                    $video->captions()->create(['lang' => $caption[1], 'url' => $caption[2], 'post_id' => $post->id]);
-                }
-            }
+        if (isset($request->captions)) {
+            $this->SaveCaption($request, $episode, $destinationPath);
         }
 
 

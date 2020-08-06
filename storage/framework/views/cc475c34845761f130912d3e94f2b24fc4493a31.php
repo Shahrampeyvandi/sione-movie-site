@@ -4,7 +4,6 @@
     <?php echo $__env->make('Includes.Panel.moviesmenu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="card">
         <div class="card-body">
-          
             <form id="upload-movie" method="post" <?php if(isset($post)): ?> action="<?php echo e(route('Panel.EditMovie',$post)); ?>" <?php else: ?>
                 action="<?php echo e(route('Panel.AddMovie')); ?>" <?php endif; ?> enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
@@ -15,10 +14,7 @@
                         <?php else: ?>
                         افزودن فایل
                         <?php endif; ?>
-
-
                     </h5>
-
                     <button type="submit" class="btn btn-primary">
                         <?php if(isset($post)): ?>
                         ویرایش
@@ -26,7 +22,6 @@
                         ذخیره
                         <?php endif; ?>
                     </button>
-
                 </div>
                 <hr>
                 <div class="row">

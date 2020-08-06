@@ -12,4 +12,16 @@ class Plan extends Model
     {
         return $this->belongsToMany(User::class, 'plan_user');
     }
+
+    public function priceWithDiscount()
+    {
+        return (int)$this->price - (int)$this->discount;
+    }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'discount_plan', 'plan_id', 'discount_id');
+    }
+
+    
 }

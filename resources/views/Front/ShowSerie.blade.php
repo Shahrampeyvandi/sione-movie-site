@@ -25,7 +25,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-5 col-md-12">
-                                <a href="#">
+                            <a href="{{$section->play()}}">
                                     <div class="Season-movie-img-box">
                                         <img src="{{asset($section->poster)}}" alt="">
                                         <i class="fa fa-play-circle"></i>
@@ -120,9 +120,9 @@
         </div>
     </div>
     @endif
-    <h3>
+    {{-- <h3>
         تیم دوبلاژ
-    </h3>
+    </h3> --}}
     {{-- <h3>
         <a href="#">
             ابراهیم شفیعی،

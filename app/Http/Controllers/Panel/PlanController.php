@@ -23,6 +23,7 @@ class PlanController extends Controller
         $plan = new Plan;
         $plan->name = $request->name;
         $plan->price = $request->price;
+        $plan->discount = $request->discount;
         $plan->days = $request->time;
         $plan->description = $request->desc;
         $plan->save();
@@ -72,6 +73,7 @@ class PlanController extends Controller
         Plan::whereId($id)->update([
             'name' => request()->name,
             'price' => request()->price,
+            'discount' => request()->discount,
             'days' => request()->time,
             'description' => request()->desc,
 

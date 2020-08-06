@@ -5,7 +5,8 @@
 
 
 <section class="movie-trailer">
-    <h1>
+  @if (count($post->images))
+        <h1>
         تریلر، تصاویر و جزییات
     </h1>
     <div class="container-fluid">
@@ -19,6 +20,7 @@
 
         </div>
     </div>
+  @endif
     <h2>
         {{$post->title}}
     </h2>
@@ -30,12 +32,14 @@
 
         {!! $post->description !!}
     </div>
-    <h2>
+   @if (count($post->categories))
+        <h2>
         دسته بندی:
         @foreach ($post->categories as $category)
         {{$category->name}}
         @endforeach
     </h2>
+   @endif
 
     @if (count($post->captions))
     <h2>
@@ -116,7 +120,7 @@
         <div class="row">
             @foreach ($relatedPosts as $item)
             <div class="col-3 col-lg-2">
-                @component('components.article',['serie'=>$item])
+                @component('components.article',['model'=>$item])
                 @endcomponent
             </div>
             @endforeach
@@ -127,7 +131,6 @@
 </section>
 @endif
 
-@include('Includes.Front.Comments')
 
 
 @endsection

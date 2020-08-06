@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Video extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['quality','captions'];
+    protected $with = ['quality'];
 
     public function videoble()
     {

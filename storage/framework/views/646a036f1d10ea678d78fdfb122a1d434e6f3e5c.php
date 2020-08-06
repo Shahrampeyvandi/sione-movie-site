@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/index.css')); ?>">
     <script src="<?php echo e(asset('frontend/assets/js/jquery-3.5.1.min.js')); ?>"></script>
     <script src="<?php echo e(asset('frontend/assets/js/bootstrap.min.js')); ?>"></script>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/toastr.css')); ?>">
     <script src="<?php echo e(asset('frontend/assets/js/swiper.min.js')); ?>"></script>
     <script src="<?php echo e(asset('frontend/assets/js/all.min.js')); ?>"></script>
     <script src="<?php echo e(asset('frontend/assets/js/index.js')); ?>"></script>
@@ -20,7 +21,7 @@
 </head>
 
 
-<body <?php if(\Request::route()->getName() == "S.SiteSharing"): ?>
+<body <?php if(\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" || \Request::route()->getName() == "S.OrderLists" ): ?>
  class="site-sharing"
 <?php endif; ?>>
     <div class="overlay"></div>
@@ -30,16 +31,20 @@
     </div>
     
         
-     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing"): ?> 
+     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
+     ): ?> 
       <?php echo $__env->make('Includes.Front.Header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php endif; ?>
    
     <?php echo $__env->yieldContent('content'); ?>
 
-     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing"): ?> 
+     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
+     ): ?> 
      <?php echo $__env->make('Includes.Front.Footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php endif; ?>
 
+    <script src="<?php echo e(asset('assets/js/toastr.min.js')); ?>"></script>
+    <?php echo app('toastr')->render(); ?>
      <?php echo $__env->yieldContent('js'); ?>
 </body>
 

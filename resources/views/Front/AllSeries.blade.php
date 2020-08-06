@@ -8,57 +8,7 @@
 @include('Includes.Front.DesktopSlider')
 @include('Includes.Front.MobileSlider')
 
-
-<section class="top-slider">
-    <div class="swiper-container TopSlider">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="top-slider-box">
-                    <a href="#">
-                        <img src="{{asset('frontend/assets/images/section-sliders/p1.jpg')}}" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
-</section>
+@include('Includes.Front.TopSlider')
 
 @if (count($newseries))
 <section class="movie-sections">
@@ -71,54 +21,18 @@
     </h3>
     <div class="swiper-container IranNews">
         <div class="swiper-wrapper">
-            @foreach ($newseries as $serie)
+            @foreach ($newseries as $post)
             <div class="swiper-slide">
-            @component('components.article',['model'=>$serie])
-            @endcomponent
+                @component('components.article',['model'=>$post])
+                @endcomponent
             </div>
             @endforeach
-
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                <a href="" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    @component('components.showDetail',['model'=>$post])
+    @endcomponent
 </section>
 @endif
 
@@ -167,43 +81,9 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                    <a href="./moviePage.html" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    @component('components.showDetail',['model'=>$post])
+
+    @endcomponent
 </section>
 @endif
 
@@ -255,43 +135,8 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    دل
-                </h1>
-                <div class="desc mt-2 w-50">
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                    توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                    <a href="./moviePage.html" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+    @component('components.showDetail',['model'=>$post])
+    @endcomponent
 </section>
 @endif
 

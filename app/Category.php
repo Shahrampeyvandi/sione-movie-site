@@ -29,4 +29,9 @@ class Category extends Model
    {
        return route('Category.Show',['name'=>$this->latin]);
    }
+
+   public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'post_category', 'category_id', 'post_id');
+    }
 }

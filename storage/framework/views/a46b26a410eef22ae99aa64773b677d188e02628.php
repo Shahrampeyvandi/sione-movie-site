@@ -15,15 +15,17 @@
 
                         </h4>
                         <h5>
-                            <?php echo $slider->post->description; ?>
+                            <?php echo str_limit($slider->post->description,350); ?>
 
                         </h5>
-                    <a href="<?php echo e($slider->post->play()); ?>" class="page-movie-play btn--ripple">
+                   <?php if($slider->post->type == 'movies'): ?>
+                        <a href="<?php echo e($slider->post->play()); ?>" class="page-movie-play btn--ripple">
                             <i class="fa fa-play"></i>
                             پخش فیلم
                         </a>
+                   <?php endif; ?>
                         
-                         <a href="#" class="more-detail-movie btn--ripple">
+                    <a href="<?php echo e(route('S.SiteSharing')); ?>" class="more-detail-movie btn--ripple">
                             <i class="fa fa-star"></i>
                             خرید اشتراک
                         </a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -21,7 +22,7 @@ class LoginController extends Controller
 
     public function Verify(Request $request)
     {
-        
+
         $rules = array(
             'mobile'             => 'required',
             'password'         => 'required | min:8',
@@ -36,15 +37,23 @@ class LoginController extends Controller
             return Redirect::to('login')
                 ->withErrors($validator);
         }
+        $admin = Admin::where('mobile', $request->mobile)->first();
+        if ($admin) {
+            if (Hash::check($request->password, $admin->password)) {
+                Auth::guard('admin')->Login($admin, true);
+                return redirect()->route('MainUrl');
+            }
+        }
 
         $member = User::where('mobile', $request->mobile)->first();
         if ($member) {
             if (Hash::check($request->password, $member->password)) {
                 Auth::Login($member);
+
                 if (Auth::user()->plans()->count()) {
                     return redirect()->route('MainUrl');
                 } else {
-                    return redirect()->route('S.BuyPlan');
+                    return redirect()->route('S.SiteSharing');
                 }
             } else {
                 return Redirect::back()->withErrors(['رمز عبور اشتباه است']);
@@ -96,6 +105,10 @@ class LoginController extends Controller
 
     public function logout()
     {
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+        }
+
         Auth::logout();
         return redirect()->route('login');
     }

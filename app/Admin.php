@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
@@ -20,4 +21,14 @@ class Admin extends Model implements Authenticatable
     {
         return 'admin';
     }
+      public function noty()
+    {
+        return $this->hasMany(Notification::class,'reciver_id');
+    }
+
+    public function newNoty()
+    {
+       $noty = $this->noty()->where('created_at', '=' , Carbon::now())->first();
+    }
+
 }

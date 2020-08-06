@@ -6,7 +6,6 @@
     @include('Includes.Panel.moviesmenu')
     <div class="card">
         <div class="card-body">
-          
             <form id="upload-movie" method="post" @isset($post) action="{{route('Panel.EditMovie',$post)}}" @else
                 action="{{route('Panel.AddMovie')}}" @endisset enctype="multipart/form-data">
                 @csrf
@@ -17,10 +16,7 @@
                         @else
                         افزودن فایل
                         @endisset
-
-
                     </h5>
-
                     <button type="submit" class="btn btn-primary">
                         @isset($post)
                         ویرایش
@@ -28,7 +24,6 @@
                         ذخیره
                         @endisset
                     </button>
-
                 </div>
                 <hr>
                 <div class="row">

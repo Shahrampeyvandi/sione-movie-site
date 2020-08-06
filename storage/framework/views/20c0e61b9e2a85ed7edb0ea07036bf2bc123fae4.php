@@ -69,7 +69,7 @@
                 <div class="profile-dropdown-box">
                     <ul>
                         <li>
-                            <a href="profile.html">
+                            <a href="<?php echo e(route('S.Account')); ?>">
                                 <i class="fa fa-user-circle"></i>
                                 <span>
                                     <?php if(isset($user)): ?>
@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo e(route('S.BuyPlan')); ?>">
+                            <a href="<?php echo e(route('S.SiteSharing')); ?>">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span>
                                     خرید اشتراک
@@ -95,7 +95,7 @@
                                 </span>
                             </a>
                         </li>
-                        <?php if($user->type() == 'moshtarak'): ?>
+                      
                         <li>
                             <a href="<?php echo e(route('logout-user')); ?>">
                                 <i class="fa fa-power-off"></i>
@@ -104,22 +104,33 @@
                                 </span>
                             </a>
                         </li>
-                        <?php endif; ?>
+                       
                     </ul>
                 </div>
-                <a  class="buy-subscribe inbox-icon"  href="#" >
+              <?php if(auth()->check()): ?>
+                    <a  class="buy-subscribe inbox-icon"  href="#" >
                     <i class="fa fa-envelope"></i>
+                    <?php if($user->newNoty()): ?>
+                             <span class="inbox-noty"><i class="fa fa-exclamation-circle"></i></span>
+
+                    <?php endif; ?>
                 </a>
                 <div class="inbox close">
-                    <ul>
-                        <li>
+                   <?php if(count($user->noty)): ?>
+                        <ul>
+                       <?php $__currentLoopData = $user->noty; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li>
                             <p>
-                               شما میتوانید با مراجعه به یکی از شعب اشتراک سه روزه با قیمت 30000 تومان برای شما فعال شد 
+                               <?php echo e($item->content); ?>
+
                             </p>
-                            <span >11/2/99</span>
+                            <span >sione support</span>
                         </li>
+                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
+                   <?php endif; ?>
                 </div>
+              <?php endif; ?>
                 <div id="search-box">
                     <i class="far fa-search"></i>
                 </div>

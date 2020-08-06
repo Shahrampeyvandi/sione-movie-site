@@ -1,13 +1,13 @@
 <?php $__env->startSection('Title',$title); ?>
 
 <?php $__env->startSection('content'); ?>
-    <a href="index.html" class="logo-float-right">
+    <a href="<?php echo e(route('MainUrl')); ?>" class="logo-float-right">
     LOGO
 </a>
 <div class="buy-sharing-plan">
 <form action="<?php echo e(route('S.BuyPlan')); ?>" method="post">
         <?php echo csrf_field(); ?>
-        <input type="hidden" name="plan_name" value="">
+        <input type="hidden" id="plan_name" name="plan_name" value="">
         <div class="buy-sharing-plan-box">
         <button id="close_buy-plan-box">
             <i class="fa fa-times"></i>
@@ -58,9 +58,9 @@
                     <label for="off_code">
                         کد تخفیف
                     </label>
-                    <button id="submit-off_code" class="btn--ripple">
+                <a id="submit-off_code" onclick="checkTakhfif(event,'<?php echo e(route('checkTakhfif')); ?>')" class="btn--ripple text-center">
                         ثبت کد تخفیف
-                    </button>
+                </a>
                 
             </div>
         </div>
@@ -91,156 +91,33 @@
         <img src="assets/images/sharing_page/p1.jpg" alt="">
     </a>
     <div class="plans">
-         <div class="plan-box">
+       <?php $__currentLoopData = $plans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+             <div class="plan-box">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3">
-                        <p class="plan-length">رایگان</p>
+                    <p class="plan-length"><?php echo e($item->name); ?></p>
                     </div>
                     <div class="col-3">
                         <p class="plan-price">
-                            0 تومان
+                            <?php echo e($item->price); ?> تومان
                         </p>
                     </div>
                     <div class="col-3">
                         <p class="after-off">
-                            0 تومان
+                            <?php echo e($item->priceWithDiscount()); ?> تومان
                         </p>
                     </div>
                     <div class="col-3">
-                    <a class="choosePlane" href="#">
+                    <a class="choosePlane" data-id="<?php echo e($item->id); ?>" href="#">
                             انتخاب
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="plan-box">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <p class="plan-length">دو روزه</p>
-                    </div>
-                    <div class="col-3">
-                        <p class="plan-price">
-                            12000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="after-off">
-                            9900 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <a class="choosePlane" href="#">
-                            انتخاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="plan-box">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <p class="plan-length">یک ماهه</p>
-                    </div>
-                    <div class="col-3">
-                        <p class="plan-price">
-                            30000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="after-off">
-                            25000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <a class="choosePlane" href="#">
-                            انتخاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="plan-box">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <p class="plan-length">
-                            دو روزه
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="plan-price">
-                            12000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="after-off">
-                            9900 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <a class="choosePlane" href="#">
-                            انتخاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="plan-box">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <p class="plan-length">
-                            دو روزه
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="plan-price">
-                            12000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="after-off">
-                            9900 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <a class="choosePlane" href="#">
-                            انتخاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="plan-box">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-3">
-                        <p class="plan-length">
-                            دو روزه
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="plan-price">
-                            12000 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <p class="after-off">
-                            9900 تومان
-                        </p>
-                    </div>
-                    <div class="col-3">
-                        <a class="choosePlane" href="#">
-                            انتخاب
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+       
     </div>
     <p class="text-sharing-page-head">
         به مبالغ فوق ۹٪ بابت مالیات بر ارزش افزوده اضافه می‌شود.

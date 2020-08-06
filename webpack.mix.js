@@ -11,5 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.scripts(
+    [
+        "node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.js",
+    ],
+    "public/assets/js/player.js"
+).styles(
+    [
+        "node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher.css",
+    ],
+    "public/assets/css/player.css"
+);

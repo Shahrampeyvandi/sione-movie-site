@@ -58,9 +58,11 @@
         </div>
         @endforeach
        </div>
-        <a data-data="10" href="#" onclick="getComments(event,'{{route('GetCommentAjax',$post)}}')"  class="more-comment">
+       @if (count($post->comments) > 10)
+            <a data-data="10" href="#" onclick="getComments(event,'{{route('GetCommentAjax',$post)}}')"  class="more-comment">
                 بیشتر
             </a>
+       @endif
 
     </div>
 </section>

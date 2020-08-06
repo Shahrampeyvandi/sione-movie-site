@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('frontend/assets/css/index.css')}}">
     <script src="{{asset('frontend/assets/js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/bootstrap.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('assets/css/toastr.css')}}">
     <script src="{{asset('frontend/assets/js/swiper.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/all.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/index.js')}}"></script>
@@ -20,7 +21,7 @@
 </head>
 
 
-<body @if (\Request::route()->getName() == "S.SiteSharing")
+<body @if (\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" || \Request::route()->getName() == "S.OrderLists" )
  class="site-sharing"
 @endif>
     <div class="overlay"></div>
@@ -30,16 +31,20 @@
     </div>
     
         
-     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing") 
+     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
+     ) 
       @include('Includes.Front.Header')
      @endif
    
     @yield('content')
 
-     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing") 
+     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
+     ) 
      @include('Includes.Front.Footer')
      @endif
 
+    <script src="{{asset('assets/js/toastr.min.js')}}"></script>
+    @toastr_render
      @yield('js')
 </body>
 

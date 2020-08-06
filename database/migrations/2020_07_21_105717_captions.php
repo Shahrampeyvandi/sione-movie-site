@@ -17,8 +17,8 @@ class Captions extends Migration
             $table->bigIncrements('id');
             $table->string('lang');
             $table->string('url');
-            $table->integer('video_id');
-            $table->integer('post_id');
+             $table->unsignedBigInteger('captionable_id');
+            $table->string('captionable_type');
             $table->timestamps();
         });
     }

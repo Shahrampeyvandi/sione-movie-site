@@ -32,42 +32,8 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
-    <div class="movie-detail-show_index"
-        style=" background: url('../images/آقازاده.jpg') no-repeat;    background-size: contain;">
-        <div class="details_movie_index">
-            <div class="cover-movie-detail_index"></div>
-            <a>
-                <h1>
-                    
-                </h1>
-                <div class="desc mt-2 w-50">
-                   
-                </div>
-                <div>
-                    <a href="#" class="page-movie-play btn--ripple mr-0 mt-5">
-                        <i class="fa fa-play"></i>
-                        پخش فیلم
-                    </a>
-                <a href="" class="more-detail-movie btn--ripple">
-                        <i class="fa fa-exclamation"></i>
-                        توضیحات بیشتر
-                    </a>
-                </div>
-                <h6>
-                    ستارگان:
-                    <a href="#">
-                        ستاره 1
-                    </a>
-                </h6>
-                <h6>
-                    دسته بندی:
-                    <a href="#">
-                        دسته بندی 1 -
-                    </a>
-                </h6>
-            </a>
-        </div>
-    </div>
+     @component('components.showDetail')
+    @endcomponent
 </section>
 @endif
 

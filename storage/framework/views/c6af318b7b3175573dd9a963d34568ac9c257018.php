@@ -24,7 +24,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-5 col-md-12">
-                                <a href="#">
+                            <a href="<?php echo e($section->play()); ?>">
                                     <div class="Season-movie-img-box">
                                         <img src="<?php echo e(asset($section->poster)); ?>" alt="">
                                         <i class="fa fa-play-circle"></i>
@@ -128,9 +128,7 @@
         </div>
     </div>
     <?php endif; ?>
-    <h3>
-        تیم دوبلاژ
-    </h3>
+    
     
 </section>
 <?php if(count($relatedPosts)): ?>

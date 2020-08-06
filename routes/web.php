@@ -6,9 +6,16 @@ Route::get('/login', 'Front\LoginController@Login')->name('login');
 Route::post('/login', 'Front\LoginController@Verify')->name('login');
 Route::post('/register', 'Front\LoginController@Register')->name('S.Register');
 Route::get('/sitesharing', 'Front\PlanController@All')->name('S.SiteSharing');
-Route::post('/buy', 'Front\PlanController@Buy')->name('S.BuyPlan');
-Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
+// Route::post('/buy', 'Front\PlanController@Buy')->name('S.BuyPlan');
 
+Route::post('/pay', 'Panel\PayController@pay')->name('S.BuyPlan');
+Route::get('/pay/cb', 'Panel\PayController@callback')->name('Pay.CallBack');
+
+Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
+Route::get('/play/{slug}/{season}/{section}', 'Front\MainController@Play')->name('S.Series.Play');
+
+Route::get('/account', 'Front\UserController@Account')->name('S.Account');
+Route::get('/orders', 'Front\UserController@Orders')->name('S.OrderLists');
 
 
 Route::group(['middleware' => ['userauth','userplan']], function () {
@@ -26,9 +33,15 @@ Route::post('/getcomment/{post}/ajax', 'Front\CommentController@getCommentAjax')
 Route::post('/ajax/getmoviedetail', 'Front\AjaxController@getMovieDetail')->name('GetMovieDetail');
 
 Route::get('/logout', 'Front\LoginController@logout')->name('logout-user');
+Route::get('/download/{id}', 'Front\MainController@DownLoad')->name('DownLoad');
 
-Route::get('/pay', 'Panel\PayController@pay')->name('Pay.Pay');
-Route::get('/pay/cb', 'Panel\PayController@callback')->name('Pay.CallBack');
+ Route::post('ajax/checktakhfif', 'Front\AjaxController@checkTakhfif')->name('checkTakhfif');
+
+
+
+
+
+
 
 });
 
@@ -116,8 +129,13 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'panel'], function () {
     Route::delete('category/delete', 'Panel\CategoryController@Delete')->name('Panel.DeleteCat');
 
 
+    Route::post('ajax/caption/delete', 'Panel\MoviesController@DeleteCaption')->name('Ajax.DeleteCaption');
+
     Route::post('ajax/actor/get', 'Panel\ActorsController@GetActorAjax')->name('Panel.Ajax.GetActor');
     Route::post('ajax/director/get', 'Panel\ActorsController@GetDirectorAjax')->name('Panel.Ajax.GetDirector');
     Route::post('ajax/category', 'Panel\MoviesController@AddCatAjax')->name('Panel.AddCatAjax');
     Route::post('ajax/checkname', 'Panel\MoviesController@checkNameAjax')->name('Panel.checkNameAjax');
+       
+
+    
 });
