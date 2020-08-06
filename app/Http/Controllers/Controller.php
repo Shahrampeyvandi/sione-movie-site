@@ -51,16 +51,23 @@ class Controller extends BaseController
 
 
 
-        $username = "khosravanihadi";
-        $password = 'Hk129837';
-        $from = "+98100009";
-        $pattern_code = $patterncode;
-        $to = array(substr($phone, 1));
-        $url = "https://ippanel.com/patterns/pattern?username=" . $username . "&password=" . urlencode($password) . "&from=$from&to=" . json_encode($to) . "&input_data=" . urlencode(json_encode($data)) . "&pattern_code=$pattern_code";
+        //$username = "khosravanihadi";
+        //$password = 'Hk129837';
+        $datas = array(
+            "pattern_code"=>$patterncode,
+            "originator" => "+985000125475",
+            "recipient" => '+98' . substr($phone, 1),
+            "values" => $data
+        );
+        $url = "http://rest.ippanel.com/v1/messages/patterns/send";
         $handler = curl_init($url);
         curl_setopt($handler, CURLOPT_CUSTOMREQUEST, "POST");
-   
+        curl_setopt($handler, CURLOPT_POSTFIELDS, json_encode($datas));
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handler, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: AccessKey E34dbA2knATnyD5dXlm3y1b5WzYT2dd8te2znaVWRgk='
+        ));
         $response = curl_exec($handler);
     }
 
@@ -92,5 +99,6 @@ class Controller extends BaseController
             $noty->reciver_id = $user->id;
             $noty->save();
         }
+        
     }
 }
