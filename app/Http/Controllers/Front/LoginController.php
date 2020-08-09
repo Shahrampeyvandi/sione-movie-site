@@ -6,6 +6,7 @@ use App\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
@@ -50,7 +51,10 @@ class LoginController extends Controller
             if (Hash::check($request->password, $member->password)) {
                 Auth::Login($member);
 
-                if (Auth::user()->plans()->count()) {
+                $expire = Carbon::parse(Auth::user()->expire_date)->timestamp;
+                $now = Carbon::now()->timestamp;
+
+                if ($expire>$now) {
                     return redirect()->route('MainUrl');
                 } else {
                     return redirect()->route('S.SiteSharing');
@@ -89,7 +93,8 @@ class LoginController extends Controller
             'mobile' => $request->mobile,
             'first_name' => $request->fname,
             'last_name' => $request->lname,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'expire_date' => Carbon::now(),
         ]);
 
         //------ ارسال پیامک ثبت نام کاربر جدید

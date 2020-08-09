@@ -91,9 +91,9 @@ class Controller extends BaseController
 
     public function sendNoty($user, $plan = null)
     {
-        $query = DB::table('user_plan')->where('user_id', '=', $user->id)->where('plan_id', '=', $plan->id)->first();
+        //$query = DB::table('user_plan')->where('user_id', '=', $user->id)->where('plan_id', '=', $plan->id)->first();
         if (!is_null($plan)) {
-            $content = 'اشتراک ' . $plan->name . ' با هزینه ' . $plan->price . ' تومان تا تاریخ ' . $query->expire_date . ' برای شما فعال میباشد';
+            $content = 'اشتراک ' . $plan->name . ' با هزینه ' . $plan->price . ' تومان تا تاریخ ' . $user->expire_date . ' برای شما فعال میباشد';
             $noty = new Notification;
             $noty->content = $content;
             $noty->reciver_id = $user->id;

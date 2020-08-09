@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
             $table->string('role')->default('مشترک');
+            $table->dateTime('expire_date');
             $table->rememberToken();
             $table->timestamps();
         });

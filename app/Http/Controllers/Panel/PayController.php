@@ -37,7 +37,7 @@ class PayController extends Controller
         $payment = new Payment;
         $payment->user_id = $user->id;
         $payment->plan_id = $plan->id;
-        $payment->amount = session()->get('amount' . $user->id);
+        $payment->amount = $plan->price;
         $payment->save();
 
         $data = array(
@@ -132,8 +132,18 @@ class PayController extends Controller
                 // به اعتبارش اضافه کن
                 // تراکنش موفق بود هر جا می خوای ریدایرکتش کن
                 $plan = Plan::find($payment->plan_id);
-                $expire_date = Carbon::now()->addDays($plan->days);
-                auth()->user()->plans()->attach($plan->id, ['expire_date' => $expire_date]);
+                $expire = Carbon::parse(auth()->user()->expire_date)->timestamp;
+                $now = Carbon::now()->timestamp;
+                if($expire<$now){
+                    $expire_date = Carbon::now()->addDays($plan->days);
+                }else{
+                    $expire_date = Carbon::parse(auth()->user()->expire_date)->addDays($plan->days);
+                }
+
+                $user=auth()->user();
+                $user->expire_date=$expire_date;
+                $user->update();
+                //auth()->user()->plans()->attach($plan->id, ['expire_date' => $expire_date]);
                 // send sms 
                 $this->sendNoty(auth()->user(), $plan);
                 return redirect()->route('MainUrl');
