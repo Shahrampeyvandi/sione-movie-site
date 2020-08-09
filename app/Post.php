@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $guarded = ['id'];
-    protected $with = ['categories', 'images', 'languages', 'actors', 'directors'];
+    protected $with = ['categories', 'languages', 'actors', 'directors'];
     protected $casts = [
         'awards' => 'array',
     ];

@@ -37,6 +37,7 @@ Route::get('/download/{id}', 'Front\MainController@DownLoad')->name('DownLoad');
 
  Route::post('ajax/checktakhfif', 'Front\AjaxController@checkTakhfif')->name('checkTakhfif');
 
+    Route::post('ajax/search', 'Front\AjaxController@Search')->name('S.Search');
 
 
 
@@ -135,6 +136,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'panel'], function () {
     Route::post('ajax/director/get', 'Panel\ActorsController@GetDirectorAjax')->name('Panel.Ajax.GetDirector');
     Route::post('ajax/category', 'Panel\MoviesController@AddCatAjax')->name('Panel.AddCatAjax');
     Route::post('ajax/checkname', 'Panel\MoviesController@checkNameAjax')->name('Panel.checkNameAjax');
+
+
        
 
     

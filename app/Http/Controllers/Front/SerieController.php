@@ -37,13 +37,20 @@ class SerieController extends Controller
 
         $sliders = Slider::whereHas('post', function ($q) {
             $q->where('type', 'series');
-        })->latest()->get();
+        })->latest()->take(5)->get();
+
+          if(count($sliders)) {
+
+            $data['sliders'] = $sliders;
+        }else{
+           $data['sliders'] = Slider::latest()->take(5)->get();
+        }
 
         $data['newseries'] = $newseries;
         $data['latestdoble'] = $latestdoble;
         $data['newyear'] = $newyear;
         $data['year'] = $year;
-        $data['sliders'] = $sliders;
+       
         return view('Front.AllSeries', $data);
     }
 }

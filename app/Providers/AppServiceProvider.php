@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Caption;
+use App\Category;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +32,17 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191); 
 
          View::composer('*', function ($view) {
+            $genres = Category::has('posts')->get();
+            $captions = Caption::pluck('lang')->toArray();
+            if(count($captions)) {
+                $captions = array_unique($captions);
+            }else{
+                $captions = [];
+            }
+           
+            $year = Carbon::now()->year;
+
+
         if(Auth::guard('admin')->check()) {
             $user = Auth::guard('admin')->user();
         }
@@ -40,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
         
     
 
-        $view->with('user', $user);
+        $view->with(['user'=> $user,'year'=>$year,'genres'=>$genres,'captions'=>$captions]);
     });
     }
 }
