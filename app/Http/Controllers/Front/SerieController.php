@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Post;
 use App\Slider;
-use Carbon\Carbon;
+use Carbon\Carbon; 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +29,6 @@ class SerieController extends Controller
     {
         $year = Carbon::now()->year();
         $newseries = Post::where('type', 'series')->latest()->take(10)->get();
-
         $newyear = Post::where(['year' => $year, 'type' => 'series'])->latest()->take(10)->get();
         $latestdoble = Post::whereHas('categories', function ($q) {
             $q->where('name', 'دوبله فارسی');
@@ -40,7 +39,6 @@ class SerieController extends Controller
         })->latest()->take(5)->get();
 
           if(count($sliders)) {
-
             $data['sliders'] = $sliders;
         }else{
            $data['sliders'] = Slider::latest()->take(5)->get();
