@@ -25,12 +25,11 @@ class User extends Authenticatable
     }
     public function planStatus()
     {
-        $plans =  $this->plans;
-        $plan = $this->plans()->wherePivot('expire_date', '>', \Carbon\Carbon::now())
-            ->first();
-        if ($plan) {
+        $expire = Carbon::parse($this->expire_date)->timestamp;
+        $now = Carbon::now()->timestamp;
+        if($expire > $now) {
             return true;
-        } else {
+        }else{
             return false;
         }
     }
@@ -42,9 +41,13 @@ class User extends Authenticatable
 
      public function newNoty()
     {
-      return $new = Notification::where('reciver_id',$this->id)->whereDate('created_at', '=' , \Carbon\Carbon::today())->count();
+      return  Notification::where('reciver_id',$this->id)->whereDate('created_at', '=' , \Carbon\Carbon::today())->count();
     }
 
+     public function favorite()
+    {
+        return $this->belongsToMany(Post::class, 'user_favorite', 'user_id', 'post_id');
+    }
 
     public function plans()
     {

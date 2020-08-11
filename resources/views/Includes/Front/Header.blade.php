@@ -87,10 +87,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                        <a href="{{route('S.MyFavorite')}}">
                                 <i class="fa fa-list"></i>
                                 <span>
-                                    لیست علاقه مندی ها
+                                    لیست من
                                 </span>
                             </a>
                         </li>

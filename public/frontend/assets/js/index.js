@@ -533,8 +533,6 @@ function showDetails(event, id, url) {
         prev_id = id;
         // ajax call
         var token = $('meta[name="_token"]').attr("content");
-
-
         var request = $.post(url, { id: id, _token: token });
         request.done(function (res) {
 
@@ -544,8 +542,18 @@ function showDetails(event, id, url) {
             detailbox.find('h1').text(res.title)
             detailbox.find('.desc').html(res.desc)
 
+            if(res.favoritestatus) {
 
-
+                 favoriteHtml = `<a href="#" style="background:#007bff" onclick="addToFavorite(event,'${res.id}','${res.favoritepath}')" title="افزودن به علاقه مندی" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-check"></i>
+                       
+                    </a>`;
+            }else{
+                 favoriteHtml = `<a href="#" onclick="addToFavorite(event,'${res.id}','${res.favoritepath}')" title="افزودن به علاقه مندی" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-plus"></i>
+                       
+                    </a>`;
+            }
             if (res.type == "movies") {
                 detailbox.find(".links").html(`
                  <a href="${res.play}" class="page-movie-play btn--ripple mr-0 mt-5">
@@ -561,18 +569,19 @@ function showDetails(event, id, url) {
                         <i class="fa fa-exclamation"></i>
                         توضیحات بیشتر
                     </a>
+                    ${favoriteHtml}
+                     
                 `);
 
 
             } else {
                 detailbox.find(".links").html(`
-                
-
-                   
+            
                 <a href="${res.path}" class="more-detail-movie btn--ripple">
                         <i class="fa fa-exclamation"></i>
                         توضیحات بیشتر
                     </a>
+                     ${favoriteHtml}
                 `);
 
             }
@@ -647,3 +656,24 @@ function downLoad(event, url) {
 
 }
 
+function addToFavorite(event,id,url) {
+    event.preventDefault()
+   var el = $(event.target);
+      var token = $('meta[name="_token"]').attr("content");
+      // data = ;
+      var request = $.post(url, {
+          post_id:id,
+          _token: token
+      });
+      request.done(function(res) {
+          if(res == 'attach') {
+              
+              el.html('<i class="fa fa-check"></i>')
+              el.css("background-color", "#007bff");
+          }else{
+              el.html('<i class="fa fa-plus"></i>');
+              el.css('background-color','transparent');
+          }
+      });
+
+}

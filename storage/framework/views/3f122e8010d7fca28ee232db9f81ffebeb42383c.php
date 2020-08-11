@@ -13,7 +13,7 @@
 <section class="movie-sections">
     <h3>
         تازه ترین ها
-        <a href="#">
+    <a href="<?php echo e(route('S.ShowMore')); ?>?c=new&type=movie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -40,7 +40,7 @@
 <section class="movie-sections">
     <h3>
         دوبله فارسی
-        <a href="#">
+    <a href="<?php echo e(route('S.ShowMore')); ?>?c=doble&type=movie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -96,7 +96,7 @@
     <h3>
         جدیدترین فیلم های <?php echo e($year); ?>
 
-        <a href="#">
+        <a href="<?php echo e(route('S.ShowMore')); ?>?c=<?php echo e($year); ?>&type=movie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -120,7 +120,6 @@
                                     <?php echo e(\Morilog\Jalali\Jalalian::forge($post->released)->format('%Y')); ?>
 
                                     <?php endif; ?>
-
                                 </span>
                                 <span>
                                     <i class="fa fa-heart"></i>

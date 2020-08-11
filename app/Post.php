@@ -134,11 +134,29 @@ class Post extends Model
         if ($this->type == 'movies') {
             return route('DownLoad', ['id' => $this->id]);
         }
+    }
 
-       
+      public function favoritepath()
+    {
+
+       return route('S.addToFavorite');
     }
 
     
+    public function checkFavorite()
+    {
+        
+        $user = auth()->user();
+        
+        if($user->favorite->contains('id',$this->id)) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+
 
     public static function withCategory($name)
     {

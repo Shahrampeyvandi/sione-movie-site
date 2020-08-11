@@ -37,7 +37,7 @@
                                     <span>تومان</span>
                                 </div>
                             </div>
- <div class="form-group form-inline col-md-4">
+                            <div class="form-group form-inline col-md-4">
                                 <label for="">تخفیف</label>
                                 <div>
 
@@ -56,7 +56,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="desc">اطلاع رسانی به کاربران:  </label>
+                                <label for="desc">اطلاع رسانی به کاربران: </label>
                                 <select class="custom-select" name="sendsms" id="sendsms">
                                     <option value="">لازم نیست</option>
                                     <option value="sms">پیامک</option>

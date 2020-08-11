@@ -73,8 +73,9 @@ class Controller extends BaseController
 
     public function SaveCaption(Request $request, $post, $destinationPath)
     {
+        
         foreach ($request->captions as $key => $caption) {
-            if (!is_null($caption[1]) && !is_null($caption[2])) {
+            if (array_key_exists(1,$caption) &&   array_key_exists(2,$caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
                 $ext = $caption[2]->getClientOriginalExtension();
                 $fileName = 'vtt_' . date("Y-m-d") . '_' . time() . '.' . $ext;
                 $caption[2]->move(public_path($destinationPath), $fileName);

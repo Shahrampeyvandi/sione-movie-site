@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\Discount;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
 {
@@ -20,24 +21,46 @@ class AjaxController extends Controller
         if ($post) {
             if ($post->type == 'movies') {
                 return response()->json([
+                    'id' => $post->id,
                     'type' => 'movies',
                     'poster' => asset($post->poster),
                     'title' => $post->title,
                     'desc' => $post->description,
                     'path' => $post->path(),
                     'play' => $post->play(),
-                    'download' => $post->downloadpath()
+                    'download' => $post->downloadpath(),
+                    'favoritepath' => $post->favoritepath(),
+                    'favoritestatus' => $post->checkFavorite($post->id)
                 ], 200);
             }
             if ($post->type == 'series') {
                 return response()->json([
+                    'id' => $post->id,
                     'type' => 'series',
                     'poster' => asset($post->poster),
                     'title' => $post->title,
                     'desc' => $post->description,
                     'path' => $post->path(),
+                    'favoritepath' => $post->favoritepath(),
+                    'favoritestatus' => $post->checkFavorite()
                 ], 200);
             }
+        }
+    }
+
+
+    public function addToFavorite(Request $request)
+    {
+
+        $user = auth()->user();
+        $obj = DB::table('user_favorite')->where(['user_id' => $user->id, 'post_id' => $request->post_id])->first();
+        if ($obj) {
+            $user->favorite()->detach($request->post_id);
+            return response()->json('detach', 200);
+        } else {
+
+            $user->favorite()->attach($request->post_id);
+            return response()->json('attach', 200);
         }
     }
 
@@ -68,7 +91,7 @@ class AjaxController extends Controller
         $cat = [];
         $caption = [];
         $year = [];
-        
+
         // dd($request->data);
         if ($request->data) {
 
@@ -77,7 +100,6 @@ class AjaxController extends Controller
                 if ($data['type'] == 'word') {
 
                     $word = $data['key'];
-                   
                 } else {
                     $word = null;
                 }
@@ -110,11 +132,10 @@ class AjaxController extends Controller
             // dd([$cat, $caption, $year]);
             if ($word !== null) {
                 $posts = Post::where('name', 'like', '%' . $word . '%')
-                ->orWhere('title', 'like', '%' . $word . '%')
+                    ->orWhere('title', 'like', '%' . $word . '%')
                     ->orWhereHas('actors', function ($q) use ($word) {
                         $q->where('name', 'like', '%' . $word . '%');
                     })->get();
-                    
             } else {
 
 

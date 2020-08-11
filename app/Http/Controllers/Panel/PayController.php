@@ -32,13 +32,33 @@ class PayController extends Controller
         $debugmode = 1;
         $user = auth()->user();
 
+        if(!Payment::where('user_id',$user->id)->where('plan_id',$plan->id)->first()) {
 
+            $payment = new Payment;
+            $payment->user_id = $user->id;
+            $payment->plan_id = $plan->id;
+            $payment->amount = $plan->price;
+            $payment->save();
+        }else{
+            $payment = Payment::where('user_id',$user->id)->where('plan_id',$plan->id)->first();
+        }
 
-        $payment = new Payment;
-        $payment->user_id = $user->id;
-        $payment->plan_id = $plan->id;
-        $payment->amount = $plan->price;
-        $payment->save();
+        if($payment->amount == 0){
+                   $plan = Plan::find($payment->plan_id);
+                $expire = Carbon::parse(auth()->user()->expire_date)->timestamp;
+                $now = Carbon::now()->timestamp;
+                if($expire<$now){
+                    $expire_date = Carbon::now()->addDays($plan->days);
+                }else{
+                    $expire_date = Carbon::parse(auth()->user()->expire_date)->addDays($plan->days);
+                }
+                $user=auth()->user();
+                $user->expire_date=$expire_date;
+                $user->update();
+                $this->sendNoty(auth()->user(), $plan);
+                return redirect()->route('MainUrl');
+        }
+
 
         $data = array(
             'MerchantID' => '9cdad844-c97a-11e9-ab10-000c295eb8fc',
