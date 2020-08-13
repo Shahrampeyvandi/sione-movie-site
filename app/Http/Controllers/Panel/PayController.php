@@ -41,7 +41,7 @@ class PayController extends Controller
         $payment->save();
 
         $data = array(
-            'MerchantID' => '9cdad844-c97a-11e9-ab10-000c295eb8fc',
+            'MerchantID' => '2a00b862-a97e-11e6-9e29-005056a205be',
             'Amount' => $payment->amount,
             'CallbackURL' => route('Pay.CallBack') . '?id=' . $payment->id,
             'Description' => 'پرداخت از سایت'
@@ -94,7 +94,7 @@ class PayController extends Controller
 
         $Authority = $request->Authority;
 
-        $data = array('MerchantID' => '26630526-5b97-44c5-b713-aa8777b7a915', 'Authority' => $Authority, 'Amount' => $payment->amount);
+        $data = array('MerchantID' => '2a00b862-a97e-11e6-9e29-005056a205be', 'Authority' => $Authority, 'Amount' => $payment->amount);
         $jsonData = json_encode($data);
         if ($debugmode == 1) {
             $ch = curl_init('https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json');
