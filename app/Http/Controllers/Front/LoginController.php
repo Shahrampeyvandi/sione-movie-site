@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     public function Verify(Request $request)
     {
-
+        
         $rules = array(
             'mobile'             => 'required',
             'password'         => 'required | min:8',
@@ -50,10 +50,8 @@ class LoginController extends Controller
         if ($member) {
             if (Hash::check($request->password, $member->password)) {
                 Auth::Login($member);
-
                 $expire = Carbon::parse(Auth::user()->expire_date)->timestamp;
                 $now = Carbon::now()->timestamp;
-
                 if ($expire>$now) {
                     return redirect()->route('MainUrl');
                 } else {

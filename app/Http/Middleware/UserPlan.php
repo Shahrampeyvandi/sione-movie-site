@@ -17,7 +17,7 @@ class UserPlan
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->check() || auth()->user()->plans()->count()){
+        if(Auth::guard('admin')->check() || auth()->user()->planStatus()){
             
             return $next($request);
         }

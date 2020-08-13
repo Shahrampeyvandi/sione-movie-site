@@ -14,7 +14,7 @@
 <section class="movie-sections">
     <h3>
         تازه ترین سریال ها
-        <a href="#">
+    <a href="{{route('S.ShowMore')}}?c=new&type=serie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -41,7 +41,7 @@
 <section class="movie-sections">
     <h3>
         دوبله فارسی
-        <a href="#">
+    <a href="{{route('S.ShowMore')}}?c=doble&type=serie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -128,7 +128,7 @@
 <section class="movie-sections">
     <h3>
         جدیدترین فیلم های {{$year}}
-        <a href="#">
+    <a href="{{route('S.ShowMore')}}?c={{$year}}&type=all">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>

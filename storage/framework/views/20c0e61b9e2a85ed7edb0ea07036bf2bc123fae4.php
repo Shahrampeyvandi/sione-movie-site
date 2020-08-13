@@ -88,10 +88,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                        <a href="<?php echo e(route('S.MyFavorite')); ?>">
                                 <i class="fa fa-list"></i>
                                 <span>
-                                    لیست علاقه مندی ها
+                                    لیست من
                                 </span>
                             </a>
                         </li>

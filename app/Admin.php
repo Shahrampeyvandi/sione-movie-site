@@ -17,6 +17,12 @@ class Admin extends Model implements Authenticatable
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    
+     public function favorite()
+    {
+        return $this->belongsToMany(Post::class, 'user_favorite', 'user_id', 'post_id');
+    }
     public function type()
     {
         return 'admin';

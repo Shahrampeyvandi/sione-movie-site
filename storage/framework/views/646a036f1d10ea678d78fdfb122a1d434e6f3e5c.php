@@ -3,10 +3,14 @@
 
 <head>
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/bootstrap.min.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('assets/vendors/range-slider/css/ion.rangeSlider.min.css')); ?>" type="text/css">
+
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/swiper.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/all.min.css')); ?>">
+
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/index.css')); ?>">
     <script src="<?php echo e(asset('frontend/assets/js/jquery-3.5.1.min.js')); ?>"></script>
+
     <script src="<?php echo e(asset('frontend/assets/js/bootstrap.min.js')); ?>"></script>
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/toastr.css')); ?>">
     <script src="<?php echo e(asset('frontend/assets/js/swiper.min.js')); ?>"></script>
@@ -44,6 +48,10 @@
      <?php endif; ?>
 
     <script src="<?php echo e(asset('assets/js/toastr.min.js')); ?>"></script>
+    <!-- begin::range slider -->
+<script src="<?php echo e(asset('assets/vendors/range-slider/js/ion.rangeSlider.min.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/js/examples/range-slider.js')); ?>"></script>
+<!-- end::range slider -->
     <?php echo app('toastr')->render(); ?>
      <?php echo $__env->yieldContent('js'); ?>
 </body>

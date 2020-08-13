@@ -14,14 +14,14 @@ $(document).ready(function () {
     $("#demo_2").ionRangeSlider({
         type: "double",
         grid: true,
-        min: 0,
-        max: 1000,
-        from: 200,
-        to: 800,
-        postfix: " تومان",
+        min: 1990,
+        max: 2020,
+        from: 2000,
+        to: 2010,
+       
         skin: "round",
 		prettify: function(num){
-			return '<span class="ltr_text">'+ num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</span>';
+			return '<span class="ltr_text">'+ num.toString() +'</span>';
 		}
     });
 

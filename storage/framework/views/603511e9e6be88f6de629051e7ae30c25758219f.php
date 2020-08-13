@@ -13,7 +13,7 @@
 <section class="movie-sections">
     <h3>
         تازه ترین سریال ها
-        <a href="#">
+    <a href="<?php echo e(route('S.ShowMore')); ?>?c=new&type=serie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -40,7 +40,7 @@
 <section class="movie-sections">
     <h3>
         دوبله فارسی
-        <a href="#">
+    <a href="<?php echo e(route('S.ShowMore')); ?>?c=doble&type=serie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -131,7 +131,7 @@
     <h3>
         جدیدترین فیلم های <?php echo e($year); ?>
 
-        <a href="#">
+    <a href="<?php echo e(route('S.ShowMore')); ?>?c=<?php echo e($year); ?>&type=all">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>

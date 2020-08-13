@@ -1,5 +1,31 @@
 $(document).ready(function () {
 
+
+
+    var rangeSlider = function () {
+        var slider = $(".range-slider"),
+            range = $(".range-slider__range"),
+            value = $(".range-slider__value");
+
+        slider.each(function () {
+            value.each(function () {
+                var value = $(this)
+                    .prev()
+                    .attr("value");
+                $(this).html(value);
+            });
+
+            range.on("input", function () {
+                $(this)
+                    .next(value)
+                    .html(this.value);
+            });
+        });
+    };
+
+    rangeSlider();
+
+
     $('.inbox-icon').on('click', function (e) {
         e.preventDefault();
         var el = $(e.target);
@@ -117,6 +143,8 @@ $(document).ready(function () {
             $(this).find('.fa-angle-left').css('transform', 'rotate(-90deg)')
         }
     })
+    $(".filter-body-box").css("display", "none");
+    $(".genre-box").css("display", "block");
     $('#genre').on('click', function () {
         let status_box_show = $('.genre-box').css('display')
         if (status_box_show === 'none') {
@@ -153,9 +181,60 @@ $(document).ready(function () {
             $('.YearConstruction-box').css('display', 'none')
         }
     })
+    $("#Order").on("click", function () {
+        let status_box_show = $(".OrderConstruction-box").css("display");
+        if (status_box_show === "none") {
+            $(".filter-body-box").css("display", "none");
+            $(".OrderConstruction-box").css("display", "block");
+        } else {
+            $(".OrderConstruction-box").css("display", "none");
+        }
+    });
+
+    var timeout = true;
+    var delay = 1000;   // 2 seconds
+
+    $('#search-input').on('keyup', function () {
+        setTimeout(() => {
+            if (timeout) {
+                timeout = false;
+                arr = [];
+                let val = $(this).val();
+                let url = $(this).data("url");
+                arr.push({ type: "word", key: val });
+
+                var token = $('meta[name="_token"]').attr("content");
+
+                PostData({ data: arr, _token: token }, url);
+            }
+        }, 1000);
+    })
+
+
+
+
+
+
     $('.checkbox-place input').on('click', function () {
+        arr = [];
         let val_filter = $(this).val()
         let id_filter = $(this).attr('id')
+
+        let url = $(this).data('url')
+
+        var token = $('meta[name="_token"]').attr("content");
+
+
+
+        $("input.filter:checked").each(function () {
+            let id = $(this).data("id");
+            let type = $(this).data("type");
+            arr.push({ type, id });
+        });
+          
+        arr.push({ type: 'order', name: $('input[name="order"]:checked').val() })
+        PostData({ data: arr, _token: token }, url);
+
         if ($(this).prop("checked") === true) {
             $('.filter-place-elements').append("<span id=" + id_filter + " class='filter-place-box_new-filter'>" + val_filter + " <i class='fa fa-times'></i></span>")
         }
@@ -171,6 +250,63 @@ $(document).ready(function () {
             $('.filter-delete-place').append("<div class='filter_all_delete'>حذف همه فیلتر ها</div>")
         }
     })
+
+
+    $(".range-slider__range").change(function () {
+
+        arr = [];
+        let year = $(this).val()
+        
+        arr.push({ type: 'year', year: year })
+        let url = $(this).data('url')
+        var token = $('meta[name="_token"]').attr("content");
+        $("input.filter:checked").each(function () {
+            let id = $(this).data("id");
+            let type = $(this).data("type");
+            arr.push({ type, id });
+        });
+        arr.push({
+            type: "order",
+            name: $('input[name="order"]').val()
+        });
+
+        PostData({ data: arr, _token: token }, url)
+
+
+    });
+
+
+    function PostData(data, url) {
+        setTimeout(() => {
+            var request = $.post(url, data);
+            request.done(function (res) {
+                $('.results').html(res)
+                timeout = true;
+            });
+        }, 1000);
+    }
+
+
+function SendData() {
+      arr = [];
+      $("input.filter:checked").each(function() {
+          let id = $(this).data("id");
+          let type = $(this).data("type");
+          arr.push({ type, id });
+      });
+
+      arr.push({
+          type: "order",
+          name: $('input[name="order"]:checked').val()
+      });
+      var token = $('meta[name="_token"]').attr("content");
+      var url = $(".range-slider__range").data("url");
+      PostData({ data: arr, _token: token }, url);
+}
+
+
+
+
     $('.filter-place-box').on('mouseenter', function () {
         $('.filter-place-box_new-filter svg').on('click', function () {
             if ($('.filter-place-elements span').length) {
@@ -181,12 +317,14 @@ $(document).ready(function () {
                     $('.filter_all_delete').remove()
                     $('.checkbox-place input').prop('checked', false)
                 }
+              SendData();
             }
         })
         $('.filter_all_delete').on('click', function () {
             $('.filter-place-elements span').remove()
             $(this).remove()
             $('.checkbox-place input').prop('checked', false)
+            SendData()
         })
     })
     // login and register page
@@ -228,7 +366,7 @@ $(document).ready(function () {
     $('.choosePlane').on('click', function (e) {
         e.preventDefault()
         let plan_choose_day = $(this).parent().parent().find('.plan-length').text()
-          let id = $(this).data('id')
+        let id = $(this).data('id')
         $('input[name="plan_name"]').val(id);
         let plan_choose_price = $(this).parent().parent().find('.plan-price').text()
         let plan_choose_off = $(this).parent().parent().find('.after-off').text()
@@ -259,6 +397,8 @@ $(document).ready(function () {
         $(this).parent().css('display', 'none')
         $('.user-profile-change').css('display', 'none')
     })
+
+
 
     // swiper
     var swiper = new Swiper('.header-slider', {
@@ -393,19 +533,27 @@ function showDetails(event, id, url) {
         prev_id = id;
         // ajax call
         var token = $('meta[name="_token"]').attr("content");
-
-
         var request = $.post(url, { id: id, _token: token });
         request.done(function (res) {
-           
+
             $(".lds-ripple").fadeOut();
             detailbox
                 .css({ "background": "url(" + res.poster + ")", 'background-size': '50% 100%', 'background-repeat': 'no-repeat' });
             detailbox.find('h1').text(res.title)
             detailbox.find('.desc').html(res.desc)
 
-           
-            
+            if(res.favoritestatus) {
+
+                 favoriteHtml = `<a href="#" style="background:#007bff" onclick="addToFavorite(event,'${res.id}','${res.favoritepath}')" title="افزودن به علاقه مندی" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-check"></i>
+                       
+                    </a>`;
+            }else{
+                 favoriteHtml = `<a href="#" onclick="addToFavorite(event,'${res.id}','${res.favoritepath}')" title="افزودن به علاقه مندی" class="more-detail-movie btn--ripple">
+                        <i class="fa fa-plus"></i>
+                       
+                    </a>`;
+            }
             if (res.type == "movies") {
                 detailbox.find(".links").html(`
                  <a href="${res.play}" class="page-movie-play btn--ripple mr-0 mt-5">
@@ -421,20 +569,21 @@ function showDetails(event, id, url) {
                         <i class="fa fa-exclamation"></i>
                         توضیحات بیشتر
                     </a>
+                    ${favoriteHtml}
+                     
                 `);
-               
 
-            }else{
-                 detailbox.find(".links").html(`
-                
 
-                   
+            } else {
+                detailbox.find(".links").html(`
+            
                 <a href="${res.path}" class="more-detail-movie btn--ripple">
                         <i class="fa fa-exclamation"></i>
                         توضیحات بیشتر
                     </a>
+                     ${favoriteHtml}
                 `);
-               
+
             }
 
 
@@ -474,36 +623,57 @@ function getComments(event, url) {
     });
 }
 
-function checkTakhfif(event , url) {
+function checkTakhfif(event, url) {
     event.preventDefault()
-   var code = $("#off_code").val();
-  var plan_id = $("#plan_name").val();
-     if(code.length)
-    {
-         var token = $('meta[name="_token"]').attr("content");
-         // data = ;
-         var request = $.post(url, { code: code,plan_id:plan_id, _token: token });
-         request.done(function(res) {
-             if(res !== ''){
-                 $("#submit-off_code").addClass("bg-success");
-             $('#pay_price').text(res)
-             }
-         });
+    var code = $("#off_code").val();
+    var plan_id = $("#plan_name").val();
+    if (code.length) {
+        var token = $('meta[name="_token"]').attr("content");
+        // data = ;
+        var request = $.post(url, { code: code, plan_id: plan_id, _token: token });
+        request.done(function (res) {
+            if (res !== '') {
+                $("#submit-off_code").addClass("bg-success");
+                $('#pay_price').text(res)
+            }
+        });
     }
 }
 
-function downLoad(event , url) {
+function downLoad(event, url) {
     event.preventDefault()
-       var token = $('meta[name="_token"]').attr("content");
-       // data = ;
-       var request = $.get(url, {
-           _token: token
-       });
-       request.done(function(res) {
-           if(res.data == 'error') {
-               window.location.href = res.redirect
+    var token = $('meta[name="_token"]').attr("content");
+    // data = ;
+    var request = $.get(url, {
+        _token: token
+    });
+    request.done(function (res) {
+        if (res.data == 'error') {
+            window.location.href = res.redirect
 
-           }
-       });
-    
+        }
+    });
+
+}
+
+function addToFavorite(event,id,url) {
+    event.preventDefault()
+   var el = $(event.target);
+      var token = $('meta[name="_token"]').attr("content");
+      // data = ;
+      var request = $.post(url, {
+          post_id:id,
+          _token: token
+      });
+      request.done(function(res) {
+          if(res == 'attach') {
+              
+              el.html('<i class="fa fa-check"></i>')
+              el.css("background-color", "#007bff");
+          }else{
+              el.html('<i class="fa fa-plus"></i>');
+              el.css('background-color','transparent');
+          }
+      });
+
 }
