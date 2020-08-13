@@ -96,7 +96,7 @@ class LoginController extends Controller
         ]);
 
         //------ ارسال پیامک ثبت نام کاربر جدید
-        $patterncode="g0mj7wtqv3";
+        $patterncode="kjdc6fbf5v";
         $data = array("name" => $request->fname, "username" => $request->mobile,"password"=>$request->password);
         $this->sendSMS($patterncode,$request->mobile,$data);
 
