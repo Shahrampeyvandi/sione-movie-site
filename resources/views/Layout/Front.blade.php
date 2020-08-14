@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendors/range-slider/css/ion.rangeSlider.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('assets/vendors/range-slider/css/ion.rangeSlider.min.css')}}" type="text/css">
 
     <link rel="stylesheet" href="{{asset('frontend/assets/css/swiper.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/assets/css/all.min.css')}}">
@@ -25,35 +25,38 @@
 </head>
 
 
-<body @if (\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" || \Request::route()->getName() == "S.OrderLists" )
- class="site-sharing"
-@endif>
+<body @if (\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" ||
+    \Request::route()->getName() == "S.OrderLists" )
+    class="site-sharing"
+    @endif>
     <div class="overlay"></div>
     <div class="lds-ripple center-screen" style="display: none">
         <div></div>
         <div></div>
     </div>
-    
-        
-     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
-     ) 
-      @include('Includes.Front.Header')
-     @endif
-   
+
+
+    @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
+    \Request::route()->getName() !== "S.OrderLists"
+    )
+    @include('Includes.Front.Header')
+    @endif
+
     @yield('content')
 
-     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
-     ) 
-     @include('Includes.Front.Footer')
-     @endif
+    @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
+    \Request::route()->getName() !== "S.OrderLists"
+    )
+    @include('Includes.Front.Footer')
+    @endif
 
     <script src="{{asset('assets/js/toastr.min.js')}}"></script>
     <!-- begin::range slider -->
-<script src="{{asset('assets/vendors/range-slider/js/ion.rangeSlider.min.js')}}"></script>
-<script src="{{asset('assets/js/examples/range-slider.js')}}"></script>
-<!-- end::range slider -->
+    <script src="{{asset('assets/vendors/range-slider/js/ion.rangeSlider.min.js')}}"></script>
+    <script src="{{asset('assets/js/examples/range-slider.js')}}"></script>
+    <!-- end::range slider -->
     @toastr_render
-     @yield('js')
+    @yield('js')
 </body>
 
 </html>

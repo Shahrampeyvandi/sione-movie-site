@@ -54,7 +54,7 @@ class Controller extends BaseController
         //$username = "khosravanihadi";
         //$password = 'Hk129837';
         $datas = array(
-            "pattern_code"=>$patterncode,
+            "pattern_code" => $patterncode,
             "originator" => "+985000125475",
             "recipient" => '+98' . substr($phone, 1),
             "values" => $data
@@ -73,9 +73,9 @@ class Controller extends BaseController
 
     public function SaveCaption(Request $request, $post, $destinationPath)
     {
-        
+
         foreach ($request->captions as $key => $caption) {
-            if (array_key_exists(1,$caption) &&   array_key_exists(2,$caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
+            if (array_key_exists(1, $caption) &&   array_key_exists(2, $caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
                 $ext = $caption[2]->getClientOriginalExtension();
                 $fileName = 'vtt_' . date("Y-m-d") . '_' . time() . '.' . $ext;
                 $caption[2]->move(public_path($destinationPath), $fileName);
@@ -89,6 +89,19 @@ class Controller extends BaseController
         }
     }
 
+    public  function url_get_contents($Url)
+    {
+        if (!function_exists('curl_init')) {
+            die('CURL is not installed!');
+        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
 
     public function sendNoty($user, $plan = null)
     {
@@ -100,6 +113,5 @@ class Controller extends BaseController
             $noty->reciver_id = $user->id;
             $noty->save();
         }
-        
     }
 }

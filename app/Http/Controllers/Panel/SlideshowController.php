@@ -34,18 +34,18 @@ class SlideshowController extends Controller
     public function Save(Request $request)
     {
 
-
+        
         $destinationPath = "files/slideshow/";
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0755, true);
         }
-
+       
         if ($request->hasFile('poster')) {
             $picextension = $request->file('poster')->getClientOriginalExtension();
             $fileName = 'slider_' . time() . '-(1900X900)_' . '.' . $picextension;
             $request->file('poster')->move($destinationPath, $fileName);
             $picPath = "files/slideshow/$fileName";
-            $img = ImageInvention::make(public_path($picPath))->resize(1900, 900)->save(public_path($picPath));
+            // $img = ImageInvention::make(public_path($picPath))->resize(1900, 900)->save(public_path($picPath));
         }
 
         $slideshow = new Slider;

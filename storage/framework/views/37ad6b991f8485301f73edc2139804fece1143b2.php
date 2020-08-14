@@ -2,16 +2,70 @@
 <?php $__env->startSection('content'); ?>
 <?php echo $__env->make('Includes.Front.TopPoster', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
+<?php if($post->type == "series" && count($post->seasons)): ?>
+<section class="movie-Season mt-3">
+    <div class="Season-select">
+        انتخاب فصل
+        <i class="fa fa-angle-down"></i>
+    </div>
+    <ul class="movie-Season-box">
+        <?php $__currentLoopData = $post->seasons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <li>
+            <a href="<?php echo e(route('ShowSerie',['slug'=>$post->slug,'season'=>$item->number])); ?>"> <?php echo e($item->name); ?></a>
+        </li>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <?php $__currentLoopData = $seasons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="Season-movie-box">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6 col-md-12">
+                                <a href="<?php echo e($section->play()); ?>">
+                                    <div class="Season-movie-img-box">
+                                        <img src="<?php echo e(asset($section->poster)); ?>" alt="">
+                                        <i class="fa fa-play-circle"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-12">
+                                <h3>
+                                    <?php echo e($section->serie->title); ?> - فصل <?php echo e($section->season); ?> - قسمت <?php echo e($section->section); ?>
+
+                                    <i class="fa fa-cloud-download-alt"></i>
+                                </h3>
+                                <h4>
+                                    <?php echo e($post->duration); ?>
+
+                                </h4>
+                            </div>
+                            <div class="col-12">
+                                <h5>
+                                    <?php echo e(str_limit($section->description,100,'....')); ?>
+
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
 
 <section class="movie-trailer">
-  <?php if(count($post->images)): ?>
-        <h1>
+    <?php if(count($post->images)): ?>
+    <h1>
         تریلر، تصاویر و جزییات
     </h1>
     <div class="container-fluid">
         <div class="row">
             <?php $__currentLoopData = $post->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="col-3 col-lg-2">
+            <div class="col-6 col-lg-2">
                 <img src="<?php echo e(asset($image->url)); ?>" alt="<?php echo e($post->name); ?>">
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -19,30 +73,8 @@
 
         </div>
     </div>
-  <?php endif; ?>
-    <h2>
-        <?php echo e($post->title); ?>
-
-    </h2>
-    <h3>
-        درباره سریال <?php echo e($post->title); ?>
-
-    </h3>
-
-    <div class="col-12 movie-description-color">
-
-        <?php echo $post->description; ?>
-
-    </div>
-   <?php if(count($post->categories)): ?>
-        <h2>
-        دسته بندی:
-        <?php $__currentLoopData = $post->categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php echo e($category->name); ?>
-
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </h2>
-   <?php endif; ?>
+    <?php endif; ?>
+    
 
     <?php if(count($post->captions)): ?>
     <h2>
@@ -55,11 +87,14 @@
     <?php endif; ?>
     <?php if(count($post->actors)): ?>
     <div class="container-fluid">
+        <h2>
+            بازیگران:
+        </h2>
         <div class="row">
             <?php $__currentLoopData = $post->actors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $actor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-            <div class="col-3 col-lg-2 d-flex justify-content-center">
-                <div class="star-img-box w-p-80">
+            <div class="col-6 col-lg-2 d-flex justify-content-center">
+                <div class="star-img-box ">
                     <a href="#">
                         <?php if($actor->image): ?>
 
@@ -83,10 +118,7 @@
         </div>
     </div>
     <?php endif; ?>
-    <h3>
-        تیم دوبلاژ
-    </h3>
-    
+
 </section>
 <?php if(count($relatedPosts)): ?>
 <section class="movie-related">
@@ -96,7 +128,7 @@
     <div class="container-fluid">
         <div class="row">
             <?php $__currentLoopData = $relatedPosts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="col-3 col-lg-2">
+            <div class="col-12 col-lg-2">
                 <?php $__env->startComponent('components.article',['model'=>$item]); ?>
                 <?php echo $__env->renderComponent(); ?>
             </div>

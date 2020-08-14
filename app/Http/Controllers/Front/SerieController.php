@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Post;
 use App\Slider;
-use Carbon\Carbon; 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,11 +18,18 @@ class SerieController extends Controller
         }
         $relatedPosts = $post->relatedPosts();
         // dd($relatedPosts);
-        $seasons = $post->episodes->where('season', $season);
-         $title = $post->title;
+        if (count($post->episodes)) {
+            $seasons = $post->episodes->where('season', $season);
+        } else {
+            $seasons = [];
+        }
+       
+        $title = $post->title;
 
-        return view('Front.ShowSerie',
-         ['post' => $post, 'relatedPosts' => $relatedPosts, 'seasons' => $seasons,'title'=>$title]);
+        return view(
+            'Front.ShowMovie',
+            ['post' => $post, 'relatedPosts' => $relatedPosts, 'seasons' => $seasons, 'title' => $title]
+        );
     }
 
     public function All()
@@ -38,17 +45,17 @@ class SerieController extends Controller
             $q->where('type', 'series');
         })->latest()->take(5)->get();
 
-          if(count($sliders)) {
+        if (count($sliders)) {
             $data['sliders'] = $sliders;
-        }else{
-           $data['sliders'] = Slider::latest()->take(5)->get();
+        } else {
+            $data['sliders'] = Slider::latest()->take(5)->get();
         }
 
         $data['newseries'] = $newseries;
         $data['latestdoble'] = $latestdoble;
         $data['newyear'] = $newyear;
         $data['year'] = $year;
-       
+
         return view('Front.AllSeries', $data);
     }
 }

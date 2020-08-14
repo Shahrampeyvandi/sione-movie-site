@@ -148,13 +148,14 @@ dd('sdf');
         $array['Released'] = $result->Released;
 
         $dd = \L5Imdb::title($request->code)->all();
-     
+        // dd($dd['photoThumb']);
         $array['is_serial'] = $dd['is_serial'] ? 'series' : 'movies';
         if($dd['is_serial']) {
             $array['seasons'] = $dd['seasons'];
         }else{
              $array['seasons'] = null;
         }
+        
         $latin_cats = $dd['genres'];
         $array['runtime'] = $dd['runtime'];
         $array['title'] = $dd['title'];
@@ -183,7 +184,7 @@ dd('sdf');
         }
 
         foreach ($dd['mainPictures'] as $key => $image) {
-            $array['mainPictures'][] = $image['imgsrc'];
+            $array['mainPictures'][] = $image['bigsrc'];
         }
         
         return response()->json($array, 200);

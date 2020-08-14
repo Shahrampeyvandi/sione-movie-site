@@ -146,8 +146,12 @@ class Post extends Model
     public function checkFavorite()
     {
         
-        $user = auth()->user();
-        
+        if(auth()->check()){
+            $user = auth()->user();
+        }
+        if(auth()->guard('admin')->check()){
+            $user = auth()->guard('admin')->user();
+        }
         if($user->favorite->contains('id',$this->id)) {
             return true;
         }else{

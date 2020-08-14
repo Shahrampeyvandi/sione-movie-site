@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="desc">محتوای مرتبط :  </label>
-                                <select class="js-example-basic-single" name="post" id="post">
+                                <select class="js-example-basic-single" name="post" id="post" required>
                                    @foreach ($posts as $post)
                                      <option value="{{$post->id}}"
                                     @isset($slideshow)

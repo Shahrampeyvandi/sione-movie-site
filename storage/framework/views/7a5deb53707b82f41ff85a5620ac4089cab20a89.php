@@ -2,7 +2,7 @@
     <div class="cover-img-movies_movie-Page"></div>
     <img src="<?php echo e(asset($post->poster)); ?>" alt="">
     <div class="movie-details-header">
-        <img src="<?php echo e(asset('front/assets/images/moviePage/movieName.png')); ?>" alt="">
+       
         <h1>
             <?php echo e($post->title); ?>
 
@@ -48,7 +48,7 @@
             </div>
         </div>
         <p class="movie-description">
-            <?php echo e($post->description); ?>
+           <?php echo html_entity_decode($post->description, ENT_QUOTES, 'UTF-8'); ?>
 
         </p>
         <div class="list_like">
@@ -61,6 +61,9 @@
             <a href="<?php echo e($post->play()); ?>" class="addMovie_list text-white">
                 <i class="fa fa-play"></i>
                 پخش فیلم
+            </a>
+        <a href="#" onclick="downLoad(event,'<?php echo e($post->downloadpath()); ?>')" class="addMovie_list text-white">  
+                        دانلود
             </a>
             <?php endif; ?>
             <!-- <i class="fas fa-thumbs-up"></i>

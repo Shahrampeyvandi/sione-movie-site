@@ -1,103 +1,107 @@
 <?php $__env->startSection('Title',$title); ?>
 
 <?php $__env->startSection('content'); ?>
-<section class="main_login_register"
-    style="background-image:linear-gradient(rgba(18, 18, 18, 0) 10vw, rgb(18, 18, 18) 46.875vw), linear-gradient(to left, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0) 50%),url(<?php echo e(asset('frontend/login/642a2247-9f00-42f8-99a5-63c79e0e13e8.jpg')); ?>)">
-    <div class="btn-loader-place">
-        <h1>
-            <a href="index.html">
-                LOGO
-            </a>
-        </h1>
-        <button type="button" class="register-form-load btn--ripple">
-            ثبت نام
-        </button>
-        <button type="button" class="login-form-load btn--ripple">
-            ورود
-        </button>
+<div class="row">
+    <div class="col-md-12">
+        <section class="main_login_register"
+            style="background-image:linear-gradient(rgba(18, 18, 18, 0) 10vw, rgb(18, 18, 18) 46.875vw), linear-gradient(to left, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0) 50%),url(<?php echo e(asset('frontend/login/642a2247-9f00-42f8-99a5-63c79e0e13e8.jpg')); ?>)">
+            <div class="btn-loader-place">
+                <h1>
+                    <a href="index.html">
+                        LOGO
+                    </a>
+                </h1>
+                <button type="button" class="register-form-load btn--ripple">
+                    ثبت نام
+                </button>
+                <button type="button" class="login-form-load btn--ripple">
+                    ورود
+                </button>
+            </div>
+
+            <form action="<?php echo e(route('login')); ?>" method="post" id="loginForm" class="loginform">
+                <?php echo csrf_field(); ?>
+                <?php if(count($errors)): ?>
+                <h1>
+                    <?php echo e($errors->first()); ?>
+
+                </h1>
+                <?php endif; ?>
+
+                <h3>
+                    لطفا شماره تلفن خود و رمز عبور را وارد نمایید
+                </h3>
+                <div class="input-place">
+                    <label for="Mobile">
+                        شماره تلفن همراه
+                    </label>
+                    <input type="tex" id="mobile" name="mobile" autocomplete="off" dir="rtl"
+                        placeholder="+98**********">
+                </div>
+                <div class="input-place">
+                    <label for="password">
+                        رمز عبور
+                    </label>
+                    <input type="text" id="password" name="password" autocomplete="off" dir="rtl">
+                </div>
+                <button class="submit_login btn--ripple" type="submit">
+                    ورود
+                </button>
+                <a class="forget-pass" href="#">
+                    رمز عبور خود را فراموش کرده ام
+                </a>
+                <span class="changeMood">ورود از طریق ایمیل</span>
+            </form>
+            <form action="<?php echo e(route('S.Register')); ?>" method="post" id="registerForm">
+                <?php echo csrf_field(); ?>
+                <?php if(count($errors)): ?>
+                <h1>
+                    <?php echo e($errors->first()); ?>
+
+                </h1>
+                <?php endif; ?>
+                <h1 class="text-center m-0">
+                    ثبت نام
+                </h1>
+
+                <div class="input-place">
+                    <label for="Mobile-register">
+                        شماره تلفن همراه
+                    </label>
+                    <input type="text" id="Mobile-register" name="mobile" autocomplete="off"
+                        placeholder="+98**********">
+                </div>
+                <div class="input-place">
+                    <label for="fName">
+                        نام
+                    </label>
+                    <input type="text" id="fName" name="fname" autocomplete="off" placeholder="نام">
+                </div>
+                <div class="input-place">
+                    <label for="lName">
+                        نام خانوادگی
+                    </label>
+                    <input type="text" id="lName" name="lname" autocomplete="off" placeholder="نام خانوادگی">
+                </div>
+                <div class="input-place">
+                    <label for="password">
+                        رمز عبور
+                    </label>
+                    <input type="text" id="mainpassword" name="password" autocomplete="off" placeholder="رمز عبور">
+                </div>
+                <div class="input-place">
+                    <label for="cpassword">
+                        تایید پسورد
+                    </label>
+                    <input type="text" id="cpassword" name="cpassword" autocomplete="off" placeholder="تایید پسورد">
+                </div>
+                <button class="submit_register btn--ripple" type="submit">
+                    ثبت نام
+                </button>
+            </form>
+        </section>
     </div>
-
-    <form action="<?php echo e(route('login')); ?>" method="post" id="loginForm" class="loginform">
-        <?php echo csrf_field(); ?>
-        <?php if(count($errors)): ?>
-        <h1>
-            <?php echo e($errors->first()); ?>
-
-        </h1>
-        <?php endif; ?>
-       
-        <h3>
-            لطفا شماره تلفن خود و رمز عبور را وارد نمایید
-        </h3>
-        <div class="input-place">
-            <label for="Mobile">
-                شماره تلفن همراه
-            </label>
-            <input type="tex" id="mobile" name="mobile" autocomplete="off" dir="rtl" placeholder="+98**********">
-        </div>
-        <div class="input-place">
-            <label for="password">
-                رمز عبور
-            </label>
-            <input type="text" id="password" name="password" autocomplete="off" dir="rtl">
-        </div>
-        <button class="submit_login btn--ripple" type="submit">
-            ورود
-        </button>
-        <a class="forget-pass" href="#">
-            رمز عبور خود را فراموش کرده ام
-        </a>
-        <span class="changeMood">ورود از طریق ایمیل</span>
-    </form>
-<form action="<?php echo e(route('S.Register')); ?>" method="post" id="registerForm">
-    <?php echo csrf_field(); ?>
-       <?php if(count($errors)): ?>
-        <h1>
-            <?php echo e($errors->first()); ?>
-
-        </h1>
-        <?php endif; ?>
-        <h1 class="text-center m-0">
-            ثبت نام
-        </h1>
-        
-        <div class="input-place">
-            <label for="Mobile-register">
-                شماره تلفن همراه
-            </label>
-            <input type="text" id="Mobile-register" name="mobile" autocomplete="off" placeholder="+98**********"
-                >
-        </div>
-        <div class="input-place">
-            <label for="fName">
-                نام
-            </label>
-            <input type="text" id="fName" name="fname" autocomplete="off" placeholder="نام" >
-        </div>
-        <div class="input-place">
-            <label for="lName">
-                نام خانوادگی
-            </label>
-            <input type="text" id="lName" name="lname" autocomplete="off" placeholder="نام خانوادگی" >
-        </div>
-        <div class="input-place">
-            <label for="password">
-                رمز عبور
-            </label>
-            <input type="text" id="mainpassword" name="password" autocomplete="off" placeholder="رمز عبور" >
-        </div>
-        <div class="input-place">
-            <label for="cpassword">
-                تایید پسورد
-            </label>
-            <input type="text" id="cpassword" name="cpassword" autocomplete="off"
-                placeholder="تایید پسورد" >
-        </div>
-        <button class="submit_register btn--ripple" type="submit">
-            ثبت نام
-        </button>
-    </form>
-</section>
+</div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>

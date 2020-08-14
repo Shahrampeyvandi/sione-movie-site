@@ -103,6 +103,10 @@ $(document).ready(function () {
             })
         } else {
             $('.siteNav').css('background-color', 'transparent')
+            $(".siteNav").css(
+                "background-image",
+                "linear-gradient(to bottom, rgba(18,18,18,1), rgba(18,18,18,0))"
+            );
         }
     })
     //profile dropdown
@@ -538,7 +542,7 @@ function showDetails(event, id, url) {
 
             $(".lds-ripple").fadeOut();
             detailbox
-                .css({ "background": "url(" + res.poster + ")", 'background-size': '50% 100%', 'background-repeat': 'no-repeat' });
+                .css({ "background": "url(" + res.poster + ")", 'background-size': '40% 100%', 'background-repeat': 'no-repeat' });
             detailbox.find('h1').text(res.title)
             detailbox.find('.desc').html(res.desc)
 

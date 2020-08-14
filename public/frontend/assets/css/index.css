@@ -31,6 +31,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+html,body{
+    height:100%;
+}
 
 nav ul {
     list-style: none;
@@ -636,6 +639,7 @@ body{
     top: -3rem;
     width: 95%;
     margin: auto;
+    margin-top: 100px;
 }
 .top-slider-box img{
     width: 100%;
@@ -771,7 +775,7 @@ body{
     width: 100%;
     height: 100%;
     z-index: 2;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0) 50%, rgba(1,0,0,1) 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0) 40%, rgba(1,0,0,1) 100%);
     top: 0;
     right: 0;
 }
@@ -931,6 +935,7 @@ footer{
     padding: 2rem;
     background-size: 100%;
 }
+
 #loginForm,#registerForm{
     background: #222327;
     width: 33%;
@@ -1406,12 +1411,12 @@ footer{
     width: 100%;
     height: 100%;
     z-index: 1;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0) 50%, rgba(1,0,0,1) 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0) 42%, rgba(1,0,0,1) 100%);
 
 }
 
 .head-film-cover > img{
-     width: 50% !important;
+     width: 40% !important;
     height: 100vh !important;
  }
 .movie-details-header{
@@ -1603,6 +1608,7 @@ footer{
 .movie-trailer{
     text-align: right;
     padding: 0 1.5rem;
+    margin-top: 30px;
 }
 .movie-trailer h1{
     font-size: 1.2rem;
@@ -1635,6 +1641,8 @@ footer{
     width: 100%;
     margin: 1rem 0;
     border-radius: 0.5rem;
+    height: 160px;
+    object-fit: cover;
 }
 .star-img-box{
     text-align: center;
@@ -1643,6 +1651,7 @@ footer{
 .star-img-box img{
     border-radius: 100%;
     width: 100%;
+    height:135px;
 }
 .star-img-box h4{
     color: #ffffff;
@@ -1980,6 +1989,47 @@ footer{
     }
 }
 @media screen and (max-width: 992px){
+    .slider{
+    height: auto;
+}
+    .cover-img-movies_movie-Page{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: none;
+
+}
+.head-film-cover{
+    
+    width: 100%;
+    height: auto;
+    background-size: 100% 100%;
+}
+.movie-details-header {
+    position: relative;
+    top: -5rem;
+    width: 100%;
+    right: 0;
+    padding: 2.5rem;
+}
+.head-film-cover > img {
+    width: 100% !important;
+    height: auto !important;
+}
+.movie-details-header h1 {
+    margin-top: 5rem;
+    font-size: 1.2rem;
+}
+.list_like .addMovie_list {
+    display: inline-block;
+    border: 1px solid #ffffff;
+    border-radius: 0.5rem;
+    padding: .5rem;
+    font-size: 12px;
+    margin: 3px;
+    cursor: pointer;
+}
     #search-box svg{
         margin-top: 0.2rem;
     }
@@ -2097,7 +2147,7 @@ footer{
         width: 20%;
     }
     .top-slider{
-        top: -1rem;
+        top: -4rem;
     }
     /*login form*/
     #loginForm,#registerForm{
@@ -2468,7 +2518,7 @@ footer{
     }
     .movie-details-header{
         position: relative;
-        top: -8rem;
+        top: -5rem;
         width: 100%;
         right: 0;
         padding: 2.5rem;
@@ -2837,3 +2887,8 @@ span.vjs-resolution-button-staticlabel {
 	 border: 0;
 }
  
+ .edit-button{
+    position: fixed;
+    top: 20px;
+    left: 40px;
+ }

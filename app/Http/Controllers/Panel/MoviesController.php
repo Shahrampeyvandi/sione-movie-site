@@ -56,13 +56,14 @@ class MoviesController extends Controller
 
     public function Save(Request $request)
     {
-
+       
 
         $slug = Str::slug($request->name);
         $destinationPath = "files/movies/$slug";
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0777, true);
         }
+        
         // if ($request->hasFile('poster')) {
         //     $picextension = $request->file('poster')->getClientOriginalExtension();
         //     $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
@@ -81,10 +82,8 @@ class MoviesController extends Controller
         // }
 
 
-        if (!File::exists($destinationPath)) {
-
-            File::makeDirectory($destinationPath, 0777, true);
-        }
+       
+        
         $post = new Post;
         $post->post_author = Auth::guard('admin')->user()->id;
         $post->title = $request->title;
@@ -96,7 +95,7 @@ class MoviesController extends Controller
         $post->imdbID = $request->imdbID;
         $post->imdbRating = $request->imdbRating;
         $post->imdbVotes = $request->imdbVotes;
-
+ 
         if ($request->hasFile('poster')) {
             $picextension = $request->file('poster')->getClientOriginalExtension();
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
@@ -106,7 +105,8 @@ class MoviesController extends Controller
         } else {
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
-                file_put_contents($img, file_get_contents($request->imdbposter));
+                $get_content = $this->url_get_contents($request->imdbposter);
+                file_put_contents($img, $get_content);
                 $Poster = $img;
             } else {
                 $setting = Setting::first();
@@ -119,6 +119,7 @@ class MoviesController extends Controller
                 
             }
         }
+  
         $post->released = Carbon::parse($request->released)->toDateTimeString();
         $post->year = Carbon::parse($request->released)->format('Y');
         $post->poster = $Poster;
@@ -137,7 +138,7 @@ class MoviesController extends Controller
                     }
                     foreach ($request->images as $key => $image) {
                         $img = $destinationPath . "/images/" . basename($image);
-                        file_put_contents($img, file_get_contents($image));
+                        file_put_contents($img, $this->url_get_contents($image));
                         $post->images()->create([
                             'url' => $img,
                         ]);

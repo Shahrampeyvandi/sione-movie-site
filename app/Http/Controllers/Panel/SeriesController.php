@@ -73,7 +73,7 @@ class SeriesController extends Controller
 
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
-                file_put_contents($img, file_get_contents($request->imdbposter));
+                file_put_contents($img, $this->url_get_contents($request->imdbposter));
                 $Poster = $img;
             } else {
                 $setting = Setting::first();
@@ -110,7 +110,7 @@ class SeriesController extends Controller
                     }
                     foreach ($request->images as $key => $image) {
                         $img = $destinationPath . "/images/" . basename($image);
-                        file_put_contents($img, file_get_contents($image));
+                        file_put_contents($img, $this->url_get_contents($image));
                         $post->images()->create([
                             'url' => $img,
                         ]);
@@ -560,7 +560,7 @@ class SeriesController extends Controller
             $Poster = "$destinationPath/$fileName";
         } elseif ($request->has('posterImdb') && $request->posterImdb !== null) {
             $img = $destinationPath . '/' . 'section_' . basename($request->posterImdb);
-            file_put_contents($img, file_get_contents($request->posterImdb));
+            file_put_contents($img, $this->url_get_contents($request->posterImdb));
             $Poster = $img;
         } else {
             $Poster = '';

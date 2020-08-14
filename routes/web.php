@@ -9,8 +9,7 @@ Route::get('/sitesharing', 'Front\PlanController@All')->name('S.SiteSharing');
 // Route::post('/buy', 'Front\PlanController@Buy')->name('S.BuyPlan');
 Route::post('/pay', 'Panel\PayController@pay')->name('S.BuyPlan');
 Route::get('/pay/cb', 'Panel\PayController@callback')->name('Pay.CallBack');
-Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
-Route::get('/play/{slug}/{season}/{section}', 'Front\MainController@Play')->name('S.Series.Play');
+
 Route::get('/account', 'Front\UserController@Account')->name('S.Account');
 Route::get('/orders', 'Front\UserController@Orders')->name('S.OrderLists');
 
@@ -32,16 +31,14 @@ Route::group(['middleware' => ['userauth', 'userplan']], function () {
     Route::post('/ajax/getmoviedetail', 'Front\AjaxController@getMovieDetail')->name('GetMovieDetail');
     Route::get('/logout', 'Front\LoginController@logout')->name('logout-user');
     Route::get('/download/{id}', 'Front\MainController@DownLoad')->name('DownLoad');
-       Route::get('/myfavorite', 'Front\MainController@MyFavorite')->name('S.MyFavorite');
-       Route::get('/showall', 'Front\MainController@ShowMore')->name('S.ShowMore');
+    Route::get('/myfavorite', 'Front\MainController@MyFavorite')->name('S.MyFavorite');
+    Route::get('/showall', 'Front\MainController@ShowMore')->name('S.ShowMore');
+    Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
+    Route::get('/play/{slug}/{season}/{section}', 'Front\MainController@Play')->name('S.Series.Play');
 
-   
     Route::post('ajax/checktakhfif', 'Front\AjaxController@checkTakhfif')->name('checkTakhfif');
     Route::post('ajax/search', 'Front\AjaxController@Search')->name('S.Search');
     Route::post('ajax/favorite', 'Front\AjaxController@addToFavorite')->name('S.addToFavorite');
-
-
-    
 });
 
 
@@ -60,6 +57,10 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'panel'], function () {
     Route::put('movie/add', 'Panel\MoviesController@EditPost')->name('Panel.AddMovie');
     Route::get('users', 'Panel\UserController@List')->name('Panel.UserList');
     Route::post('user/add', 'Panel\UserController@Add')->name('Panel.AddUser');
+    Route::get('user/edit/{user}', 'Panel\UserController@Edit')->name('Panel.EditUser');
+    Route::post('user/edit/{user}', 'Panel\UserController@SaveEdit')->name('Panel.EditUser');
+
+    
     Route::get('series/add', 'Panel\SeriesController@Add')->name('Panel.AddSerie');
     Route::post('series/add', 'Panel\SeriesController@Save')->name('Panel.AddSerie');
     Route::delete('user/delete', 'Panel\UserController@Delete')->name('Panel.DeleteUser');
@@ -127,6 +128,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'panel'], function () {
     Route::post('categories/edit/{category}', 'Panel\CategoryController@SaveEdit')->name('Panel.EditCat');
     Route::delete('category/delete', 'Panel\CategoryController@Delete')->name('Panel.DeleteCat');
 
+    Route::post('sitesharing/edit', 'Panel\ContentController@SiteSharing')->name('EditSiteSharing');
 
     Route::post('ajax/caption/delete', 'Panel\MoviesController@DeleteCaption')->name('Ajax.DeleteCaption');
 

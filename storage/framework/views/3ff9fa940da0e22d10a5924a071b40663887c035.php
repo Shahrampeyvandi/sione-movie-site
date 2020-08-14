@@ -122,7 +122,8 @@
     <p class="text-sharing-page-head">
         به مبالغ فوق ۹٪ بابت مالیات بر ارزش افزوده اضافه می‌شود.
     </p>
-    <div class="plans">
+<div id="editor1" contenteditable="true">
+        <div class="plans">
         <h1 class="title-gift">
             هدیه سایت
         </h1>
@@ -193,6 +194,9 @@
             </div>
         </div>
     </div>
+</div>
 </section>
 <?php $__env->stopSection(); ?>
+
+
 <?php echo $__env->make('Layout.Front', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\tm\resources\views/Front/Plans.blade.php ENDPATH**/ ?>

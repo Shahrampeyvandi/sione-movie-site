@@ -125,7 +125,8 @@
     <p class="text-sharing-page-head">
         به مبالغ فوق ۹٪ بابت مالیات بر ارزش افزوده اضافه می‌شود.
     </p>
-    <div class="plans">
+<div id="editor1" contenteditable="true">
+        <div class="plans">
         <h1 class="title-gift">
             هدیه سایت
         </h1>
@@ -196,5 +197,7 @@
             </div>
         </div>
     </div>
+</div>
 </section>
 @endsection
+

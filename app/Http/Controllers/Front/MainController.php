@@ -9,6 +9,8 @@ use App\Post;
 use App\Slider;
 use Carbon\Carbon;
 
+use function GuzzleHttp\Psr7\try_fopen;
+
 class MainController extends Controller
 {
     public function index()
@@ -33,7 +35,7 @@ class MainController extends Controller
 
     public function Play()
     {
-        if (auth()->check() && auth()->user()->planStatus()) {
+       
 
 
             $model = Post::where('slug', request()->slug)->first();
@@ -62,19 +64,14 @@ class MainController extends Controller
                 $videos = $post->videos;
             }
             return view('Front.play', compact(['videos', 'post']));
-        } else {
-            return redirect()->route('S.SiteSharing');
-        }
+       
     }
 
     public function DownLoad($id)
     {
-        if (auth()->check() && !auth()->user()->planStatus()) {
-            return response()->json([
-                'data' => 'error',
-                'redirect' => route('S.SiteSharing')
-            ]);
-        }
+       
+        
+        
         $post = Post::find($id);
         $url = $post->videos->first()->url;
         $path      = parse_url($url, PHP_URL_PATH);

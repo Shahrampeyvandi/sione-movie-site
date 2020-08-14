@@ -2,7 +2,7 @@
     <div class="cover-img-movies_movie-Page"></div>
     <img src="{{asset($post->poster)}}" alt="">
     <div class="movie-details-header">
-        <img src="{{asset('front/assets/images/moviePage/movieName.png')}}" alt="">
+       
         <h1>
             {{$post->title}}
         </h1>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <p class="movie-description">
-            {{$post->description}}
+           {!! html_entity_decode($post->description, ENT_QUOTES, 'UTF-8') !!}
         </p>
         <div class="list_like">
             <a href="#" class="addMovie_list text-white">
@@ -58,6 +58,9 @@
             <a href="{{$post->play()}}" class="addMovie_list text-white">
                 <i class="fa fa-play"></i>
                 پخش فیلم
+            </a>
+        <a href="#" onclick="downLoad(event,'{{$post->downloadpath()}}')" class="addMovie_list text-white">  
+                        دانلود
             </a>
             @endif
             <!-- <i class="fas fa-thumbs-up"></i>

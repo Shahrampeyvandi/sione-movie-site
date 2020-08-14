@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/bootstrap.min.css')); ?>">
-<link rel="stylesheet" href="<?php echo e(asset('assets/vendors/range-slider/css/ion.rangeSlider.min.css')); ?>" type="text/css">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/vendors/range-slider/css/ion.rangeSlider.min.css')); ?>" type="text/css">
 
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/swiper.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/all.min.css')); ?>">
@@ -25,35 +25,38 @@
 </head>
 
 
-<body <?php if(\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" || \Request::route()->getName() == "S.OrderLists" ): ?>
- class="site-sharing"
-<?php endif; ?>>
+<body <?php if(\Request::route()->getName() == "S.SiteSharing" || \Request::route()->getName() == "S.Account" ||
+    \Request::route()->getName() == "S.OrderLists" ): ?>
+    class="site-sharing"
+    <?php endif; ?>>
     <div class="overlay"></div>
     <div class="lds-ripple center-screen" style="display: none">
         <div></div>
         <div></div>
     </div>
-    
-        
-     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
-     ): ?> 
-      <?php echo $__env->make('Includes.Front.Header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-     <?php endif; ?>
-   
+
+
+    <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
+    \Request::route()->getName() !== "S.OrderLists"
+    ): ?>
+    <?php echo $__env->make('Includes.Front.Header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
+
     <?php echo $__env->yieldContent('content'); ?>
 
-     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" && \Request::route()->getName() !== "S.OrderLists"
-     ): ?> 
-     <?php echo $__env->make('Includes.Front.Footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-     <?php endif; ?>
+    <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
+    \Request::route()->getName() !== "S.OrderLists"
+    ): ?>
+    <?php echo $__env->make('Includes.Front.Footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
 
     <script src="<?php echo e(asset('assets/js/toastr.min.js')); ?>"></script>
     <!-- begin::range slider -->
-<script src="<?php echo e(asset('assets/vendors/range-slider/js/ion.rangeSlider.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/js/examples/range-slider.js')); ?>"></script>
-<!-- end::range slider -->
+    <script src="<?php echo e(asset('assets/vendors/range-slider/js/ion.rangeSlider.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/examples/range-slider.js')); ?>"></script>
+    <!-- end::range slider -->
     <?php echo app('toastr')->render(); ?>
-     <?php echo $__env->yieldContent('js'); ?>
+    <?php echo $__env->yieldContent('js'); ?>
 </body>
 
 </html><?php /**PATH C:\xampp\htdocs\tm\resources\views/Layout/Front.blade.php ENDPATH**/ ?>

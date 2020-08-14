@@ -182,7 +182,7 @@ $("#add-slider").validate({
     rules: {
         poster: {
             required:true,
-            maxsize:200000,
+            maxsize:350000,
             accept: "jpg|jpeg|png|JPG|JPEG|PNG",
         },
     },
@@ -328,6 +328,44 @@ $("#add-slider").validate({
             season: "شماره فصل سریال را وارد نمایید",
             section: "شماره قسمت سریال را وارد نمایید",
             year: "سال ساخت فیلم را وارد نمایید",
+        },
+    });
+
+     $("#edit-member").validate({
+        rules: {
+            first_name: "required",
+            last_name: "required",
+
+            password: {
+               
+                minlength: 6,
+            },
+            cpassword: {
+               
+                equalTo: "#password",
+            },
+            mobile: {
+                required: true,
+                regex: /^09[0-9]{9}$/,
+            },
+        },
+        messages: {
+            first_name: "لطفا نام خود را وارد نمایید",
+            last_name: "لطفا نام خانوادگی خود را وارد نمایید",
+
+            password: {
+                required: "رمز عبور را وارد نمایید",
+                minlength: "رمز عبور بایستی حداقل 6 کاراکتر باشد",
+            },
+            cpassword: {
+                required: "رمز عبور را تایید نمایید",
+                equalTo: "رمز عبور وارد شده مطابقت ندارد",
+            },
+
+            mobile: {
+                required: "شماره موبایل الزامی میباشد",
+                regex: "موبایل دارای فرمت نامعتبر می باشد",
+            },
         },
     });
 

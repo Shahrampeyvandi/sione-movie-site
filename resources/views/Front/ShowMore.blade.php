@@ -1,10 +1,7 @@
 @extends('Layout.Front')
 @section('Title',$title)
 
-
 @section('content')
-
-
 
 @if (count($posts))
 <section class="movie-sections">

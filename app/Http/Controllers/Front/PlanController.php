@@ -15,8 +15,9 @@ class PlanController extends Controller
 
     function __construct(Request $request)
     {
-        $this->middleware('auth');
+        $this->middleware('userauth');
     }
+
     public function All()
     {
         $data['plans'] = Plan::orderBy('days','ASC')->get();

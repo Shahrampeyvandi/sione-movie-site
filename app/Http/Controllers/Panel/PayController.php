@@ -17,6 +17,10 @@ class PayController extends Controller
 {
     public function pay(Request $request)
     {
+        if(auth()->guard('admin')->check()) {
+             toastr()->success('تمام اشتراک ها در دسترس ادمین قرار دارند');
+            return back();
+        }
         $plan = Plan::whereId($request->plan_name)->first();
         if (!$plan) return back();
         $expire_date = Carbon::now()->addDays($plan->days);

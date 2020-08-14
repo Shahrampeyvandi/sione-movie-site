@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Discount as AppDiscount;
 use App\Plan;
 use App\Post;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Mail\Discount;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Discount as AppDiscount;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
 
 class AjaxController extends Controller
 {
@@ -25,7 +26,7 @@ class AjaxController extends Controller
                     'type' => 'movies',
                     'poster' => asset($post->poster),
                     'title' => $post->title,
-                    'desc' => $post->description,
+                    'desc' => Str::limit($post->description, 200, '...'),
                     'path' => $post->path(),
                     'play' => $post->play(),
                     'download' => $post->downloadpath(),
@@ -39,7 +40,7 @@ class AjaxController extends Controller
                     'type' => 'series',
                     'poster' => asset($post->poster),
                     'title' => $post->title,
-                    'desc' => $post->description,
+                    'desc' => Str::limit($post->description, 200, '...'),
                     'path' => $post->path(),
                     'favoritepath' => $post->favoritepath(),
                     'favoritestatus' => $post->checkFavorite()
@@ -52,7 +53,13 @@ class AjaxController extends Controller
     public function addToFavorite(Request $request)
     {
 
-        $user = auth()->user();
+        if (auth()->check()) {
+            $user = auth()->user();
+        }
+        if (auth()->guard('admin')->check()) {
+            $user = auth()->guard('admin')->user();
+        }
+
         $obj = DB::table('user_favorite')->where(['user_id' => $user->id, 'post_id' => $request->post_id])->first();
         if ($obj) {
             $user->favorite()->detach($request->post_id);

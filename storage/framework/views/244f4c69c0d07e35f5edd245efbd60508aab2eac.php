@@ -30,7 +30,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="desc">محتوای مرتبط :  </label>
-                                <select class="js-example-basic-single" name="post" id="post">
+                                <select class="js-example-basic-single" name="post" id="post" required>
                                    <?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                      <option value="<?php echo e($post->id); ?>"
                                     <?php if(isset($slideshow)): ?>
