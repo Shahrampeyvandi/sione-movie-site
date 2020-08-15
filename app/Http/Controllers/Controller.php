@@ -55,7 +55,10 @@ class Controller extends BaseController
         //$patterncode="97b8c9m9a5";
         //$data = array("name" => "نام طرف", "number" => "نام اشتراک");
         //-------------------------------
-
+  // ویرایش اطلاعات پروفایل
+        //$patterncode="nj36jd5q3c";
+        //$data = array("name" => "نام طرف");
+        //-------------------------------
 
 
         //$username = "khosravanihadi";
@@ -83,10 +86,38 @@ class Controller extends BaseController
 
         foreach ($request->captions as $key => $caption) {
             if (array_key_exists(1, $caption) &&   array_key_exists(2, $caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
-                $ext = $caption[2]->getClientOriginalExtension();
+                $ext = 'vtt';
+               // $ext = $caption[2]->getClientOriginalExtension();
                 $fileName = 'vtt_' . date("Y-m-d") . '_' . time() . '.' . $ext;
-                $caption[2]->move(public_path($destinationPath), $fileName);
+
+                //---------
+                $fileHandle = fopen($caption[2], 'r');
+
+                if ($fileHandle) {
+                    $lines = array();
+                    while (($line = fgets($fileHandle, 8192)) !== false) $lines[] = $line;
+                    if (!feof($fileHandle)) exit("Error: unexpected fgets() fail\n");
+                    else ($fileHandle);
+                }
+                $length = count($lines);
+                for ($index = 1; $index < $length; $index++) {
+                    if ($index === 1 || trim($lines[$index - 2]) === '') {
+                        $lines[$index] = str_replace(',', '.', $lines[$index]);
+                    }
+                }
+                for ($index = 0; $index < $length; $index++) {
+                    $ttttt=trim($lines[$index]);
+                    if(ctype_digit($ttttt)){
+                        echo 'n= '.$index.' is='.$lines[$index].'</br>';
+                        $lines[$index]='';
+                    }
+                }
+                $header = "WEBVTT\n\n";
                 $vttPath = "$destinationPath/$fileName";
+                file_put_contents($vttPath, $header . implode('', $lines));
+                //----------
+                //$caption[2]->move(public_path($destinationPath), $fileName);
+               // $vttPath = "$destinationPath/$fileName";
 
                 $post->captions()->create([
                     'url' => $vttPath,

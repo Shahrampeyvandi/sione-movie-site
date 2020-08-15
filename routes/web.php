@@ -6,6 +6,8 @@ Route::get('/login', 'Front\LoginController@Login')->name('login');
 Route::post('/login', 'Front\LoginController@Verify')->name('login');
 Route::post('/register', 'Front\LoginController@Register')->name('S.Register');
 Route::post('/forgetpass', 'Front\LoginController@ForgetPassword')->name('forgetpass');
+Route::post('/forgetpasscode', 'Front\LoginController@ForgetPasswordSubmitCode')->name('forgetpass.submitCode');
+Route::post('/forgetpassnewpass', 'Front\LoginController@ForgetPasswordSubmitnewPass')->name('forgetpass.submitNewPass');
 
 
 Route::get('/sitesharing', 'Front\PlanController@All')->name('S.SiteSharing');

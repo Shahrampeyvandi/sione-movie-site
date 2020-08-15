@@ -62,6 +62,9 @@
         <a href="#" onclick="downLoad(event,'{{$post->downloadpath()}}')" class="addMovie_list text-white">  
                         دانلود
             </a>
+            <a href="{{$post->downloadpath()}}" target="_blank" class="addMovie_list text-white">  
+                     تست   دانلود
+            </a>
             @endif
             <!-- <i class="fas fa-thumbs-up"></i>
             <i class="fas fa-thumbs-down"></i> -->
