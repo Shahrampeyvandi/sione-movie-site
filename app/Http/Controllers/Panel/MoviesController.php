@@ -54,16 +54,14 @@ class MoviesController extends Controller
 
 
 
+
     public function Save(Request $request)
     {
-       
-
         $slug = Str::slug($request->name);
         $destinationPath = "files/movies/$slug";
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0777, true);
         }
-        
         // if ($request->hasFile('poster')) {
         //     $picextension = $request->file('poster')->getClientOriginalExtension();
         //     $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
@@ -82,8 +80,6 @@ class MoviesController extends Controller
         // }
 
 
-       
-        
         $post = new Post;
         $post->post_author = Auth::guard('admin')->user()->id;
         $post->title = $request->title;
@@ -95,7 +91,6 @@ class MoviesController extends Controller
         $post->imdbID = $request->imdbID;
         $post->imdbRating = $request->imdbRating;
         $post->imdbVotes = $request->imdbVotes;
- 
         if ($request->hasFile('poster')) {
             $picextension = $request->file('poster')->getClientOriginalExtension();
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
@@ -110,16 +105,15 @@ class MoviesController extends Controller
                 $Poster = $img;
             } else {
                 $setting = Setting::first();
-                if($setting) {
+                if ($setting) {
 
-                   $Poster = $setting->default_poster;
-                }else{
+                    $Poster = $setting->default_poster;
+                } else {
                     $Poster = '';
                 }
-                
             }
         }
-  
+
         $post->released = Carbon::parse($request->released)->toDateTimeString();
         $post->year = Carbon::parse($request->released)->format('Y');
         $post->poster = $Poster;
@@ -233,7 +227,7 @@ class MoviesController extends Controller
             }
 
             if (isset($request->captions)) {
-             $this->SaveCaption($request ,$post, $destinationPath);
+                $this->SaveCaption($request, $post, $destinationPath);
             }
         } else {
             return back();
@@ -294,7 +288,7 @@ class MoviesController extends Controller
     {
 
 
-       
+
         $slug = Str::slug($post->name);
         $destinationPath = "files/movies/$slug";
         if ($request->hasFile('poster')) {
@@ -453,14 +447,12 @@ class MoviesController extends Controller
                     'url' => $file[1],
                     'quality_id' => $quality_id
                 ]);
-
-               
             }
         }
 
-         if (isset($request->captions)) {
-             $this->SaveCaption($request ,$post, $destinationPath);
-            }
+        if (isset($request->captions)) {
+            $this->SaveCaption($request, $post, $destinationPath);
+        }
 
         toastr()->success('پست با موفقیت ویرایش شد');
         return Redirect::route('Panel.MoviesList');
@@ -545,7 +537,42 @@ class MoviesController extends Controller
         $caption = Caption::find($request->id);
         File::delete(public_path() . $caption->url);
         $caption->delete();
-         return response()->json('success',200);
+        return response()->json('success', 200);
+    }
+
+    public function converSubtitle(Request $request, $destinationPath)
+    {
+
+        foreach ($request->captions as $key => $caption) {
+            if (array_key_exists(1, $caption) &&   array_key_exists(2, $caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
+                $ext = 'vtt';
+                $fileName = 'vtt_' . date("Y-m-d") . '_' . time() . '.' . $ext;
+                //-------------------
+                $fileHandle = fopen($caption[2], 'r');
+
+                if ($fileHandle) {
+                    $lines = array();
+                    while (($line = fgets($fileHandle, 8192)) !== false) $lines[] = $line;
+                    if (!feof($fileHandle)) exit("Error: unexpected fgets() fail\n");
+                    else ($fileHandle);
+                }
+                $length = count($lines);
+                for ($index = 1; $index < $length; $index++) {
+                    if ($index === 1 || trim($lines[$index - 2]) === '') {
+                        $lines[$index] = str_replace(',', '.', $lines[$index]);
+                    }
+                }
+                for ($index = 0; $index < $length; $index++) {
+                    $ttttt = trim($lines[$index]);
+                    if (ctype_digit($ttttt)) {
+                        echo 'n= ' . $index . ' is=' . $lines[$index] . '</br>';
+                        $lines[$index] = '';
+                    }
+                }
+                $header = "WEBVTT\n\n";
+                $vttPath = "$destinationPath/$fileName";
+                file_put_contents($vttPath, $header . implode('', $lines));
+            }
+        }
     }
 }
-

@@ -37,7 +37,8 @@
 
 
     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
-    \Request::route()->getName() !== "S.OrderLists"
+    \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
+     \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
     )
     @include('Includes.Front.Header')
     @endif
@@ -45,7 +46,8 @@
     @yield('content')
 
     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
-    \Request::route()->getName() !== "S.OrderLists"
+    \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
+     \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
     )
     @include('Includes.Front.Footer')
     @endif

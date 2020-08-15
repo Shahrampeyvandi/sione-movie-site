@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Admin;
+use App\ForgotCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -23,7 +24,7 @@ class LoginController extends Controller
 
     public function Verify(Request $request)
     {
-        
+
         $rules = array(
             'mobile'             => 'required',
             'password'         => 'required | min:8',
@@ -52,7 +53,7 @@ class LoginController extends Controller
                 Auth::Login($member);
                 $expire = Carbon::parse(Auth::user()->expire_date)->timestamp;
                 $now = Carbon::now()->timestamp;
-                if ($expire>$now) {
+                if ($expire > $now) {
                     return redirect()->route('MainUrl');
                 } else {
                     return redirect()->route('S.SiteSharing');
@@ -96,9 +97,9 @@ class LoginController extends Controller
         ]);
 
         //------ ارسال پیامک ثبت نام کاربر جدید
-        $patterncode="kjdc6fbf5v";
-        $data = array("name" => $request->fname, "username" => $request->mobile,"password"=>$request->password);
-        $this->sendSMS($patterncode,$request->mobile,$data);
+        $patterncode = "kjdc6fbf5v";
+        $data = array("name" => $request->fname, "username" => $request->mobile, "password" => $request->password);
+        $this->sendSMS($patterncode, $request->mobile, $data);
 
         if ($user) {
             Auth::login($user);
@@ -121,9 +122,9 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 
-      public function ForgetPassword(Request $request)
+    public function ForgetPassword(Request $request)
     {
-        
+
         $rules = array(
             'mobile'             => 'required',
             'password'         => 'required | min:8',
@@ -134,17 +135,88 @@ class LoginController extends Controller
         );
 
 
-        $user = User::where('mobile',$request->mobile)->first();
+        $user = User::where('mobile', $request->mobile)->first();
 
-        if($user) {
+        if ($user) {
 
-        //------ ارسال پیامک ثبت نام کاربر جدید
-        $patterncode="g0mj7wtqv3";
-        $data = array("name" => $user->first_name, "username" => $user->mobile,"password"=>$user->password);
-        $this->sendSMS($patterncode,$user->mobile,$data);
+            $code = ForgotCode::createCode($request->mobile);
+
+            if ($code == false) {
+                return Redirect::back()->withErrors(['کد بازنشانی رمز قبلا برای شما ارسال شده است. لطفا بعدا مجددا امتحان فرمایید']);
+                return 'کد قبلا برای شما ارسال شده است. لطفا بعدا مجددا امتحان فرمایید';
+            }
+
+            //------ ارسال پیامک ثبت نام کاربر جدید
+            $patterncode = "i0hm6b2p4v";
+            $data = array("name" => $user->first_name, "code" => $code->v_code);
+            //$this->sendSMS($patterncode,$user->mobile,$data);
+        } else {
+            return Redirect::back()->withErrors(['کاربری با این شماره یافت نشد!']);
         }
 
+        $title = 'فراموشی رمز عبور';
+        $mobile = $request->mobile;
+
+        return view('Front.forgotpasscode', compact(['title', 'mobile']));
+    }
+
+    public function ForgetPasswordSubmitCode(Request $request)
+    {
+
+        $code = $request->code;
+
+        $user = User::where('mobile', $request->mobile)->first();
+
+        $Code_OBJ = ForgotCode::where('v_code', $request->code)->latest()->first();
+
+        if ($Code_OBJ) {
+        } else {
+            return Redirect::back()->withErrors(['کد وارد شده صحیح نمی باشد']);
+        }
+
+        $title = 'فراموشی رمز عبور';
+        $mobile = $request->mobile;
+        $code = $request->code;
+        return view('Front.forgotpassnewpass.blade', compact(['title', 'mobile', 'code']));
     }
 
 
+    public function ForgetPasswordSubmitnewPass(Request $request)
+    {
+        $rules = array(
+            'password'         => 'required | min:8',
+        );
+        $messages = array(
+            'password.min'         => 'رمز عبور غیر مجاز است ',
+        );
+
+        $validator = Validator::make(Input::all(), $rules, $messages);
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return Redirect::back()->withErrors($validator);
+            return Redirect::to('login')
+                ->withErrors($validator);
+        }
+
+        $user = User::where('mobile', $request->mobile)->first();
+
+        $Code_OBJ = ForgotCode::where('v_code', $request->code)->latest()->first();
+
+        if ($Code_OBJ) {
+        } else {
+            return Redirect::back()->withErrors(['کد وارد شده صحیح نمی باشد']);
+        }
+
+
+        $user->password = Hash::make($request->password);
+        $user->update();
+        Auth::login($user);
+        $expire = Carbon::parse(Auth::user()->expire_date)->timestamp;
+        $now = Carbon::now()->timestamp;
+        if ($expire > $now) {
+            return redirect()->route('MainUrl');
+        } else {
+            return redirect()->route('S.SiteSharing');
+        }
+    }
 }
