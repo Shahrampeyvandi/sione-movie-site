@@ -334,12 +334,22 @@ function SendData() {
     // login and register page
     $('.login-form-load').on('click', function () {
         $('#registerForm').css('display', 'none')
+         $(".forget-pas").css("display", "none");
         $('#loginForm').css('display', 'block')
     })
     $('.register-form-load').on('click', function () {
         $('#loginForm').css('display', 'none')
+          $(".forget-pas").css("display", "none");
         $('#registerForm').css('display', 'block')
     })
+     $(".forget-pass").on("click", function() {
+         $("#loginForm").css("display", "none");
+         $("#registerForm").css("display", "none");
+         $(".forget-pas").css("display", "block");
+     });
+
+
+    
     $('.changeMood').on('click', function () {
         let status_text = $(this).text()
         if (status_text === "ورود از طریق ایمیل") {
