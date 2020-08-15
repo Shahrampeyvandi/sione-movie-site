@@ -120,4 +120,31 @@ class LoginController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+      public function ForgetPassword(Request $request)
+    {
+        
+        $rules = array(
+            'mobile'             => 'required',
+            'password'         => 'required | min:8',
+        );
+        $messages = array(
+            'mobile.required'             => 'شماره همراه الزامی است',
+            'password.min'         => 'رمز عبور غیر مجاز است ',
+        );
+
+
+        $user = User::where('mobile',$request->mobile)->first();
+
+        if($user) {
+
+        //------ ارسال پیامک ثبت نام کاربر جدید
+        $patterncode="g0mj7wtqv3";
+        $data = array("name" => $user->first_name, "username" => $user->mobile,"password"=>$user->password);
+        $this->sendSMS($patterncode,$user->mobile,$data);
+        }
+
+    }
+
+
 }

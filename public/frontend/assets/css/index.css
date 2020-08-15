@@ -987,7 +987,7 @@ footer{
 .input-place input + label{
 
     display: block;
-    color: #ffffff;
+    color: #ff9090;
     position: absolute;
     top: 53px;
     font-size: 12px;
@@ -1991,6 +1991,20 @@ footer{
 @media screen and (max-width: 992px){
     .slider{
     height: auto;
+}
+.input-place label{
+    position: absolute;
+    display: block;
+    top: -1.5rem;
+    color: white;
+}
+.input-place input + label{
+
+    display: block;
+    color: #ff9090;
+    position: absolute;
+    top: 45px;
+    font-size: 12px;
 }
     .cover-img-movies_movie-Page{
     position: absolute;

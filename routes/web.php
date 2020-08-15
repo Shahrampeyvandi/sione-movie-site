@@ -5,6 +5,9 @@ Route::post('/admin/login', 'Panel\LoginController@Verify')->name('Admin.Login')
 Route::get('/login', 'Front\LoginController@Login')->name('login');
 Route::post('/login', 'Front\LoginController@Verify')->name('login');
 Route::post('/register', 'Front\LoginController@Register')->name('S.Register');
+Route::post('/forgetpass', 'Front\LoginController@ForgetPassword')->name('forgetpass');
+
+
 Route::get('/sitesharing', 'Front\PlanController@All')->name('S.SiteSharing');
 // Route::post('/buy', 'Front\PlanController@Buy')->name('S.BuyPlan');
 Route::post('/pay', 'Panel\PayController@pay')->name('S.BuyPlan');
