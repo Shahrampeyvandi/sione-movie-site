@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Notification;
 use App\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Actor;
+use App\Writer;
+use App\Quality;
+use App\Category;
+use App\Director;
+use App\Language;
+use App\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
@@ -112,6 +119,117 @@ class Controller extends BaseController
             $noty->content = $content;
             $noty->reciver_id = $user->id;
             $noty->save();
+        }
+    }
+
+    public function saveData(Request $request, $destinationPath, $post)
+    {
+        if ($request->has('checkImdb') && $request->checkImdb == "on") {
+
+            if ($request->has('images')) {
+                if (!File::exists($destinationPath . "/images")) {
+                    File::makeDirectory($destinationPath . "/images", 0777, true);
+                }
+                foreach ($request->images as $key => $image) {
+                    $img = $destinationPath . "/images/" . basename($image);
+                    file_put_contents($img, $this->url_get_contents($image));
+                    $post->images()->create([
+                        'url' => $img,
+                    ]);
+                }
+            }
+        } else {
+
+            if ($request->has('images')) {
+                if (!File::exists($destinationPath . "/images")) {
+                    File::makeDirectory($destinationPath . "/images", 0777, true);
+                }
+                foreach ($request->images as $key => $image) {
+
+                    $picextension = $image->getClientOriginalExtension();
+                    $fileName = 'image_' . date("Y-m-d") . '_' . time() . $key . '.' . $picextension;
+                    $image->move($destinationPath . "/images/", $fileName);
+                    $imageUrl = "$destinationPath/images/$fileName";
+                    $post->images()->create([
+                        'url' => $imageUrl,
+                    ]);
+                }
+            }
+        }
+
+        if (isset($request->trailer)) {
+            $post->trailer()->create([
+                'name' => $post->name,
+                'poster' => '',
+                'url' => $request->trailer
+            ]);
+        }
+
+        foreach ($request->categories as $key => $category) {
+            if ($id = Category::check($category)) {
+                $post->categories()->attach($id);
+            }
+        }
+
+
+        if (isset($request->actors)) {
+            foreach ($request->actors as $key => $actor) {
+                if ($id = Actor::check($actor)) {
+                    $post->actors()->attach($id);
+                } else {
+
+                    $post->actors()->create(['name' => $actor]);
+                }
+            }
+        }
+        if (isset($request->directors)) {
+            foreach ($request->directors as $key => $director) {
+                if ($id = Director::check($director)) {
+                    $post->directors()->attach($id);
+                } else {
+                    $post->directors()->create(['name' => $director]);
+                }
+            }
+        }
+        if (isset($request->writers)) {
+            foreach ($request->writers as $key => $writer) {
+                if ($id = Writer::check($writer)) {
+                    $post->writers()->attach($id);
+                } else {
+                    $post->writers()->create(['name' => $writer]);
+                }
+            }
+        }
+        if (isset($request->languages)) {
+            foreach ($request->languages as $key => $language) {
+                if ($id = Language::check($language)) {
+                    $post->languages()->attach($id);
+                } else {
+                    $post->languages()->create(['name' => $language]);
+                }
+            }
+        }
+
+
+
+
+        foreach ($request->file as $key => $file) {
+            if (array_key_exists($file[1], $file)) {
+                if ($id = Quality::check($file[2])) {
+                    $quality_id = $id;
+                } else {
+                    $quality = Quality::create(['name' => $file[2]]);
+                    $quality_id = $quality->id;
+                }
+                $video = $post->videos()->create([
+                    'url' => $file[1],
+                    'quality_id' => $quality_id
+                ]);
+            }
+        }
+
+        if (isset($request->captions)) {
+            $this->SaveCaption($request, $post, $destinationPath);
         }
     }
 }

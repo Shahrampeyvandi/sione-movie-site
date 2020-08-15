@@ -32,9 +32,7 @@ class Episode extends Model
     {
         $slug_serie = $this->serie->slug;
         $season = $this->seasonobj->name;
-         
-            return route('S.Series.Play', ['slug' =>$slug_serie,'season'=>$season ,'section'=>$this->section]);
-        
+        return route('S.Series.Play', ['slug' =>$slug_serie,'season'=>$season ,'section'=>$this->section]);
     }
 
    

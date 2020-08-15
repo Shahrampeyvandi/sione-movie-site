@@ -92,12 +92,10 @@
         </h2>
         <div class="row">
             <?php $__currentLoopData = $post->actors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $actor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
             <div class="col-6 col-lg-2 d-flex justify-content-center">
                 <div class="star-img-box ">
-                    <a href="#">
+                <a href="<?php echo e($actor->path()); ?>">
                         <?php if($actor->image): ?>
-
                         <img src="<?php echo e(asset($actor->image)); ?>" alt="<?php echo e($actor->name); ?>">
                         <?php else: ?>
                         <img src="<?php echo e(asset('assets/images/avatar.png')); ?>" alt="<?php echo e($actor->name); ?>">
@@ -113,12 +111,9 @@
                 </div>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
         </div>
     </div>
     <?php endif; ?>
-
 </section>
 <?php if(count($relatedPosts)): ?>
 <section class="movie-related">

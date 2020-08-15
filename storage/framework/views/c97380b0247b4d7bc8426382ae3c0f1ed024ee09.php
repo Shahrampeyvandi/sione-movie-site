@@ -25,15 +25,19 @@
         body {
             height: 100%;
         }
+
         body {
             margin: 0;
         }
+
         #play {
             display: flex;
             justify-content: center;
             align-items: center;
             background-image: radial-gradient(at bottom, #1993ff, #121212 70%);
+            height: 100%;
         }
+
         .btn-white-color {
             position: fixed;
             color: white;
@@ -47,13 +51,18 @@
         <a href="<?php echo e(url()->previous()); ?>" class="btn-white-color">بازگشت</a>
         <section id="play" class=" position-relative">
             <video class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" id="player" controls>
+                <?php if(isset($videos)): ?>
                 <?php $__currentLoopData = $videos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <source src="<?php echo e($item->url); ?>" type='video/mp4' label='<?php echo e($item->quality->name); ?>' />
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php $__currentLoopData = $post->captions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $caption): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <track kind='captions' src='<?php echo e($caption->url); ?>' srclang='<?php echo e($caption->lang); ?>' label='<?php echo e($post->lang); ?>'
-                    <?php if($key==0): ?> default <?php endif; ?> />
+                <?php if($key==0): ?> default <?php endif; ?> />
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
+                <?php if(isset($trailer_url)): ?>
+                <source src="<?php echo e($trailer_url); ?>" type='video/mp4' label='720' />
+                <?php endif; ?>
             </video>
         </section>
 

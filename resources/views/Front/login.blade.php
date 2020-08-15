@@ -2,7 +2,7 @@
 @section('Title',$title)
 
 @section('content')
-<div class="row">
+<div class="row h-100">
     <div class="col-md-12">
         <section class="main_login_register"
             style="background-image:linear-gradient(rgba(18, 18, 18, 0) 10vw, rgb(18, 18, 18) 46.875vw), linear-gradient(to left, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0) 50%),url({{asset('frontend/login/642a2247-9f00-42f8-99a5-63c79e0e13e8.jpg')}})">

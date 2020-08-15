@@ -14,7 +14,7 @@
                             {{$slider->post->title}}
                         </h4>
                         <h5>
-                            {!! str_limit($slider->post->description,350) !!}
+                            {!! str_limit($slider->post->description,250) !!}
                         </h5>
                    @if ($slider->post->type == 'movies')
                         <a href="{{$slider->post->play()}}" class="page-movie-play btn--ripple">
@@ -31,9 +31,11 @@
                             <i class="fa fa-exclamation"></i>
                             جزئیات بیشتر
                         </a>
-                        <h6>
+                        @if (count($slider->post->actors))
+                            <h6>
                             ستارگان:
                             @php
+                            
                             $countactors = count($slider->post->actors);
                             @endphp
                             @foreach ($slider->post->actors as $key =>$item)
@@ -45,12 +47,15 @@
                             @endforeach
 
                         </h6>
-                        <h6>
+                        @endif
+                        @if ($slider->post->directors)
+                            <h6>
                             کارگران:
                             @php
+                          
                             $countdirectors = count($slider->post->directors);
                             @endphp
-                            @foreach ($slider->post->directors as $item)
+                            @foreach ($slider->post->directors as $key=> $item)
                             <a href="#">
 
                                 {{$item->name }}
@@ -58,6 +63,7 @@
                             </a>
                             @endforeach
                         </h6>
+                        @endif
                     </div>
                 </div>
             </div>

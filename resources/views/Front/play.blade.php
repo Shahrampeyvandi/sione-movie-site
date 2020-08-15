@@ -25,15 +25,19 @@
         body {
             height: 100%;
         }
+
         body {
             margin: 0;
         }
+
         #play {
             display: flex;
             justify-content: center;
             align-items: center;
             background-image: radial-gradient(at bottom, #1993ff, #121212 70%);
+            height: 100%;
         }
+
         .btn-white-color {
             position: fixed;
             color: white;
@@ -47,13 +51,18 @@
         <a href="{{ url()->previous() }}" class="btn-white-color">بازگشت</a>
         <section id="play" class=" position-relative">
             <video class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" id="player" controls>
+                @if (isset($videos))
                 @foreach ($videos as $item)
                 <source src="{{$item->url}}" type='video/mp4' label='{{$item->quality->name}}' />
                 @endforeach
                 @foreach ($post->captions as $key => $caption)
                 <track kind='captions' src='{{$caption->url}}' srclang='{{$caption->lang}}' label='{{$post->lang}}'
-                    @if($key==0) default @endif />
+                @if($key==0) default @endif />
                 @endforeach
+                @endif
+                @if (isset($trailer_url))
+                <source src="{{$trailer_url}}" type='video/mp4' label='720' />
+                @endif
             </video>
         </section>
 

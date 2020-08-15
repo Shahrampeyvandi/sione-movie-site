@@ -49,6 +49,13 @@
                         کودکان
                     </a>
                 </li>
+                <li class="navItem">
+                    <a href="{{route('CommingSoon')}}" class="
+                    @if(\Request::route()->getName() == " CommingSoon") {{'active-nav'}} @endif">
+                        <i class="fa fa-child"></i>
+                        به زودی
+                    </a>
+                </li>
 
                 <li class="navItem">
                     <a href="Blog/index.html">

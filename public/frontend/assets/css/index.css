@@ -636,7 +636,7 @@ body{
 /*top slider*/
 .top-slider{
     position: relative;
-    top: -3rem;
+    top: -7rem;
     width: 95%;
     margin: auto;
     margin-top: 100px;
@@ -687,7 +687,7 @@ body{
 /*iran news*/
 .movie-sections{
     width: 95%;
-    margin: 5rem auto;
+    margin: 0rem auto 5rem auto;
     text-align: right;
 }
 .movie-sections h3{
@@ -721,6 +721,7 @@ body{
     width: 100%;
     border-radius: 0.5rem;
     transition: 0.3s ease-in-out;
+    height:280px;
 }
 .cover-img-movies-details{
     position: absolute;
@@ -746,7 +747,7 @@ body{
    
     background-size: 69% 100%;
     height: 35rem;
-    margin: 2rem 0;
+    margin: 2rem -2rem;
     padding: 10rem 1.5rem;
     position: relative;
 }
@@ -932,6 +933,7 @@ footer{
 .main_login_register{
     box-shadow: 0 10rem 2rem 2rem inset rgba(0, 0, 0, 0.15);
     width: 100%;
+    height:100%;
     padding: 2rem;
     background-size: 100%;
 }
@@ -1650,7 +1652,7 @@ footer{
 }
 .star-img-box img{
     border-radius: 100%;
-    width: 100%;
+    width: 135px;
     height:135px;
 }
 .star-img-box h4{
@@ -1992,6 +1994,13 @@ footer{
     .slider{
     height: auto;
 }
+
+.img-box-movies img {
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: 0.3s ease-in-out;
+    height: 260px;
+}
 .input-place label{
     position: absolute;
     display: block;
@@ -2204,6 +2213,9 @@ footer{
         left: 20%;
         right: 20%;
     }
+    .m--t{
+     margin-top: 6rem;
+ }
 }
 @media screen and (max-width: 768px){
     a.buy-subscribe.inbox-icon {
@@ -2905,4 +2917,64 @@ span.vjs-resolution-button-staticlabel {
     position: fixed;
     top: 20px;
     left: 40px;
+ }
+
+ /* comming soon page */
+ .img-container img{
+         width: 100%;
+ }
+ .comming-soon-item .detail-wrapper{
+     color: white;
+    padding-top: 2rem;
+        display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+ }
+ .comming-soon-item{
+
+     background: #222327;
+     padding: 1rem;
+     border-radius: 4px;
+ }
+ .comming-soon-item .detail-wrapper>h2 {
+     margin-bottom: 1rem;
+ }
+
+ .comming-soon-item .detail-wrapper .date{
+       margin-top: 2rem;
+
+ }
+
+ .m--t{
+     margin-top: 10rem;
+ }
+ .mt-8{
+     margin-top: 8rem;
+ }
+
+ /* cast */
+ .person-wrapper{
+         display: flex;
+    margin-top: 8rem;
+    margin-bottom: 3rem;
+ }
+
+ .Person-description{
+     color:white;
+     text-align: right;
+     
+ }
+
+ .fs-1{
+     font-size:1rem;
+ }
+ .fs-1-5{
+     font-size:1.5rem;
+ }
+
+ .Person-image{
+    border-radius: 50%;
+   width: 70%;
+    height: 70%;
  }

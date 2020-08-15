@@ -59,6 +59,18 @@
                         <?php endif; ?>
                         <div class="row">
                             <div class="form-group col-md-12">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="comming_soon"
+                                        id="comming_soon" value="1" <?php if(isset($post) && $post->comming_soon): ?>
+                                    checked
+                                    <?php endif; ?>
+                                    >
+                                    <label class="custom-control-label" for="comming_soon">Comming Soon</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
                                 <label for="">عنوان سریال: </label>
                                 <input type="text" class="form-control" name="title" id="title"
                                     value="<?php echo e($post->title ?? ''); ?>">
@@ -67,7 +79,8 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="">عنوان اصلی: </label>
-                                <input type="text" class="form-control" name="name" onblur="checkName(event,'<?php echo e(route('Panel.checkNameAjax')); ?>')" id="original-title"
+                                <input type="text" class="form-control" name="name"
+                                    onblur="checkName(event,'<?php echo e(route('Panel.checkNameAjax')); ?>')" id="original-title"
                                     value="<?php echo e($post->name ?? ''); ?>">
                             </div>
                         </div>

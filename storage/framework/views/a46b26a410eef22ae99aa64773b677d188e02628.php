@@ -15,7 +15,7 @@
 
                         </h4>
                         <h5>
-                            <?php echo str_limit($slider->post->description,350); ?>
+                            <?php echo str_limit($slider->post->description,250); ?>
 
                         </h5>
                    <?php if($slider->post->type == 'movies'): ?>
@@ -33,9 +33,11 @@
                             <i class="fa fa-exclamation"></i>
                             جزئیات بیشتر
                         </a>
-                        <h6>
+                        <?php if(count($slider->post->actors)): ?>
+                            <h6>
                             ستارگان:
                             <?php
+                            
                             $countactors = count($slider->post->actors);
                             ?>
                             <?php $__currentLoopData = $slider->post->actors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key =>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -49,12 +51,15 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </h6>
-                        <h6>
+                        <?php endif; ?>
+                        <?php if($slider->post->directors): ?>
+                            <h6>
                             کارگران:
                             <?php
+                          
                             $countdirectors = count($slider->post->directors);
                             ?>
-                            <?php $__currentLoopData = $slider->post->directors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $slider->post->directors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <a href="#">
 
                                 <?php echo e($item->name); ?>
@@ -64,6 +69,7 @@
                             </a>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </h6>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

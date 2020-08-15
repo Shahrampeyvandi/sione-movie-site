@@ -107,12 +107,10 @@
         </h2>
         <div class="row">
             @foreach ($post->actors as $actor)
-
             <div class="col-6 col-lg-2 d-flex justify-content-center">
                 <div class="star-img-box ">
-                    <a href="#">
+                <a href="{{$actor->path()}}">
                         @if ($actor->image)
-
                         <img src="{{asset($actor->image)}}" alt="{{$actor->name}}">
                         @else
                         <img src="{{asset('assets/images/avatar.png')}}" alt="{{$actor->name}}">
@@ -127,12 +125,9 @@
                 </div>
             </div>
             @endforeach
-
-
         </div>
     </div>
     @endif
-
 </section>
 @if (count($relatedPosts))
 <section class="movie-related">

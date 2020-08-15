@@ -120,10 +120,13 @@ class Post extends Model
     }
     public function play()
     {
-
+        if($this->comming_soon == '1') {
+             return route('S.Trailer', ['slug' => $this->slug]);
+        }
         if ($this->type == 'movies') {
             return route('S.Play', ['slug' => $this->slug]);
         }
+        return '#';
 
        
     }

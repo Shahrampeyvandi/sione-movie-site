@@ -142,7 +142,7 @@ class AjaxController extends Controller
                     ->orWhere('title', 'like', '%' . $word . '%')
                     ->orWhereHas('actors', function ($q) use ($word) {
                         $q->where('name', 'like', '%' . $word . '%');
-                    })->get();
+                    })->latest()->take(6)->get();
             } else {
 
 
@@ -152,23 +152,23 @@ class AjaxController extends Controller
                         $q->whereIn('id', $cat);
                     })->whereHas('categories', function ($q) use ($cat) {
                         $q->whereIn('id', $cat);
-                    })->whereBetween('year', [explode(';', $year[0])[0], explode(';', $year[0])[1]])->get();
+                    })->whereBetween('year', [explode(';', $year[0])[0], explode(';', $year[0])[1]])->latest()->take(6)->get();
                 } elseif (count($cat) > 0 && count($caption)) {
                     $posts = Post::whereHas('categories', function ($q) use ($cat) {
                         $q->whereIn('id', $cat);
                     })->whereHas('captions', function ($q) use ($caption) {
                         $q->whereIn('lang', $caption);
-                    })->get();
+                    })->latest()->take(6)->get();
                 } elseif (count($cat) > 0) {
                     $posts = Post::whereHas('categories', function ($q) use ($cat) {
                         $q->whereIn('id', $cat);
-                    })->get();
+                    })->latest()->take(6)->get();
                 } elseif (count($caption) > 0) {
                     $posts = Post::whereHas('captions', function ($q) use ($caption) {
                         $q->whereIn('lang', $caption);
-                    })->get();
+                    })->latest()->take(6)->get();
                 } elseif (count($year) > 0) {
-                    $posts = Post::whereBetween('year', [explode(';', $year[0])[0], explode(';', $year[0])[1]])->get();
+                    $posts = Post::whereBetween('year', [explode(';', $year[0])[0], explode(';', $year[0])[1]])->latest()->take(6)->get();
                 }
 
 

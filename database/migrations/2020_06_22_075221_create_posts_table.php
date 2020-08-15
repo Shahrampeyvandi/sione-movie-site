@@ -37,6 +37,7 @@ class CreatePostsTable extends Migration
             $table->string('post_status')->nullable();
             $table->string('comment_status')->nullable();
             $table->string('publish_status')->nullable();
+             $table->integer('comming_soon')->default(0);
             $table->unsignedBigInteger('views')->default(0);
             $table->unsignedBigInteger('year')->nullable();
             $table->timestamps();

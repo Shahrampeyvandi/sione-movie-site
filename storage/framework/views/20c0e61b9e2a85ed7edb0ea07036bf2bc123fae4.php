@@ -49,6 +49,13 @@
                         کودکان
                     </a>
                 </li>
+                <li class="navItem">
+                    <a href="<?php echo e(route('CommingSoon')); ?>" class="
+                    <?php if(\Request::route()->getName() == " CommingSoon"): ?> <?php echo e('active-nav'); ?> <?php endif; ?>">
+                        <i class="fa fa-child"></i>
+                        به زودی
+                    </a>
+                </li>
 
                 <li class="navItem">
                     <a href="Blog/index.html">

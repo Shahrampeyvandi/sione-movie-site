@@ -5,7 +5,6 @@
     <?php $__currentLoopData = $post->captions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $caption): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <div class="cap-wrapper">
     <span>زیرنویس :  <?php echo e($caption->lang); ?></span> <a href="#" onclick="deleteCaption(event,'<?php echo e($caption->id); ?>','<?php echo e(route('Ajax.DeleteCaption')); ?>')"><i class="fas fa-times"></i></a>
-
     </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
@@ -40,8 +39,6 @@
             <option value="1028" <?php echo e($video->quality->name == '1028' ? 'selected' : ''); ?>>1028</option>
         </select>
     </div>
-
-
 </div>
 <div class="row mx-2 clone">
     <div class="col-md-12">
@@ -50,8 +47,28 @@
 </div>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php else: ?>
+<div class="row upload-season-file mx-2 mb-2 pb-2">
+    <div class="form-group col-md-9">
+        <label for=""> فایل: </label>
+        <input required type="text" name="file[1][1]" id="" class="form-control" />
+    </div>
+    <div class="col-md-3 form-group">
+        <label for=""> کیفیت: </label>
+        <select name="file[1][2]" id="" class=" custom-select  ">
+            <option value="360">360</option>
+            <option value="480">480</option>
+            <option value="576">576</option>
+            <option value="720">720</option>
+            <option value="1028">1028</option>
 
-
+        </select>
+    </div>
+</div>
+<div class="row mx-2 clone">
+    <div class="col-md-12">
+        <a href="#" onclick="cloneFile(event)"><i class="fas fa-plus"></i></a>
+    </div>
+</div>
 <?php endif; ?>
 
 <?php else: ?>
@@ -78,7 +95,6 @@
             <option value="576">576</option>
             <option value="720">720</option>
             <option value="1028">1028</option>
-
         </select>
     </div>
 </div>

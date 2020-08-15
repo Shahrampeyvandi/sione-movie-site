@@ -100,98 +100,12 @@ class SeriesController extends Controller
         $post->awards = $request->awards;
         $post->post_status = $request->serie_status;
         $post->comment_status = isset($request->commentstatus) && $request->commentstatus == '1' ? 'enable' : 'disable';
-
+        if ($request->comming_soon && $request->comming_soon == '1') {
+            $post->comming_soon = 1;
+        }
         if ($post->save()) {
 
-            if ($request->has('checkImdb') && $request->checkImdb == "on") {
-                if ($request->has('images')) {
-                    if (!File::exists($destinationPath . "/images")) {
-                        File::makeDirectory($destinationPath . "/images", 0777, true);
-                    }
-                    foreach ($request->images as $key => $image) {
-                        $img = $destinationPath . "/images/" . basename($image);
-                        file_put_contents($img, $this->url_get_contents($image));
-                        $post->images()->create([
-                            'url' => $img,
-                        ]);
-                    }
-                }
-            } else {
-                if ($request->has('images')) {
-                    if (!File::exists($destinationPath . "/images")) {
-                        File::makeDirectory($destinationPath . "/images", 0777, true);
-                    }
-                    foreach ($request->images as $key => $image) {
-                        $picextension = $image->getClientOriginalExtension();
-                        $fileName = 'image_' . date("Y-m-d") . '_' . time() . $key . '.' . $picextension;
-                        $image->move($destinationPath . "/images", $fileName);
-                        $imageUrl = "$destinationPath/images/$fileName";
-                        $post->images()->create([
-                            'url' => $imageUrl,
-                        ]);
-                    }
-                }
-            }
-
-
-            if (isset($request->trailer)) {
-                $post->trailer()->create([
-                    'name' => $post->name,
-                    'poster' => '',
-                    'url' => $request->trailer
-                ]);
-            }
-
-            if (isset($request->categories)) {
-                foreach ($request->categories as $key => $category) {
-                    if ($id = Category::check($category)) {
-                        $post->categories()->attach($id);
-                    }
-                }
-            }
-
-
-            if (isset($request->actors)) {
-                foreach ($request->actors as $key => $actor) {
-                    if ($id = Actor::check($actor)) {
-                        $post->actors()->attach($id);
-                    } else {
-
-                        $post->actors()->create(['name' => $actor]);
-                    }
-                }
-            }
-            if (isset($request->directors)) {
-                foreach ($request->directors as $key => $director) {
-                    if ($id = Director::check($director)) {
-                        $post->directors()->attach($id);
-                    } else {
-
-                        $post->directors()->create(['name' => $director]);
-                    }
-                }
-            }
-            if (isset($request->writers)) {
-                foreach ($request->writers as $key => $writer) {
-                    if ($id = Writer::check($writer)) {
-                        $post->writers()->attach($id);
-                    } else {
-
-                        $post->writers()->create(['name' => $writer]);
-                    }
-                }
-            }
-            if (isset($request->languages)) {
-
-                foreach ($request->languages as $key => $language) {
-                    if ($id = Language::check($language)) {
-                        $post->languages()->attach($id);
-                    } else {
-
-                        $post->languages()->create(['name' => $language]);
-                    }
-                }
-            }
+            $this->saveData($request, $destinationPath, $post);
         } else {
             return back();
         }
@@ -246,7 +160,11 @@ class SeriesController extends Controller
         $post->age_rate = $request->age_rate;
         $post->awards = $request->awards;
         $post->comment_status = isset($request->commentstatus) && $request->commentstatus == '1' ? 'enable' : 'disable';
-
+        if ($request->comming_soon && $request->comming_soon == '1') {
+            $post->comming_soon = 1;
+        } else {
+            $post->comming_soon = 0;
+        }
         $post->update();
 
 

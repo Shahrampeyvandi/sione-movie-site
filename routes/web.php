@@ -37,7 +37,15 @@ Route::group(['middleware' => ['userauth', 'userplan']], function () {
     Route::get('/myfavorite', 'Front\MainController@MyFavorite')->name('S.MyFavorite');
     Route::get('/showall', 'Front\MainController@ShowMore')->name('S.ShowMore');
     Route::get('/play/{slug}', 'Front\MainController@Play')->name('S.Play');
+    Route::get('/trailer/{slug}', 'Front\MainController@Trailer')->name('S.Trailer');
     Route::get('/play/{slug}/{season}/{section}', 'Front\MainController@Play')->name('S.Series.Play');
+
+
+
+
+    Route::get('/comming-soon', 'Front\MainController@CommingSoon')->name('CommingSoon');
+    Route::get('/cast/{name}', 'Front\MainController@ShowCast')->name('ShowCast');
+
 
     Route::post('ajax/checktakhfif', 'Front\AjaxController@checkTakhfif')->name('checkTakhfif');
     Route::post('ajax/search', 'Front\AjaxController@Search')->name('S.Search');

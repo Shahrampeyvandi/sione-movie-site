@@ -29,34 +29,34 @@ class ImdbController extends Controller
         return view('Panel.Movies.add', compact(['writers', 'directors', 'actors', 'languages']));
     }
 
-   
+
 
     public function testApi()
     {
 
-//         // open an image file
-// $img = Image::make;
+        //         // open an image file
+        // $img = Image::make;
 
-// // resize image instance
-// $img->resize(1920, 800);
+        // // resize image instance
+        // $img->resize(1920, 800);
 
-// // insert a watermark
-// $img->insert(public_path('poster/poster.png'));
+        // // insert a watermark
+        // $img->insert(public_path('poster/poster.png'));
 
-dd('sdf');
-//           $crawler = Goutte::request('GET', 'https://help.imdb.com/article/contribution/titles/genres/GZDRMS6R742JRGAG#');
-//         $crawler->filter('p:nth-of-type(1) a')->each(function ($node) {
-            
-//             DB::table('categories')->insert([
-//                 'name' =>'a',
-//                 'latin' => $node->text(),
-               
-//             ]);
+        dd('sdf');
+        //           $crawler = Goutte::request('GET', 'https://help.imdb.com/article/contribution/titles/genres/GZDRMS6R742JRGAG#');
+        //         $crawler->filter('p:nth-of-type(1) a')->each(function ($node) {
 
-//         });
+        //             DB::table('categories')->insert([
+        //                 'name' =>'a',
+        //                 'latin' => $node->text(),
+
+        //             ]);
+
+        //         });
 
 
-// dd('sdf');
+        // dd('sdf');
 
         $actor = \L5Imdb::searchPerson('daniel Radcliffe')->all()[0];
         dd($actor);
@@ -89,18 +89,14 @@ dd('sdf');
             echo $response;
         }
         dd($response);
-
-      
     }
     public function Get(Request $request)
     {
 
 
         // check in db
-        if(Post::where('imdbID',$request->code)->count()){
-            return response()->json(['error'=>'این مورد از قبل ثبت شده است']
-          
-        );
+        if (Post::where('imdbID', $request->code)->count()) {
+            return response()->json(['error' => 'این مورد از قبل ثبت شده است']);
         }
 
         $array = [];
@@ -113,30 +109,30 @@ dd('sdf');
         // dd($result);
         if ($result->Writer) {
             $writers = \explode(',', $result->Writer);
-           foreach ($writers as $key => $item) {
+            foreach ($writers as $key => $item) {
                 $item = trim(preg_replace('/\s*\([^)]*\)/', '', $item));
-               $check= Writer::whereName($item)->first();
-               if($check) {
-                   $array['writers'][] = ['name'=>$item,'src'=>$check->image];
-               }else{
-                    $array['writers'][] = ['name'=>$item,'src'=>''];
-               }
+                $check = Writer::whereName($item)->first();
+                if ($check) {
+                    $array['writers'][] = ['name' => $item, 'src' => $check->image];
+                } else {
+                    $array['writers'][] = ['name' => $item, 'src' => ''];
+                }
             }
-        }else{
+        } else {
             $array['writers'][] = '';
         }
         if ($result->Director) {
             $directors = \explode(',', $result->Director);
             foreach ($directors as $key => $item) {
                 $item = trim(preg_replace('/\s*\([^)]*\)/', '', $item));
-               $check= Director::whereName($item)->first();
-               if($check) {
-                   $array['directors'][] = ['name'=>$item,'src'=>$check->image];
-               }else{
-                    $array['directors'][] = ['name'=>$item,'src'=>''];
-               }
+                $check = Director::whereName($item)->first();
+                if ($check) {
+                    $array['directors'][] = ['name' => $item, 'src' => $check->image];
+                } else {
+                    $array['directors'][] = ['name' => $item, 'src' => ''];
+                }
             }
-        }else{
+        } else {
             $array['directors'][] = '';
         }
         $array['released'] = $result->Released;
@@ -144,18 +140,40 @@ dd('sdf');
         $array['imdbID'] = $result->imdbID;
         $array['imdbVotes'] = $result->imdbVotes;
         $array['Awards'] = $result->Awards;
-       
+
         $array['Released'] = $result->Released;
 
         $dd = \L5Imdb::title($request->code)->all();
-        // dd($dd['photoThumb']);
-        $array['is_serial'] = $dd['is_serial'] ? 'series' : 'movies';
-        if($dd['is_serial']) {
-            $array['seasons'] = $dd['seasons'];
-        }else{
-             $array['seasons'] = null;
-        }
         
+        $array['is_serial'] = $dd['is_serial'] ? 'series' : 'movies';
+        if ($dd['is_serial']) {
+            $array['seasons'] = $dd['seasons'];
+        } else {
+            $array['seasons'] = null;
+        }
+
+
+        if (isset($dd['cast'])) {
+            foreach ($dd['cast'] as $key => $actor) {
+                
+                $id = Actor::check($actor['name']);
+                if (!$id) {
+                    if(array_key_exists('photo',$actor)){
+
+                        $img = "actors/" . basename($actor['photo']);
+                       file_put_contents($img, $this->url_get_contents($actor['photo']));
+                    }else{
+                        $img = null;
+                    }
+                
+                    Actor::create([
+                        'name' => $actor['name'],
+                        'image' => $img,
+                    ]);
+                }
+            }
+        }
+
         $latin_cats = $dd['genres'];
         $array['runtime'] = $dd['runtime'];
         $array['title'] = $dd['title'];
@@ -164,15 +182,15 @@ dd('sdf');
         $array['runtime'] = $dd['runtime'];
         $array['photoThumb'] = $dd['photoThumb'];
         $array['photo'] = $dd['photo'];
-         $array['languages'] = $dd['languages'];   
-         $cat_list = '';
-        
+        $array['languages'] = $dd['languages'];
+        $cat_list = '';
+
         foreach ($latin_cats as $key => $category) {
             $model = Category::whereLatin($category)->first();
             if ($model) {
                 $cat_list .= ' <div class="custom-control custom-checkbox custom-control-inline ">
-                <input type="checkbox" id="cat-'.($key+1).'" name="categories[]" value="'.$model->latin.'" class="custom-control-input scat" checked>
-                <label class="custom-control-label" for="cat-'.($key+1).'">'.$model->name.'</label>
+                <input type="checkbox" id="cat-' . ($key + 1) . '" name="categories[]" value="' . $model->latin . '" class="custom-control-input scat" checked>
+                <label class="custom-control-label" for="cat-' . ($key + 1) . '">' . $model->name . '</label>
             </div>';
             }
         }
@@ -186,9 +204,7 @@ dd('sdf');
         foreach ($dd['mainPictures'] as $key => $image) {
             $array['mainPictures'][] = $image['bigsrc'];
         }
-        
+
         return response()->json($array, 200);
-
-
     }
 }

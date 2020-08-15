@@ -7,7 +7,7 @@
                 ">
                 <div class="slider-box slider-flex">
                     <!-- <img class="slider-back-img" src="assets/images/slider/p1.jpg" alt=""> -->
-                    <a href="#" class="page-movie-play btn--ripple" style="    
+                    <a href="<?php echo e($slider->post->play()); ?>" class="page-movie-play btn--ripple" style="    
                      font-size: 12px;">
                         <i class="fa fa-play"></i>
                         پخش فیلم
