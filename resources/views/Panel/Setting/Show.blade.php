@@ -25,7 +25,7 @@
                     <div class="col-md-12">
                         <h6>فوتر</h6>
                         <label for="">متن</label>
-                        <input type="text" name="footer_label" class="form-control">
+                        <input type="text" name="footer_label" class="form-control" value="{{$setting->footer_text}}">
                     </div>
 
                 </div>

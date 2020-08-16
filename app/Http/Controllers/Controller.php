@@ -17,6 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Image as ImageInvention;
 
 class Controller extends BaseController
 {
@@ -164,6 +165,7 @@ class Controller extends BaseController
                 foreach ($request->images as $key => $image) {
                     $img = $destinationPath . "/images/" . basename($image);
                     file_put_contents($img, $this->url_get_contents($image));
+                    $resize = ImageInvention::make($img)->resize(300, 300)->save($img);
                     $post->images()->create([
                         'url' => $img,
                     ]);
@@ -179,8 +181,9 @@ class Controller extends BaseController
 
                     $picextension = $image->getClientOriginalExtension();
                     $fileName = 'image_' . date("Y-m-d") . '_' . time() . $key . '.' . $picextension;
-                    $image->move($destinationPath . "/images/", $fileName);
+                   // $image->move($destinationPath . "/images/", $fileName);
                     $imageUrl = "$destinationPath/images/$fileName";
+                    $resize = ImageInvention::make($imageUrl)->resize(300, 300)->save($imageUrl);
                     $post->images()->create([
                         'url' => $imageUrl,
                     ]);
