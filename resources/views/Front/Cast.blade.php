@@ -28,7 +28,7 @@
 <div class="row mt-8 mb-5">
   @foreach ($posts as $post)
          <div class="col-6 col-md-2">
-            @component('components.article',['model'=>$post])
+            @component('components.article',['model'=>$post , 'ajax'=>0])
             @endcomponent
             </div>
     @endforeach

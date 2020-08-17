@@ -20,14 +20,13 @@
                 </button>
             </div>
 
-            <form action="{{route('login')}}" method="post" id="loginForm" class="loginform">
+            <form action="{{route('s.login')}}" method="post" id="loginForm" class="loginform">
                 @csrf
                 @if (count($errors))
                 <h1>
                     {{ $errors->first() }}
                 </h1>
                 @endif
-
                 <h3>
                     لطفا شماره تلفن خود و رمز عبور را وارد نمایید
                 </h3>
@@ -50,9 +49,8 @@
                 <a class="forget-pass" href="#">
                     رمز عبور خود را فراموش کرده ام
                 </a>
-                
             </form>
-        <form action="{{route('forgetpass')}}" method="post" id="loginForm" class="loginform forget-pas" style="display: none">
+            {{-- <form action="{{route('forgetpass')}}" method="post" id="" class=" forget-pas" style="display: none">
                 @csrf
                 @if (count($errors))
                 <h1>
@@ -70,13 +68,10 @@
                     <input type="tex" id="mobile" name="mobile" autocomplete="off" dir="rtl"
                         placeholder="+98**********">
                 </div>
-               
-                <button class="submit_login btn--ripple" type="submit">
+                <button class=" btn--ripple" type="submit">
                     تایید
                 </button>
-               
-                
-            </form>
+            </form> --}}
             <form action="{{route('S.Register')}}" method="post" id="registerForm">
                 @csrf
                 @if (count($errors))
@@ -87,7 +82,6 @@
                 <h1 class="text-center m-0">
                     ثبت نام
                 </h1>
-
                 <div class="input-place">
                     <label for="Mobile-register">
                         شماره تلفن همراه
@@ -133,6 +127,7 @@
 <script src="{{asset('assets/vendors/jquery-validate/jquery.validate.js')}}"></script>
 <script>
     $(function(){
+
          $.validator.addMethod(
         "regex",
         function (value, element, regexp) {
@@ -164,7 +159,6 @@
          },
      },
  });
-
 
  $("#registerForm").validate({
      rules: {

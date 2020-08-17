@@ -37,7 +37,9 @@
 
 
     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
-    \Request::route()->getName() !== "S.OrderLists"
+    \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
+     \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
+    && \Request::route()->getName() !==  "S.Account"
     ): ?>
     <?php echo $__env->make('Includes.Front.Header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
@@ -45,8 +47,10 @@
     <?php echo $__env->yieldContent('content'); ?>
 
     <?php if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
-    \Request::route()->getName() !== "S.OrderLists"
-    ): ?>
+    \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
+     \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
+   && \Request::route()->getName() !==  "S.Account"
+  ): ?>
     <?php echo $__env->make('Includes.Front.Footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
 

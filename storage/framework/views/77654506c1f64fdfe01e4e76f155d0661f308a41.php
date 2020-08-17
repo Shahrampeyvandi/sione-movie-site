@@ -1,14 +1,13 @@
-@extends('Layout.Front')
-@section('Title', $title)
+<?php $__env->startSection('Title', $title); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
     <div class="col-md-12">
         <section class="main_login_register"
-            style="background-image:linear-gradient(rgba(18, 18, 18, 0) 10vw, rgb(18, 18, 18) 46.875vw), linear-gradient(to left, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0) 50%),url({{asset('frontend/login/642a2247-9f00-42f8-99a5-63c79e0e13e8.jpg')}})">
+            style="background-image:linear-gradient(rgba(18, 18, 18, 0) 10vw, rgb(18, 18, 18) 46.875vw), linear-gradient(to left, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0) 50%),url(<?php echo e(asset('frontend/login/642a2247-9f00-42f8-99a5-63c79e0e13e8.jpg')); ?>)">
             <div class="btn-loader-place">
                 <h1>
-                    <a href="{{route('MainUrl')}}">
+                    <a href="<?php echo e(route('MainUrl')); ?>">
                         LOGO
                     </a>
                 </h1>
@@ -16,22 +15,23 @@
             </div>
 
 
-            <form action="{{route('forgetpass.submitNewPass')}}" method="post" id="loginForm"
+            <form action="<?php echo e(route('forgetpass.submitNewPass')); ?>" method="post" id="loginForm"
                 class="loginform ">
-                @csrf
-                @if (count($errors))
+                <?php echo csrf_field(); ?>
+                <?php if(count($errors)): ?>
                 <h1>
-                    {{ $errors->first() }}
+                    <?php echo e($errors->first()); ?>
+
                 </h1>
-                @endif
+                <?php endif; ?>
 
                 <h3>
                     لطفا رمز عبور جدید خود را وارد نمایید
                 </h3>
                 <div class="input-place">
 
-                    <input type="hidden" id="mobile" name="mobile" value="{{$mobile}}">
-                    <input type="hidden" id="mobile" name="code" value="{{$code}}">
+                    <input type="hidden" id="mobile" name="mobile" value="<?php echo e($mobile); ?>">
+                    <input type="hidden" id="mobile" name="code" value="<?php echo e($code); ?>">
 
 
                 </div>
@@ -60,11 +60,11 @@
         </section>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
-<script src="{{asset('assets/vendors/bundle.js')}}"></script>
-<script src="{{asset('assets/vendors/jquery-validate/jquery.validate.js')}}"></script>
+<?php $__env->startSection('js'); ?>
+<script src="<?php echo e(asset('assets/vendors/bundle.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/vendors/jquery-validate/jquery.validate.js')); ?>"></script>
 <script>
     $(function() {
         $.validator.addMethod(
@@ -104,4 +104,5 @@
 
     })
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('Layout.Front', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\tm\resources\views/Front/forgotpassnewpass.blade.php ENDPATH**/ ?>

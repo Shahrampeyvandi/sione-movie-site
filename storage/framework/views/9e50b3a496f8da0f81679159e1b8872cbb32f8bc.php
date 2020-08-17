@@ -6,7 +6,7 @@
 </style>
 <section class="profile-section" style="width: 70%">
     <h1>
-        حساب کاربری
+        لیست سفارشات
     </h1>
     <div class="plans">
         <div class="container-fluid">

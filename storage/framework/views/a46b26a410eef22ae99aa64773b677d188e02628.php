@@ -1,4 +1,5 @@
-<section class="slider d-none d-md-block">
+<?php if(count($sliders)): ?>
+    <section class="slider d-none d-md-block">
     <div class="swiper-container header-slider">
         <div class="swiper-wrapper">
             <?php $__currentLoopData = $sliders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $slider): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -83,4 +84,5 @@
             <i class="fa fa-angle-left"></i>
         </div>
     </div>
-</section><?php /**PATH C:\xampp\htdocs\tm\resources\views/Includes/Front/DesktopSlider.blade.php ENDPATH**/ ?>
+</section>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\tm\resources\views/Includes/Front/DesktopSlider.blade.php ENDPATH**/ ?>

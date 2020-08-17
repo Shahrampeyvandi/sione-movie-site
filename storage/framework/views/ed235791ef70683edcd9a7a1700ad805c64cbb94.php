@@ -55,7 +55,7 @@
                         ویرایش
                     </a>
                 </div>
-                
+            
                 <div class="col-12">
                     <div class="user-account-phone">
                         شماره تلفن همراه: <?php echo e($user->mobile); ?>

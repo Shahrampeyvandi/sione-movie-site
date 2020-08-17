@@ -15,21 +15,19 @@
             <i class="fa fa-angle-left"></i>
         </a>
     </h3>
-    <div class="swiper-container IranNews">
-        <div class="swiper-wrapper">
-            @foreach ($myfavorites as $post)
-            <div class="swiper-slide">
-            @component('components.article',['model'=>$post])
-            @endcomponent
+    <div class="container">
+        <div class="row ">
+            @foreach ($posts as $post)
+            <div class="col-6 col-md-2">
+                @component('components.article',['model'=>$post , 'ajax'=>0])
+                @endcomponent
             </div>
             @endforeach
-
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
     </div>
-    @component('components.showDetail')
-    @endcomponent
+
+
+
 </section>
 @endif
 

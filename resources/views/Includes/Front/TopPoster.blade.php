@@ -49,7 +49,7 @@
            {!! html_entity_decode($post->description, ENT_QUOTES, 'UTF-8') !!}
         </p>
         <div class="list_like">
-            <a href="#" class="addMovie_list text-white">
+        <a href="#" onclick="addToFavorite(event,'{{$post->id}}','{{$post->favoritepath()}}')" class="addMovie_list text-white">
                 <i class="fa fa-plus"></i>
                 افزودن به لیست
             </a>
@@ -62,9 +62,9 @@
         <a href="#" onclick="downLoad(event,'{{$post->downloadpath()}}')" class="addMovie_list text-white">  
                         دانلود
             </a>
-            <a href="{{$post->downloadpath()}}" target="_blank" class="addMovie_list text-white">  
+            {{-- <a href="{{$post->downloadpath()}}" target="_blank" class="addMovie_list text-white">  
                      تست   دانلود
-            </a>
+            </a> --}}
             @endif
             <!-- <i class="fas fa-thumbs-up"></i>
             <i class="fas fa-thumbs-down"></i> -->

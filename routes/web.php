@@ -3,7 +3,7 @@
 Route::get('/admin/login', 'Panel\LoginController@Login')->name('Admin.Login');
 Route::post('/admin/login', 'Panel\LoginController@Verify')->name('Admin.Login');
 Route::get('/login', 'Front\LoginController@Login')->name('login');
-Route::post('/login', 'Front\LoginController@Verify')->name('login');
+Route::post('/s/login', 'Front\LoginController@Verify')->name('s.login');
 Route::post('/register', 'Front\LoginController@Register')->name('S.Register');
 Route::post('/forgetpass', 'Front\LoginController@ForgetPassword')->name('forgetpass');
 Route::post('/forgetpasscode', 'Front\LoginController@ForgetPasswordSubmitCode')->name('forgetpass.submitCode');
