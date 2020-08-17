@@ -35,14 +35,14 @@ class SerieController extends Controller
     public function All()
     {
         $year = Carbon::now()->year();
-        $newseries = Post::where('type', 'series')->latest()->take(10)->get();
-        $newyear = Post::where(['year' => $year, 'type' => 'series'])->latest()->take(10)->get();
+        $newseries = Post::where(['type'=>'series','comming_soon'=>0])->latest()->take(10)->get();
+        $newyear = Post::where(['year' => $year, 'type' => 'series','comming_soon'=>0])->latest()->take(10)->get();
         $latestdoble = Post::whereHas('categories', function ($q) {
             $q->where('name', 'دوبله فارسی');
-        })->where('type', 'series')->latest()->take(10)->get();
+        })->where(['type'=>'series','comming_soon'=>0])->latest()->take(10)->get();
 
         $sliders = Slider::whereHas('post', function ($q) {
-            $q->where('type', 'series');
+            $q->where(['type'=>'series']);
         })->latest()->take(5)->get();
 
         if (count($sliders)) {

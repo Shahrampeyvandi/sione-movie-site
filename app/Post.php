@@ -31,7 +31,7 @@ class Post extends Model
         $pluck = $categories->pluck('id');
         return  static::whereHas('categories', function ($q) use ($pluck) {
             $q->whereIn('id', $pluck);
-        })->where('id', '!=', $this->id)->where('type', $this->type)->take(6)->get();
+        })->where('id', '!=', $this->id)->where(['type'=>$this->type,'comming_soon'=>0])->take(6)->get();
     }
 
 
@@ -121,7 +121,11 @@ class Post extends Model
     public function play()
     {
         if($this->comming_soon == '1') {
-             return route('S.Trailer', ['slug' => $this->slug]);
+            if($this->trailer) {
+                return route('S.Trailer', ['slug' => $this->slug]);
+            }else{
+                return '#';
+            }
         }
         if ($this->type == 'movies') {
             return route('S.Play', ['slug' => $this->slug]);

@@ -59,10 +59,10 @@ class LoginController extends Controller
                     return redirect()->route('S.SiteSharing');
                 }
             } else {
-                return Redirect::back()->withErrors(['رمز عبور اشتباه است']);
+                return Redirect::route('login')->withErrors(['رمز عبور اشتباه است']);
             }
         } else {
-            return Redirect::back()->withErrors(['کاربری با این شماره موبایل وجود ندارد']);
+            return Redirect::route('login')->withErrors(['کاربری با این شماره موبایل وجود ندارد']);
         }
     }
 
@@ -124,6 +124,7 @@ class LoginController extends Controller
 
     public function ForgetPassword(Request $request)
     {
+        // dd($request->all());
 
         $rules = array(
             'mobile'             => 'required',
@@ -149,7 +150,7 @@ class LoginController extends Controller
             //------ ارسال پیامک ثبت نام کاربر جدید
             $patterncode = "i0hm6b2p4v";
             $data = array("name" => $user->first_name, "code" => $code->v_code);
-            //$this->sendSMS($patterncode,$user->mobile,$data);
+            $this->sendSMS($patterncode,$user->mobile,$data);
         } else {
             return Redirect::back()->withErrors(['کاربری با این شماره یافت نشد!']);
         }
@@ -177,12 +178,14 @@ class LoginController extends Controller
         $title = 'فراموشی رمز عبور';
         $mobile = $request->mobile;
         $code = $request->code;
-        return view('Front.forgotpassnewpass.blade', compact(['title', 'mobile', 'code']));
+        return view('Front.forgotpassnewpass', compact(['title', 'mobile', 'code']));
     }
 
 
     public function ForgetPasswordSubmitnewPass(Request $request)
     {
+      
+        
         $rules = array(
             'password'         => 'required | min:8',
         );
@@ -214,8 +217,10 @@ class LoginController extends Controller
         $expire = Carbon::parse(Auth::user()->expire_date)->timestamp;
         $now = Carbon::now()->timestamp;
         if ($expire > $now) {
+             toastr()->success('رمز عبور شما با موفقیت تغییر کرد');
             return redirect()->route('MainUrl');
         } else {
+            toastr()->success('رمز عبور شما با موفقیت تغییر کرد');
             return redirect()->route('S.SiteSharing');
         }
     }

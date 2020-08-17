@@ -158,7 +158,7 @@ class ImdbController extends Controller
                 
                 $id = Actor::check($actor['name']);
                 if (!$id) {
-                    if(array_key_exists('photo',$actor)){
+                    if(array_key_exists('photo',$actor) && $actor['photo']){
 
                         $img = "actors/" . basename($actor['photo']);
                        file_put_contents($img, $this->url_get_contents($actor['photo']));
@@ -194,9 +194,7 @@ class ImdbController extends Controller
             </div>';
             }
         }
-
         $array['catlist'] = $cat_list;
-
         foreach ($dd['cast'] as $key => $cast) {
             $array['casts'][] = [$cast['name'], $cast['photo']];
         }
