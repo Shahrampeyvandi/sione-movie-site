@@ -23,6 +23,7 @@ class CreateSettingsTable extends Migration
             $table->boolean('si_votes')->default(true);
             $table->string('login_background')->nullable();
              $table->string('default_poster')->nullable();
+             $table->text('footer_text')->nullable();
             $table->timestamps();
         });
     }

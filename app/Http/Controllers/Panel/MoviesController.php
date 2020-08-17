@@ -64,6 +64,10 @@ class MoviesController extends Controller
             File::makeDirectory($destinationPath, 0777, true);
         }
      
+        
+    
+
+
         $post = new Post;
         $post->post_author = Auth::guard('admin')->user()->id;
         $post->title = $request->title;
@@ -80,13 +84,15 @@ class MoviesController extends Controller
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
             $request->file('poster')->move(public_path($destinationPath), $fileName);
             $Poster = "$destinationPath/$fileName";
-            $img = ImageInvention::make(public_path($Poster))->resize(320, 240)->insert('public/resizes/' . $Poster);
+            $img = ImageInvention::make(public_path($Poster))->resize(268, 398)->save('public/resizes/' . $Poster);
         } else {
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
                 $get_content = $this->url_get_contents($request->imdbposter);
                 file_put_contents($img, $get_content);
+                $imgs = ImageInvention::make($img)->resize(268, 398)->save($img);
                 $Poster = $img;
+
             } else {
                 $setting = Setting::first();
                 if ($setting) {
