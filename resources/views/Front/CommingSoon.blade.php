@@ -22,7 +22,7 @@
                 <div class="detail-wrapper">
                     <h2 class="">{{$post->title}}</h2>
                     <div class="">
-                        {{str_limit($post->description,350,' ... ')}}
+                         {!! html_entity_decode(str_limit($post->description,350,' ...'), ENT_QUOTES, 'UTF-8') !!}
                     </div>
                     <div class="date">
                         <p class="">تاریخ انتشار:

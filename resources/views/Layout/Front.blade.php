@@ -39,6 +39,7 @@
     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
     \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
      \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
+    && \Request::route()->getName() !==  "S.Account"
     )
     @include('Includes.Front.Header')
     @endif
@@ -48,7 +49,8 @@
     @if(\Request::route()->getName() !== "login" && \Request::route()->getName() !== "S.SiteSharing" &&
     \Request::route()->getName() !== "S.OrderLists" && \Request::route()->getName() !== "forgetpass" &&
      \Request::route()->getName() !== "forgetpass.submitCode" && \Request::route()->getName() !== "forgetpass.submitNewPass"
-    )
+   && \Request::route()->getName() !==  "S.Account"
+  )
     @include('Includes.Front.Footer')
     @endif
 

@@ -13,7 +13,7 @@
 <section class="movie-sections">
     <h3>
         تازه ترین ها
-    <a href="<?php echo e(route('S.ShowMore')); ?>?c=new&type=movie">
+        <a href="<?php echo e(route('S.ShowMore')); ?>?c=new&type=movie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -22,8 +22,8 @@
         <div class="swiper-wrapper">
             <?php $__currentLoopData = $newmovies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $movie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="swiper-slide">
-            <?php $__env->startComponent('components.article',['model'=>$movie]); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <?php $__env->startComponent('components.article',['model'=>$movie,'ajax'=>1]); ?>
+                <?php echo $__env->renderComponent(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -40,7 +40,7 @@
 <section class="movie-sections">
     <h3>
         دوبله فارسی
-    <a href="<?php echo e(route('S.ShowMore')); ?>?c=doble&type=movie">
+        <a href="<?php echo e(route('S.ShowMore')); ?>?c=doble&type=movie">
             مشاهده همه
             <i class="fa fa-angle-left"></i>
         </a>
@@ -49,34 +49,8 @@
         <div class="swiper-wrapper">
             <?php $__currentLoopData = $latestdoble; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="swiper-slide">
-                <a href="#" data-id="1" onclick="showDetails(event,'<?php echo e($post->id); ?>','<?php echo e(route('GetMovieDetail')); ?>')">
-                    <div class="movie-sections-box">
-                        <div class="img-box-movies">
-                            <img src="<?php echo e(asset($post->poster)); ?>" alt="<?php echo e($post->name); ?>">
-                            <div class="cover-img-movies-details">
-                                <span>
-                                    <?php echo e($post->name); ?> -
-                                    <?php if($post->type == "series"): ?>
-
-                                    <?php echo e(\Morilog\Jalali\Jalalian::forge($post->first_publish_date)->format('%Y')); ?>
-
-                                    <?php else: ?>
-                                    <?php echo e(\Morilog\Jalali\Jalalian::forge($post->released)->format('%Y')); ?>
-
-                                    <?php endif; ?>
-                                </span>
-                                <span>
-                                    <i class="fa fa-heart"></i>
-                                    89%
-                                </span>
-                            </div>
-                        </div>
-                        <h5>
-                            <?php echo e($post->title); ?>
-
-                        </h5>
-                    </div>
-                </a>
+                <?php $__env->startComponent('components.article',['model'=>$post , 'ajax'=>1]); ?>
+                <?php echo $__env->renderComponent(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -105,34 +79,8 @@
         <div class="swiper-wrapper">
             <?php $__currentLoopData = $newyear; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="swiper-slide">
-                <a href="#" data-id="1" onclick="showDetails(event,'<?php echo e($post->id); ?>','<?php echo e(route('GetMovieDetail')); ?>')">
-                    <div class="movie-sections-box">
-                        <div class="img-box-movies">
-                            <img src="<?php echo e(asset($post->poster)); ?>" alt="<?php echo e($post->name); ?>">
-                            <div class="cover-img-movies-details">
-                                <span>
-                                    <?php echo e($post->name); ?> -
-                                    <?php if($post->type == "series"): ?>
-
-                                    <?php echo e(\Morilog\Jalali\Jalalian::forge($post->first_publish_date)->format('%Y')); ?>
-
-                                    <?php else: ?>
-                                    <?php echo e(\Morilog\Jalali\Jalalian::forge($post->released)->format('%Y')); ?>
-
-                                    <?php endif; ?>
-                                </span>
-                                <span>
-                                    <i class="fa fa-heart"></i>
-                                    89%
-                                </span>
-                            </div>
-                        </div>
-                        <h5>
-                            <?php echo e($post->title); ?>
-
-                        </h5>
-                    </div>
-                </a>
+                <?php $__env->startComponent('components.article',['model'=>$post , 'ajax'=>1]); ?>
+                <?php echo $__env->renderComponent(); ?>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

@@ -56,7 +56,7 @@ class Controller extends BaseController
         //$patterncode="97b8c9m9a5";
         //$data = array("name" => "نام طرف", "number" => "نام اشتراک");
         //-------------------------------
-  // ویرایش اطلاعات پروفایل
+        // ویرایش اطلاعات پروفایل
         //$patterncode="nj36jd5q3c";
         //$data = array("name" => "نام طرف");
         //-------------------------------
@@ -84,16 +84,13 @@ class Controller extends BaseController
 
     public function SaveCaption(Request $request, $post, $destinationPath)
     {
-
         foreach ($request->captions as $key => $caption) {
             if (array_key_exists(1, $caption) &&   array_key_exists(2, $caption)  &&  !is_null($caption[1]) && !is_null($caption[2])) {
                 $ext = 'vtt';
-               // $ext = $caption[2]->getClientOriginalExtension();
+                // $ext = $caption[2]->getClientOriginalExtension();
                 $fileName = 'vtt_' . date("Y-m-d") . '_' . time() . '.' . $ext;
-
                 //---------
                 $fileHandle = fopen($caption[2], 'r');
-
                 if ($fileHandle) {
                     $lines = array();
                     while (($line = fgets($fileHandle, 8192)) !== false) $lines[] = $line;
@@ -107,10 +104,10 @@ class Controller extends BaseController
                     }
                 }
                 for ($index = 0; $index < $length; $index++) {
-                    $ttttt=trim($lines[$index]);
-                    if(ctype_digit($ttttt)){
-                        echo 'n= '.$index.' is='.$lines[$index].'</br>';
-                        $lines[$index]='';
+                    $ttttt = trim($lines[$index]);
+                    if (ctype_digit($ttttt)) {
+                        echo 'n= ' . $index . ' is=' . $lines[$index] . '</br>';
+                        $lines[$index] = '';
                     }
                 }
                 $header = "WEBVTT\n\n";
@@ -118,8 +115,7 @@ class Controller extends BaseController
                 file_put_contents($vttPath, $header . implode('', $lines));
                 //----------
                 //$caption[2]->move(public_path($destinationPath), $fileName);
-               // $vttPath = "$destinationPath/$fileName";
-
+                // $vttPath = "$destinationPath/$fileName";
                 $post->captions()->create([
                     'url' => $vttPath,
                     'lang' => $caption[1]
@@ -245,10 +241,10 @@ class Controller extends BaseController
         }
 
 
-
+        //http://dl.sione.live/movies/2015/1We.Are.Your.Friends.2015.720p.BluRay.Film2Movie_INFO.mp4
 
         foreach ($request->file as $key => $file) {
-            if (array_key_exists($file[1], $file)) {
+            if (array_key_exists(1, $file)) {
                 if ($id = Quality::check($file[2])) {
                     $quality_id = $id;
                 } else {

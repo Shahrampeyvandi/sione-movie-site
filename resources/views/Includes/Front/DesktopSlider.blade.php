@@ -1,4 +1,5 @@
-<section class="slider d-none d-md-block">
+@if (count($sliders))
+    <section class="slider d-none d-md-block">
     <div class="swiper-container header-slider">
         <div class="swiper-wrapper">
             @foreach ($sliders as $slider)
@@ -78,3 +79,4 @@
         </div>
     </div>
 </section>
+@endif

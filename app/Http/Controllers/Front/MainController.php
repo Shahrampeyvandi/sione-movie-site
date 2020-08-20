@@ -17,15 +17,16 @@ class MainController extends Controller
     public function index()
     {
         $year = Carbon::now()->year();
-        $newSeries = Post::where('type', 'series')->latest()->take(10)->get();
-        $newyear = Post::where('year', $year)->latest()->take(10)->get();
+        $newSeries = Post::where(['type'=>'series','comming_soon'=>0])->latest()->take(10)->get();
+        $newyear = Post::where(['year'=>$year,'comming_soon'=>0])->latest()->take(10)->get();
         $latestdoble = Post::whereHas('categories', function ($q) {
             $q->where('name', 'دوبله فارسی');
         })->latest()->take(10)->get();
-
+         $newmovies = Post::where(['type'=>'movies','comming_soon'=>0])->latest()->take(10)->get();
         $sliders = Slider::latest()->get();
-
-        $data['newseries'] = $newSeries;
+        
+        $data['newmovies'] = $newmovies;
+         $data['newseries'] = $newSeries;
         $data['latestdoble'] = $latestdoble;
         $data['newyear'] = $newyear;
         $data['year'] = $year;

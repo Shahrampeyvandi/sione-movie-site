@@ -57,29 +57,15 @@ class MoviesController extends Controller
 
     public function Save(Request $request)
     {
+        
         $slug = Str::slug($request->name);
         $destinationPath = "files/movies/$slug";
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0777, true);
         }
+     
         
     
-        // if ($request->hasFile('poster')) {
-        //     $picextension = $request->file('poster')->getClientOriginalExtension();
-        //     $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
-        //     $request->file('poster')->move(public_path($destinationPath), $fileName);
-        //     $Poster = "$destinationPath/$fileName";
-        //     $img = ImageInvention::make(public_path($Poster))->resize(1900, 900)->save(public_path('1920-900/' . $fileName));
-        // } else {
-        //     if (isset($request->imdbposter) && $request->imdbposter) {
-        //         $img = $destinationPath . '/poster_' . basename($request->imdbposter);
-
-        //         file_put_contents($img, file_get_contents($request->imdbposter));
-        //         $Poster = $img;
-        //     } else {
-        //         $Poster = Setting::first()->default_poster;
-        //     }
-        // }
 
 
         $post = new Post;

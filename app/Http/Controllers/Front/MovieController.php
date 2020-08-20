@@ -24,15 +24,15 @@ class MovieController extends Controller
     public function All()
     {
         $year = Carbon::now()->year();
-        $newmovies = Post::where('type', 'movies')->latest()->take(10)->get();
+        $newmovies = Post::where(['type'=>'movies','comming_soon'=>0])->latest()->take(10)->get();
 
-        $newyear = Post::where(['year' => $year, 'type' => 'movies'])->latest()->take(10)->get();
+        $newyear = Post::where(['year' => $year, 'type' => 'movies','comming_soon'=>0])->latest()->take(10)->get();
         $latestdoble = Post::whereHas('categories', function ($q) {
             $q->where('name', 'دوبله فارسی');
-        })->where('type', 'movies')->latest()->take(10)->get();
+        })->where(['type'=>'movies','comming_soon'=>0])->latest()->take(10)->get();
 
         $sliders = Slider::whereHas('post', function ($q) {
-            $q->where('type', 'movies');
+            $q->where(['type'=>'movies']);
         })->latest()->take(5)->get();
         if (count($sliders)) {
 

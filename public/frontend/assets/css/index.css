@@ -598,6 +598,7 @@ body{
     background-color: #082845;
 }
 .movie-details-box-slider h6{
+    width:50%;
     color: #cccccc;
     display: block;
     text-align: right;
@@ -2977,4 +2978,5 @@ span.vjs-resolution-button-staticlabel {
     border-radius: 50%;
    width: 70%;
     height: 70%;
+    object-fit: contain;
  }
