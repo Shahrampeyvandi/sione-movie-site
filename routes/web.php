@@ -18,7 +18,9 @@ Route::get('/pay/cb', 'Panel\PayController@callback')->name('Pay.CallBack');
 Route::get('/account', 'Front\UserController@Account')->name('S.Account');
 Route::get('/orders', 'Front\UserController@Orders')->name('S.OrderLists');
 
-
+Route::get('/blog/', 'Blog\BlogController@index')->name('Blog.index');
+Route::get('/blog/post/{id}', 'Blog\BlogController@show')->name('Blog.show');
+Route::get('/blog/video/{id}', 'Blog\BlogController@showvideo')->name('Blog.show.video');
 
 
 Route::group(['middleware' => ['userauth', 'userplan']], function () {
