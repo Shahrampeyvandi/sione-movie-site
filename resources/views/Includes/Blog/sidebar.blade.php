@@ -32,60 +32,19 @@
                             RECENT COMMENTS
                         </span>
                     </h1>
-                    <a class="quotation-blog" href="#">
+                    @foreach(App\Comment::latest()->get()->take(5) as $recentcomment)
+                    <a class="quotation-blog" href="{{route('Blog.show',['id'=>$recentcomment->commentable->id])}}">
                         <i class="fa fa-quote-right"></i>
                         <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
+                    {{mb_substr($recentcomment->text,'0','40')}}        
+                    </span>
                         <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
+                            {{$recentcomment->commentable->title}}
                         </span>
                     </a>
-                    <a class="quotation-blog" href="#">
-                        <i class="fa fa-quote-right"></i>
-                        <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
-                        <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
-                        </span>
-                    </a>
-                    <a class="quotation-blog" href="#">
-                        <i class="fa fa-quote-right"></i>
-                        <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
-                        <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
-                        </span>
-                    </a>
-                    <a class="quotation-blog" href="#">
-                        <i class="fa fa-quote-right"></i>
-                        <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
-                        <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
-                        </span>
-                    </a>
-                    <a class="quotation-blog" href="#">
-                        <i class="fa fa-quote-right"></i>
-                        <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
-                        <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
-                        </span>
-                    </a>
-                    <a class="quotation-blog" href="#">
-                        <i class="fa fa-quote-right"></i>
-                        <span class="quotation-blog-title">
-                            فیلم Million Dollar baby رو ببینید . . ....
-                        </span>
-                        <span class="quotation-blog-text">
-                            ۵ نقش‌آفرینیِ برتر کلینت ایستوود Cl...
-                        </span>
-                    </a>
+                   
+                    @endforeach
+                   
                 </div>
                 <div class="blog-place">
                     <h1>
@@ -94,189 +53,60 @@
                             پربازدیدترین مطالب
                         </span>
                         <span class="blog-place-Name">
-                            EVENTS
+                            POPULAR POSTS
                         </span>
                     </h1>
-                    <a class="blog-movie" href="#">
+
+                    @foreach(App\Blog::orderBy('views', 'asc')->get()->take(5) as $mostvisit)
+                    <a class="blog-movie" href="{{route('Blog.show',['id'=>$mostvisit->id])}}">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-4 no-padding">
                                     <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/terrence-malick-tree-of-life-400x225.jpeg" alt="">
+                                        <img src="{{asset($mostvisit->poster)}}" alt="">
                                         <div class="cover-img-blog"></div>
                                     </div>
                                 </div>
                                 <div class="col-8 no-padding">
                                     <h4>
-                                        مروری بر زندگی‌نامه و آثار برجسته ترنس مالیک ...
+                                        {{$mostvisit->title}}
                                     </h4>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    @endforeach
+                  
                 </div>
                 <div class="blog-place">
                     <h1>
                         <i class="fa fa-star"></i>
                         <span class="blog-place-title">
-                            پربازدیدترین مطالب
+                            آخرین مطالب
                         </span>
                         <span class="blog-place-Name">
-                            EVENTS
+                            LAST POSTS
                         </span>
                     </h1>
-                    <a class="blog-movie" href="#">
+                    @foreach(App\Blog::latest()->get()->take(5) as $lastposts)
+                    <a class="blog-movie" href="{{route('Blog.show',['id'=>$lastposts->id])}}">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-4 no-padding">
                                     <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/terrence-malick-tree-of-life-400x225.jpeg" alt="">
+                                        <img src="{{asset($lastposts->poster)}}" alt="">
                                         <div class="cover-img-blog"></div>
                                     </div>
                                 </div>
                                 <div class="col-8 no-padding">
                                     <h4>
-                                        مروری بر زندگی‌نامه و آثار برجسته ترنس مالیک ...
+                                    {{$lastposts->title}}
                                     </h4>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="blog-movie" href="#">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 no-padding">
-                                    <div class="blog-img-box">
-                                        <img src="assets/images/blog_images/Lars-Von-Trier-400x225.jpg" alt="">
-                                        <div class="cover-img-blog"></div>
-                                    </div>
-                                </div>
-                                <div class="col-8 no-padding">
-                                    <h4>
-                                        آشنایی با فیلم های لارس فون تریه فیلمساز جنجال‌برا ...
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    @endforeach
+                    
                 </div>
             </div>

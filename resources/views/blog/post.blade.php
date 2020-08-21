@@ -33,7 +33,7 @@
                         </p>
                     </div>
                     <section class="blog-post-detail">
-                       {{$post->description}}
+                       {{!! $post->description !!}}
                     </section>
                    
                     <div class="sharing-post-blog">
