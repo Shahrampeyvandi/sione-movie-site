@@ -17,4 +17,9 @@ class BlogCategory extends Model
            return null;
        }
    }
+
+   public function blogs()
+   {
+       return $this->belongsToMany(Blog::class, 'blog_bcategory', 'category_id', 'blog_id');
+   }
 }
