@@ -21,6 +21,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Image as ImageInvention;
 
 class SeriesController extends Controller
 {
@@ -69,6 +70,7 @@ class SeriesController extends Controller
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
             $request->file('poster')->move(public_path($destinationPath), $fileName);
             $Poster = "$destinationPath/$fileName";
+            $img = ImageInvention::make(public_path($Poster))->resize(268, 398)->save('public/resizes/' . $Poster);
         } else {
 
             if (isset($request->imdbposter) && $request->imdbposter) {

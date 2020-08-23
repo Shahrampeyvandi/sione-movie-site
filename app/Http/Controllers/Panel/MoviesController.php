@@ -84,7 +84,7 @@ class MoviesController extends Controller
             $fileName = 'poster_' . date("Y-m-d") . '_' . time() . '.' . $picextension;
             $request->file('poster')->move(public_path($destinationPath), $fileName);
             $Poster = "$destinationPath/$fileName";
-            $img = ImageInvention::make(public_path($Poster))->resize(268, 398)->save('public/resizes/' . $Poster);
+            $img = ImageInvention::make(public_path($Poster))->resize(268, 398)->save($Poster);
         } else {
             if (isset($request->imdbposter) && $request->imdbposter) {
                 $img = $destinationPath . '/poster_' . basename($request->imdbposter);
