@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('post_author');
             $table->string('title');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->enum('type',['series','movies']);
             $table->text('description')->nullable();
